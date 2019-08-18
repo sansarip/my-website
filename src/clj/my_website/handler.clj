@@ -1,15 +1,18 @@
 (ns my-website.handler
+  (:use compojure.core
+        [hiccup.middleware :only (wrap-base-url)])
   (:require
-    [compojure.core :refer [GET defroutes]]
     [compojure.route :refer [resources]]
+    [compojure.handler :as handler]
     [ring.util.response :refer [resource-response]]
-    [ring.middleware.reload :refer [wrap-reload]]
-    [shadow.http.push-state :as push-state]))
+    [ring.middleware.reload :refer [wrap-reload]]))
 
-(defroutes routes
-  (GET "/" [] (resource-response "index.html" {:root "public"}))
-  (resources "/"))
+(defroutes main-routes
+           (GET "/" [] (resource-response "index.html" {:root "public"}))
+           (resources "/"))
 
-(def dev-handler (-> #'routes wrap-reload push-state/handle))
+(def app
+  (-> (handler/site main-routes)
+      (wrap-base-url)))
 
 (def handler routes)

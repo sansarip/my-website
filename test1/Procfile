@@ -1,1 +1,0 @@
-web: java $JVM_OPTS -cp target/test1.jar clojure.main -m test1.server

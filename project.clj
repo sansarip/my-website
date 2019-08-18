@@ -1,6 +1,7 @@
 (defproject my-website "0.1.0-SNAPSHOT"
   :plugins [[lein-cljsbuild "1.1.7"]
-            [lein-tools-deps "0.4.5"]]
+            [lein-tools-deps "0.4.5"]
+            [lein-ring "0.12.5"]]
   :lein-tools-deps/config {:config-files [:install :user :project]}
   :middleware [lein-tools-deps.plugin/resolve-dependencies-with-deps-edn]
   :min-lein-version "2.5.3"
@@ -19,7 +20,9 @@
                             [day8.re-frame/tracing "0.5.3"]
                             [com.bhauman/figwheel-main "0.2.3"]
                             [com.bhauman/rebel-readline-cljs "0.1.4"]
-                            [devcards "0.2.5"]]}
+                            [devcards "0.2.5"]
+                            [javax.servlet/servlet-api "2.5"]
+                            [ring/ring-mock "0.3.2"]]}
    :prod    {:dependencies [[day8.re-frame/tracing-stubs "0.5.3"]]}
    :uberjar {:source-paths ["env/prod/clj"]
              :dependencies [[day8.re-frame/tracing-stubs "0.5.3"]]
@@ -28,6 +31,8 @@
              :aot          [my-website.server]
              :uberjar-name "my-website.jar"
              :prep-tasks   ["compile" ["prod"]]}}
+
+  :ring {:handler my-website.handler/app}
 
   :cljsbuild
   {:builds
