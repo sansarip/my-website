@@ -4,6 +4,8 @@ pom.xml
 pom.xml.asc
 *.jar
 *.class
+log/
+/resources/public/js/compiled
 /lib/
 /classes/
 /target/

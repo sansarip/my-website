@@ -1,16 +1,16 @@
-(ns my-website.core
+(ns test1.core
   (:require
    [reagent.core :as reagent]
    [re-frame.core :as re-frame]
-   [my-website.events :as events]
-   [my-website.routes :as routes]
-   [my-website.views :as views]
-   [my-website.config :as config]))
-
+   [test1.events :as events]
+   [test1.routes :as routes]
+   [test1.views :as views]
+   [test1.config :as config]
+   ))
 
 
 (defn dev-setup []
-  (when js/goog.DEBUG
+  (when config/debug?
     (enable-console-print!)
     (println "dev mode")))
 
