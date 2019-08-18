@@ -13,23 +13,23 @@
             "fig:build" ["trampoline" "run" "-m" "figwheel.main" "-b" "dev" "-r"]}
 
   :profiles
-  {:dev
-            {:dependencies [[binaryage/devtools "0.9.10"]
-                            [day8.re-frame/re-frame-10x "0.4.2"]
-                            [day8.re-frame/tracing "0.5.3"]
-                            [com.bhauman/figwheel-main "0.2.3"]
-                            [com.bhauman/rebel-readline-cljs "0.1.4"]
-                            [devcards "0.2.5"]
-                            [javax.servlet/servlet-api "2.5"]
-                            [ring/ring-mock "0.3.2"]]}
+  {:dev    {:dependencies [[binaryage/devtools "0.9.10"]
+                           [day8.re-frame/re-frame-10x "0.4.2"]
+                           [day8.re-frame/tracing "0.5.3"]
+                           [com.bhauman/figwheel-main "0.2.3"]
+                           [com.bhauman/rebel-readline-cljs "0.1.4"]
+                           [devcards "0.2.5"]
+                           [javax.servlet/servlet-api "2.5"]
+                           [ring/ring-mock "0.3.2"]]}
    :prod    {:dependencies [[day8.re-frame/tracing-stubs "0.5.3"]]}
    :uberjar {:source-paths ["env/prod/clj"]
              :dependencies [[day8.re-frame/tracing-stubs "0.5.3"]]
              :omit-source  true
              :main         my-website.server
              :aot          [my-website.server]
-             :uberjar-name "my-website.jar"
-             :prep-tasks   ["compile" ["prod"]]}}
+             :uberjar-name "my-website-1.jar"
+             :prep-tasks   ["compile" ["prod"]]
+             :uberjar-exclusions [#"devcards\.html"]}}
 
   :ring {:handler my-website.handler/app}
 
