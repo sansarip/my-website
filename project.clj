@@ -31,11 +31,11 @@
 
   :cljsbuild
   {:builds
-   {:id           "min"
-    :source-paths ["src/cljs"]
-    :compiler     {:main            my_website.core
-                   :output-to       "resources/public/js/compiled/app.js"
-                   :optimizations   :simple
-                   :closure-defines {goog.DEBUG false}
-                   :pretty-print    false}}})
+   {:min
+    {:source-paths ["src/cljs"]
+     :compiler     {:main            my_website.core
+                    :output-to       "resources/public/js/compiled/app.js"
+                    :optimizations   :simple
+                    :closure-defines {goog.DEBUG false}
+                    :pretty-print    false}}}})
 
