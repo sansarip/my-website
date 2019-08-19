@@ -1,4 +1,5 @@
 .idea/
+.rebel_readline_history
 *.iml
 pom.xml
 pom.xml.asc
