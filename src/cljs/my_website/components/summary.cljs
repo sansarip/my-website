@@ -33,7 +33,7 @@
                                                         (if inverse (:inverse summary-style))
                                                         classes)
                                                :style style}
-                                         [:h1 {:class (:header summary-style)} header]
+                                         [:h1 {:class (:header summary-style)} [:b header]]
                                          [:div {:class (:separator summary-style)
                                                 :name  "separator"}]
                                          [:div {:class (:description summary-style)}
