@@ -3,33 +3,31 @@
             [sablono.core :as sab]
             [reagent.core :refer [as-element]]
             [my-website.styles :refer [color-palette]]
-            [my-website.components.summary :refer [summary]]))
+            [my-website.utilities :refer [dark-background]]
+            [my-website.components.summary :refer [summary]]
+            [my-website.components.menuitem :refer [menuitem]]))
 
 (defcard
   summary
   "Basic summary component"
-  (fn [] (sab/html (as-element [:div {:style {:display "flex"
-                                              :justify-content "space-between"
-                                              :background-color (:primary color-palette)}}
-                                [:> summary {:header "Scratch My Patch"
-                                             :inverse true}
-                                 "Satisfy your primal urge to scritch that infernal itch!"]]))))
-(defcard
-  summaries
-  "Group of summary components"
-  (fn [] (sab/html (as-element [:div {:style {:display "flex"
-                                              :justify-content "space-between"
-                                              :flex-wrap "wrap"
-                                              :background-color (:primary color-palette)}}
-                                [:> summary {:header "Tootleoo"
-                                             :inverse true}
-                                 "Can you defeat the meanie poots with your magical toots?"]
-                                [:> summary {:header  "Scratch My Patch"
-                                             :inverse true}
-                                 "Satisfy your primal urge to scritch that infernal itch!"]
-                                [:> summary {:header  "Kiss My Piss"
-                                             :inverse true}
-                                 "Approved by the man, the myth, the legend—Richard Hendricks."]]))))
+  (fn [] (sab/html (as-element
+                     (dark-background
+                       [:> summary {:header  "Scratch My Patch"
+                                    :as      :h2
+                                    :content "Satisfy your primal urge to scritch that infernal itch!"
+                                    :inverse true}
+                        [:div {:style {:width            "22.813em"
+                                       :height           "18.750em"
+                                       :background-color (:secondary color-palette)}}]])))))
 
+(defcard
+  menuitem
+  "Basic menu-item component"
+  (fn [] (sab/html (as-element
+                     (dark-background
+                       [:> menuitem {:textAlign "center"
+                                     :inverse   true
+                                     :strong    true
+                                     :fontSize  "large"} "click me!"])))))
 
 
