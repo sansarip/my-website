@@ -10,7 +10,7 @@
            ring                            {:mvn/version "1.7.1"}
            devcards                        {:mvn/version "0.2.6"}
            binaryage/devtools              {:mvn/version "0.9.10"}
-           cljs-css-modules                {:mvn/version "0.2.1"}}
-
+           net.dhleong/spade               {:mvn/version "1.0.0"}
+           org.clojure/test.check          {:mvn/version "0.9.0"}}
  :paths   ["src/clj" "src/cljs" "resources" "target"]
  :aliases {:build {:main-opts ["-m" "figwheel.main" "-b" "dev" "-r"]}}}
