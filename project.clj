@@ -5,7 +5,7 @@
   :lein-tools-deps/config {:config-files [:install :user :project]}
   :middleware [lein-tools-deps.plugin/resolve-dependencies-with-deps-edn]
   :min-lein-version "2.5.3"
-  :source-paths ["src/clj" "src/cljs"]
+  :source-paths ["src/clj" "src/cljs" "src/cljc"]
   :test-paths ["test/cljs"]
   :clean-targets ^{:protect false} ["resources/public/cljs-out" "resources/public/js/compiled" "target"]
   :aliases {"prod"      ["with-profile" "prod" "cljsbuild" "once" "min"]
