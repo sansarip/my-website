@@ -10,15 +10,19 @@
 (defcard
   summary
   "Basic summary component"
-  (fn [] (sab/html (as-element
-                     (dark-background
-                       [:> summary {:header  "Scratch My Patch"
-                                    :as      :h2
-                                    :content "Satisfy your primal urge to scritch that infernal itch!"
-                                    :inverse true}
-                        [:div {:style {:width            "22.813em"
-                                       :height           "18.750em"
-                                       :background-color (:secondary color-palette)}}]])))))
+  (fn [] (let [width "22.813em"]
+           (sab/html
+             (as-element
+               (dark-background
+                 [:> summary {:header  "Scratch My Patch"
+                              :as      :h2
+                              :content "Satisfy your primal urge to scritch that infernal itch!"
+                              :inverse true
+                              :width   width
+                              :on-click #(js/alert "Summarize deez Nutellas!")}
+                  [:div {:style {:width            width
+                                 :height           "18.750em"
+                                 :background-color (:secondary color-palette)}}]]))))))
 
 (defcard
   menuitem
@@ -28,6 +32,7 @@
                        [:> menuitem {:textAlign "center"
                                      :inverse   true
                                      :strong    true
+                                     :on-click #(js/alert "Basic menu item, bih!")
                                      :fontSize  "large"} "click me!"])))))
 
 
