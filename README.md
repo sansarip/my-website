@@ -7,7 +7,7 @@ A [re-frame](https://github.com/Day8/re-frame) application designed to ... well,
 ## Development Mode
 
 ### Run application:
-[![Build [![Build Status](https://travis-ci.com/sansarip/my-website.svg?token=jpKjUR4ApUCejSvjRvcX&branch=master)](https://travis-ci.com/sansarip/my-website)Status](https://travis-ci.com/sansarip/my-website.svg?token=jpKjUR4ApUCejSvjRvcX&branch=master)](https://travis-ci.com/sansarip/my-website)
+
 ```
 lein clean
 lein dev
