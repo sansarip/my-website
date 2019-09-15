@@ -1,6 +1,6 @@
 (ns my-website.components.navbar
   (:require [reagent.core :as r]
-            [my-website.utilities :refer [word-concat wrap-all-children]]
+            [my-website.utilities :refer [word-concat wrap-all-children omit-nil-keyword-args]]
             [my-website.components.flexbox :refer [flexbox]]
             [my-website.styles :refer [color-palette font-families]]
             [spade.core :refer [defclass]]
@@ -15,15 +15,16 @@
                  :font-weight "bold"}])
 
 (defn render-fn [this]
-  (let [children (-> this .-props .-children)
-        title (-> this .-props .-title)
-        as (-> this .-props .-as)
-        classes (-> this .-props .-extraClasses)
-        inverse (-> this .-props .-inverse)
-        style (-> this .-props .-style)]
+  (let [children (.. this -props -children)
+        title (.. this -props -title)
+        as (.. this -props -as)
+        classes (.. this -props -extraClasses)
+        inverse (.. this -props -inverse)
+        style (.. this -props -style)]
     [:> flexbox {:justify      "between"
                  :extraClasses (word-concat
-                                 (navbar-class inverse)
+                                 (omit-nil-keyword-args navbar-class
+                                                        :inverse inverse)
                                  classes)
                  :align        "center"
                  :padding      "1em"
@@ -33,4 +34,5 @@
                   :width   "60%"}
       children]]))
 
-(def navbar (r/create-class {:render render-fn}))
+(def navbar (r/create-class {:display-name :navbar
+                             :render       render-fn}))

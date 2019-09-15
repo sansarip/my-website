@@ -1,6 +1,6 @@
 (ns my-website.components.menuitem
   (:require [reagent.core :as r]
-            [my-website.utilities :refer [word-concat deep-merge wrap-each-child map->css-attribute-selectors]]
+            [my-website.utilities :refer [word-concat deep-merge wrap-each-child omit-nil-keyword-args]]
             [my-website.styles :refer [color-palette font-families font-sizes]]
             [spade.core :refer [defclass]]))
 
@@ -26,15 +26,19 @@
 
 
 (defn render-fn [this]
-  (let [children (-> this .-props .-children)
-        classes (-> this .-props .-extraClasses)
-        style (-> this .-props .-style)
-        strong (-> this .-props .-strong)
-        font-size (-> this .-props .-fontSize)
-        on-click (-> this .-props .-onClick)
-        inverse (-> this .-props .-inverse)]
+  (let [children (.. this -props -children)
+        classes (.. this -props -extraClasses)
+        style (.. this -props -style)
+        strong (.. this -props -strong)
+        font-size (.. this -props -fontSize)
+        on-click (.. this -props -onClick)
+        inverse (.. this -props -inverse)]
     [:button {:class     (word-concat
-                           (menuitem-class :inverse inverse :strong strong :font-size font-size)
+                           (omit-nil-keyword-args
+                             menuitem-class
+                             :inverse inverse
+                             :strong strong
+                             :font-size font-size)
                            classes)
               :on-click  on-click
               :font-size font-size
@@ -43,6 +47,7 @@
        (wrap-each-child [:p] children)
        children)]))
 
-(def menuitem (r/create-class {:render render-fn}))
+(def menuitem (r/create-class {:display-name :menuitem
+                               :render       render-fn}))
 
 
