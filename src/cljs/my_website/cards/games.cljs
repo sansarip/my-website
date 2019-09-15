@@ -11,33 +11,34 @@
   summaries
   "Group of summary components"
   (fn [] (let [width "22.813em"
-               placeholder [:div {:style {:width            width
+               placeholder [:div {:style {:width            "100%"
                                           :height           "18.750em"
                                           :background-color (:secondary color-palette)}}]]
            (sab/html (as-element (dark-background
                                    [:> flexbox
                                     {:justify "around"
-                                     :align   "center"}
+                                     :grow    true
+                                     :wrap    "wrap"}
 
-                                    [:> summary {:header  "Tootleoo"
-                                                 :as      :h2
-                                                 :width   width
-                                                 :content "Can you defeat the meanie poots with your
+                                    [:> summary {:header      "Tootleoo"
+                                                 :as          :h2
+                                                 :width       width
+                                                 :content     "Can you defeat the meanie poots with your
                                                               magical toots?"
-                                                 :inverse true}
+                                                 :inverse     true}
                                      placeholder]
-                                    [:> summary {:header  "Scratch My Patch"
-                                                 :as      :h2
-                                                 :width   width
-                                                 :content "Satisfy your primal urge to scritch that
+                                    [:> summary {:header      "Scratch My Patch"
+                                                 :as          :h2
+                                                 :width       width
+                                                 :content     "Satisfy your primal urge to scritch that
                                                               infernal itch!"
-                                                 :inverse true}
+                                                 :inverse     true}
                                      placeholder]
-                                    [:> summary {:header  "Kiss My Piss"
-                                                 :as      :h2
-                                                 :width   width
-                                                 :content "Approved by the man, the myth, the
+                                    [:> summary {:header      "Kiss My Piss"
+                                                 :as          :h2
+                                                 :width       width
+                                                 :content     "Approved by the man, the myth, the
                                                               legend—Richard Hendricks."
-                                                 :inverse true}
+                                                 :inverse     true}
                                      placeholder]]))))))
 
