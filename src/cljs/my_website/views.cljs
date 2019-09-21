@@ -2,7 +2,15 @@
   (:require
    [re-frame.core :as re-frame]
    [my-website.subs :as subs]
-   ))
+   [spade.core :refer [defclass]]))
+
+(defclass some-test []
+          {:height "5em"
+           :width "5em"
+           :background-color "blue"}
+          (at-media {:screen :only
+                     :min-width "200px"}
+                    {:margin-left "20em"}))
 
 
 ;; home
@@ -11,11 +19,11 @@
   (let [name (re-frame/subscribe [::subs/name])]
     [:div
      [:h1 (str "Hello from " @name ". This is the Home Page.")]
-
+     [:div {:class (some-test)}]
      [:div
       [:a {:href "#/about"}
-       "go to About Page"]]
-     ]))
+       "go to About Page"]]]))
+
 
 
 ;; about
@@ -28,14 +36,13 @@
     [:a {:href "#/"}
      "go to Home Page"]]])
 
-
 ;; main
 
 (defn- panels [panel-name]
   (case panel-name
     :home-panel [home-panel]
     :about-panel [about-panel]
-    [:div]))
+    [:div "Nothing to see here!"]))
 
 (defn show-panel [panel-name]
   [panels panel-name])
