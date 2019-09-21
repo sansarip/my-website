@@ -68,8 +68,6 @@
         only-non-nil (filter #(not (nil? (get % 1))) args-map)]
     (apply op (flatten only-non-nil))))
 
-
-
 (s/def ::parent vector?)
 (s/def ::children vector?)
 
