@@ -4,17 +4,18 @@
             [my-website.styles :refer [color-palette font-families font-sizes]]
             [spade.core :refer [defclass]]))
 
-(defclass menuitem-class [& {:keys [inverse strong font-size]
+(defclass menuitem-class [& {:keys [inverse strong font-size padding]
                              :or   {inverse   false
                                     strong    false
-                                    font-size :medium}}]
+                                    font-size :medium
+                                    padding   "0"}}]
           {:font-family (:body font-families)
            :border      "none"
            :background  "none"
            :transition  "color .25s"
-           :padding     "0"
+           :padding     padding
            :color       (if inverse "white" (:primary color-palette))
-           :font-weight (if strong "bold" "0")
+           :font-weight (if strong "bold" "normal")
            :text-align  "center"
            :font-size   (cond
                           (string? font-size) ((keyword font-size) font-sizes)
@@ -31,6 +32,7 @@
         style (.. this -props -style)
         strong (.. this -props -strong)
         font-size (.. this -props -fontSize)
+        padding (.. this -props -padding)
         on-click (.. this -props -onClick)
         inverse (.. this -props -inverse)]
     [:button {:class     (word-concat
@@ -38,14 +40,13 @@
                              menuitem-class
                              :inverse inverse
                              :strong strong
+                             :padding padding
                              :font-size font-size)
                            classes)
               :on-click  on-click
               :font-size font-size
               :style     style}
-     (if (array? children)
-       (wrap-each-child [:p] children)
-       children)]))
+     children]))
 
 (def menuitem (r/create-class {:display-name :menuitem
                                :render       render-fn}))
