@@ -8,27 +8,29 @@
     [my-website.components.flexbox :refer [flexbox]]
     [my-website.components.navbar :refer [navbar]]
     [my-website.components.menuitem :refer [menuitem]]
+    [my-website.components.icon :refer [icon]]
+    [spade.core :refer [defclass]]
     [my-website.utilities :refer [dark-background wrap-each-child]]))
 
 (defcard
   navbar
   "Home navbar"
   (fn []
-    (sab/html (as-element (dark-background (let [parent (fn [] [:> menuitem {:textAlign "center"
-                                                                             :inverse   true
-                                                                             :strong    true
-                                                                             :fontSize  "medium"}])]
-                                             (into [:> navbar
-                                                    {:title   "PEHRANS"
-                                                     :as      [:> menuitem {:textAlign "center"
-                                                                            :inverse   true
-                                                                            :strong    true
-                                                                            :fontSize  "medium"}]
-                                                     :inverse true}]
-                                                   (wrap-each-child parent
-                                                                    ["WORK"
-                                                                     "GAMES"
-                                                                     "SANDBOX"
-                                                                     "BLOG"
-                                                                     "ABOUT"]))))))))
-
+    (sab/html (as-element (let [parent (fn [] [:> menuitem {:textAlign "center"
+                                                            :inverse   true
+                                                            :strong    true
+                                                            :padding   "1em"
+                                                            :fontSize  "medium"}])]
+                            (into [:> navbar
+                                   {:as              [:> icon {:name "smile-wink"
+                                                               :inverse   true
+                                                               :strength "strong"
+                                                               :size  "big"}]
+                                    :backgroundColor (:primary color-palette)
+                                    :inverse         true}]
+                                  (wrap-each-child parent
+                                                   ["WORK"
+                                                    "GAMES"
+                                                    "SANDBOX"
+                                                    "BLOG"
+                                                    "ABOUT"])))))))
