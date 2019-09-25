@@ -22,10 +22,8 @@
                                                             :padding   "1em"
                                                             :fontSize  "medium"}])]
                             (into [:> navbar
-                                   {:as              [:> icon {:name "smile-wink"
-                                                               :inverse   true
-                                                               :strength "strong"
-                                                               :size  "big"}]
+                                   {:as              parent
+                                    :title           "PEHRANS"
                                     :backgroundColor (:primary color-palette)
                                     :inverse         true}]
                                   (wrap-each-child parent
@@ -34,3 +32,36 @@
                                                     "SANDBOX"
                                                     "BLOG"
                                                     "ABOUT"])))))))
+
+(defcard
+  home-page
+  "Home page"
+  (fn []
+    (sab/html (as-element
+                (let [parent (fn [] [:> menuitem {:textAlign "center"
+                                                  :inverse   true
+                                                  :strong    true
+                                                  :padding   "1em"
+                                                  :fontSize  "medium"}])
+                      placeholder [:div {:style {:height           "33.438em"
+                                                 :width            "28.750em"
+                                                 :background-color (:secondary color-palette)}}]]
+                  (dark-background
+                     (into [:> navbar
+                            {:as      parent
+                             :title   "PEHRANS"
+                             :inverse true}]
+                           (wrap-each-child parent
+                                            ["WORK"
+                                             "GAMES"
+                                             "SANDBOX"
+                                             "BLOG"
+                                             "ABOUT"]))
+                     [:> flexbox {:justify "around"
+                                  :style {:padding-top "5em"}}
+                      [:> flexbox {:direction "column"
+                                   :justify   "center"
+                                   :align     "center"}
+                       [:h1 {:style {:color "white"}} "CACA BUSSY"]]
+                      placeholder]))))))
+
