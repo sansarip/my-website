@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/sansarip/my-website.svg?token=jpKjUR4ApUCejSvjRvcX&branch=master)](https://travis-ci.com/sansarip/my-website)
+
 # my-website
 
 A [re-frame](https://github.com/Day8/re-frame) application designed to ... well, that part is up to you.
