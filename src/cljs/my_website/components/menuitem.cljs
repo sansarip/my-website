@@ -44,7 +44,6 @@
                              :font-size font-size)
                            classes)
               :on-click  on-click
-              :font-size font-size
               :style     style}
      children]))
 
