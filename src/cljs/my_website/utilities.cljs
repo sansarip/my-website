@@ -14,7 +14,9 @@
                       :else y))
               a b))
 
-(defn dark-background [child] [:div {:style {:background-color (:primary color-palette)}} child])
+(defn dark-background [& children] (into
+                                     [:div {:style {:background-color (:primary color-palette)}}]
+                                     children))
 
 (defn map->css-attribute-selectors [m elem attribute css-attribute]
   (map (fn [tuple] (let [key (first tuple)
@@ -24,7 +26,7 @@
                            (if (keyword? attribute) (name attribute) attribute)
                            "="
                            (if (keyword? key) (name key) key)
-                           "]")
+                           :backgroundColor (:primary color-palette)"]")
                       {css-attribute val}])) m))
 
 (defn seq-of?
