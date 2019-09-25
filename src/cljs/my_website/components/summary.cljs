@@ -16,7 +16,8 @@
                                    width       "auto"
                                    background  "none"
                                    wrap-header true}}]
-          {:cursor "pointer"}
+          {:cursor "pointer"
+           :width width}
           [".container" {:padding       "1em"
                          :background    background
                          :border-radius "1%"
@@ -58,6 +59,7 @@
                          [:div {:class    (omit-nil-keyword-args
                                             summary-class
                                             :inverse inverse
+                                            :width width
                                             :background background
                                             :wrap-header wrap-header)
                                 :on-click on-click}
@@ -70,7 +72,7 @@
                                        :width        width
                                        :align        "start"}
                            children
-                           (wrap-all-children (if as (js->clj as) :h1) header)
+                           (wrap-all-children (if as (js->clj as) :h2) header)
                            [:div {:class "separator"
                                   :name  "separator"}]
                            [:div {:class "description"}
