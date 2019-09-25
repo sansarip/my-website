@@ -33,7 +33,7 @@
         strength (.. this -props -strength)
         on-click (.. this -props -onClick)
         inverse (.. this -props -inverse)
-        clickable (boolean on-click)]
+        clickable (fn? on-click)]
     [:i {:class    (word-concat
                      (omit-nil-keyword-args
                        icon-class
