@@ -2,13 +2,15 @@
   (:require [devcards.core :refer-macros (defcard)]
             [sablono.core :as sab]
             [reagent.core :refer [as-element]]
+            [spade.core :refer [defattrs]]
             [my-website.styles :refer [color-palette]]
             [my-website.utilities :refer [dark-background]]
             [my-website.components.summary :refer [summary]]
             [my-website.components.menuitem :refer [menuitem]]
             [my-website.components.icon :refer [icon]]
             [my-website.components.navbar :refer [navbar]]
-            [my-website.components.image :refer [image]]))
+            [my-website.components.image :refer [image]]
+            [my-website.components.grid :refer [grid]]))
 
 (defcard
   summary
@@ -51,15 +53,15 @@
   "Basic navbar component"
   (fn []
     (sab/html (as-element
-                (into [:> navbar
-                       {:title           "logo"
-                        :backgroundColor (:primary color-palette)
-                        :inverse         true}]
-                      [[:h2 "a"]
-                       [:h2 "b"]
-                       [:h2 "c"]
-                       [:h2 "d"]
-                       [:h2 "e"]])))))
+                [:> navbar
+                 {:title           "logo"
+                  :backgroundColor (:primary color-palette)
+                  :inverse         true}
+                 [:h2 "a"]
+                 [:h2 "b"]
+                 [:h2 "c"]
+                 [:h2 "d"]
+                 [:h2 "e"]]))))
 
 (defcard
   icon-menuitem
@@ -67,10 +69,10 @@
   (fn []
     (sab/html (as-element
                 [:> menuitem
-                 [:> icon {:name          "hand-pointer"
-                           :inherit-color true
-                           :strength      "strong"
-                           :size          :huge}]]))))
+                 [:> icon {:name         "hand-pointer"
+                           :inheritColor true
+                           :strength     "strong"
+                           :size         :huge}]]))))
 
 (defcard
   image
@@ -100,9 +102,9 @@
   "Animated image component"
   (fn []
     (sab/html (as-element
-                [:> image {:src    ["https://im4.ezgif.com/tmp/ezgif-4-9b4d3f25ca2e-gif-im/frame_000_delay-0.03s.gif"
+                [:> image {:src    ["assets/sample-gif-1.gif"
                                     "https://cdn.dribbble.com/users/372537/screenshots/2065624/icons_km_weather.gif"]
-                           :isGif  true
+                           :toggle true
                            :alt    "Placeholder"
                            :href   "http://www.google.com"
                            :width  "40%"
@@ -139,13 +141,43 @@
                              :width    "20em"
                              :content  "Forecast for today is cloudy with a chance of deez Nutellas!"
                              :on-click #(js/alert "Summarize deez Nutellas!")}
-                 [:> image {:src    ["https://im4.ezgif.com/tmp/ezgif-4-9b4d3f25ca2e-gif-im/frame_000_delay-0.03s.gif"
+                 [:> image {:src    ["assets/sample-gif-1.gif"
                                      "https://cdn.dribbble.com/users/372537/screenshots/2065624/icons_km_weather.gif"]
                             :alt    "Placeholder"
-                            :isGif  true
+                            :toggle true
                             :border (str "5px solid " (:primary color-palette))
                             :width  "100%"
                             :height "100%"}]]))))
+
+(defcard
+  grid
+  "Basic grid component"
+  (fn []
+    (let [header1 [:div {:style {:width            "100%"
+                                 :height           "1em"
+                                 :background-color (:primary color-palette)
+                                 :grid-area        "header1"}}]
+          header2 [:div {:style {:width            "100%"
+                                 :height           "1em"
+                                 :background-color (:secondary color-palette)
+                                 :grid-area        "header2"}}]
+          main [:p {:style {:grid-area "main"}}
+                "Lorem ipsum dolor amet etsy VHS health goth iPhone.
+                Banjo williamsburg vinyl edison bulb typewriter,
+                lo-fi bushwick biodiesel air plant direct trade.
+                Pickled flannel pitchfork blue bottle letterpress tbh
+                glossier ethical salvia literally yr vinyl offal.
+                Slow-carb blog fashion axe, drinking vinegar organic
+                austin edison bulb VHS bushwick artisan helvetica.
+                Letterpress readymade pork belly distillery, vape pabst tilde.
+                Austin disrupt enamel pin pour-over."]]
+    (sab/html (as-element [:> grid {:columns   ["1fr 1fr 1fr"]
+                               :rows      "auto"
+                               :rowGap    "1em"
+                               :columnGap "1em"
+                               :areas     [["header1" "header2" "header2"]
+                                      ["main" "main" "main"]]}
+                      header1 header2 main])))))
 
 
 
