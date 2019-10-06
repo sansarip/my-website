@@ -1,37 +1,20 @@
 (ns my-website.views
   (:require
-   [re-frame.core :as re-frame]
-   [my-website.subs :as subs]
-   [spade.core :refer [defclass]]))
-
-(defclass some-test []
-          {:height "5em"
-           :width "5em"
-           :background-color "blue"}
-          (at-media {:screen :only
-                     :min-width "200px"}
-                    {:margin-left "20em"}))
-
-
-;; home
-
-(defn home-panel []
-  (let [name (re-frame/subscribe [::subs/name])]
-    [:div
-     [:h1 (str "Hello from " @name ". This is the Home Page.")]
-     [:div {:class (some-test)}]
-     [:div
-      [:a {:href "#/about"}
-       "go to About Page"]]]))
-
-
+    [re-frame.core :as re-frame]
+    [my-website.subs :as subs]
+    [my-website.components.grid :refer [grid]]
+    [my-website.components.navbar :refer [navbar]]
+    [my-website.components.menuitem :refer [menuitem]]
+    [my-website.styles :refer [screen-sizes font-sizes spacing-sizes]]
+    [my-website.utilities :refer [dark-background wrap-each-child word-concat]]
+    [my-website.views.home.panel :refer [home-panel]]
+    [spade.core :refer [defclass]]))
 
 ;; about
 
 (defn about-panel []
   [:div
-   [:h1 "This is the About Page."]
-
+   [:h1 {:class "inverse"} "This is the About Page."]
    [:div
     [:a {:href "#/"}
      "go to Home Page"]]])
@@ -47,6 +30,31 @@
 (defn show-panel [panel-name]
   [panels panel-name])
 
+(defclass page-class []
+          (at-media {:screen    :only
+                     :max-width (:tiny screen-sizes)}
+                    [:& {:padding-left  (:large spacing-sizes)
+                         :padding-right (:large spacing-sizes)}]))
+
 (defn main-panel []
-  (let [active-panel (re-frame/subscribe [::subs/active-panel])]
-    [show-panel @active-panel]))
+  (let [active-panel (re-frame/subscribe [::subs/active-panel])
+        parent (fn [] [:> menuitem {:textAlign "center"
+                                    :inverse   true
+                                    :strong    true
+                                    :padding   (:medium spacing-sizes)
+                                    :fontSize  "medium"}])]
+    [:div {:class (word-concat "padding-horizontal" (page-class))}
+     (into [:> navbar {:title            "SETOOTLE"
+                       :as               parent
+                       :widthCollapsible (:small screen-sizes)
+                       :background-color "inherit"
+                       :inverse          true}]
+           (wrap-each-child parent
+                            ["SHOP"
+                             "WORK"
+                             "GAMES"
+                             "SANDBOX"
+                             "BLOG"
+                             "ABOUT"]))
+     [:div {:class "padding-top"}
+      [show-panel @active-panel]]]))
