@@ -1,6 +1,6 @@
 (ns my-website.components.navbar
   (:require [reagent.core :as r]
-            [my-website.utilities :refer [word-concat wrap-all-children omit-nil-keyword-args]]
+            [my-website.utilities :refer [word-concat wrap-all-children omit-nil-keyword-args on-unit]]
             [my-website.components.flexbox :refer [flexbox]]
             [my-website.styles :refer [color-palette font-families]]
             [spade.core :refer [defclass]]
@@ -10,15 +10,20 @@
 
 
 
-(defclass navbar-class [& {:keys [inverse]
-                           :or   {inverse false}}]
+(defclass navbar-class [& {:keys [inverse width-collapsible]
+                           :or   {inverse           false
+                                  width-collapsible "768px"}}]
           (at-media {:screen    :only
-                     :max-width "768px"}
+                     :max-width width-collapsible}
                     [".hide-desktop-navbar-children" {:display "none"}])
           (at-media {:screen    :only
-                     :min-width "769px"}
+                     :min-width (on-unit inc width-collapsible)}
                     [".hide-mobile-bars" {:display "none"}])
-          {:color (if inverse "white" (:primary color-palette))}
+          {:color (str (if inverse "white" (:primary color-palette)))}
+          ["h1" {:color "white"}]
+          ["h2" {:color "white"}]
+          ["h3" {:color "white"}]
+          ["h4" {:color "white"}]
           [".hide-mobile-navbar-children" {:opacity "0"}]
           [".mobile-navbar-children" {:max-height "0"
                                       :overflow   "hidden"
@@ -66,33 +71,40 @@
         classes (.. this -props -extraClasses)
         inverse (.. this -props -inverse)
         style (.. this -props -style)
+        padding (.. this -props -padding)
+        width-collapsible (.. this -props -widthCollapsible)
         background-color (.. this -props -backgroundColor)]
-    [:div {:class (omit-nil-keyword-args navbar-class :inverse inverse)}
+    [:div {:class (omit-nil-keyword-args navbar-class
+                                         :width-collapsible width-collapsible
+                                         :inverse inverse)
+           :style style}
      [:> flexbox {:justify         "between"
                   :extraClasses    classes
-                  :align           "center"
-                  :padding         "1em"
-                  :backgroundColor background-color
-                  :style           style}
+                  :alignItems      "center"
+                  :padding         padding
+                  :backgroundColor background-color}
       (wrap-all-children (if as (js->clj as) :h3) title)
-      [:> flexbox {:justify      "between"
+      [:> flexbox {:justify      "around"
                    :extraClasses "hide-desktop-navbar-children"
                    :grow         true
-                   :width        "60%"
+                   :width        "auto"
                    :wrap         "wrap"}
        children]
-      [:> icon {:extraClasses "hide-mobile-bars"
-                :name         "bars"
-                :strength     "strong"
-                :inverse      true
-                :onClick      #(toggle-mobile-navbar-children this)}]]
+      [:> menuitem {:extraClasses "hide-mobile-bars"
+                    :inverse inverse}
+       [:> icon {:name         "bars"
+                 :inheritColor true
+                 :strength     "strong"
+                 :inverse      true
+                 :onClick      #(toggle-mobile-navbar-children this)}]]]
      [:> flexbox {:justify         "around"
                   :extraClasses    "hide-mobile-navbar-children mobile-navbar-children"
                   :id              (.. this -state -mobileNavbarChildrenId)
                   :backgroundColor background-color
                   :direction       "column"
                   :wrap            "none"
-                  :align           "center"
+                  :align           "around"
+                  :align-items     "center"
                   :grow            true}
       children]]))
 
