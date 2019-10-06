@@ -1,15 +1,10 @@
 (ns my-website.components.summary
   (:require [reagent.core :as r]
             [my-website.utilities :refer [word-concat wrap-all-children deep-merge omit-nil-keyword-args]]
-            [my-website.styles :refer [color-palette font-families font-sizes]]
+            [my-website.styles :refer [header-style color-palette font-families font-sizes]]
             [my-website.components.flexbox :refer [flexbox]]
             [spade.core :refer [defclass]]
             [clojure.spec.alpha :as s]))
-
-(def header-style
-  {:font-family (:header font-families)
-   :margin      "0"
-   :font-weight "1000"})
 
 (defclass summary-class [& {:keys [inverse width background wrap-header]
                             :or   {inverse     false
@@ -28,17 +23,17 @@
                          :margin-top       "1em"
                          :margin-bottom    "1em"
                          :transition       "width 1s"}]
-          ["h1" (merge header-style {:font-size   (:massive font-sizes)
-                                     :margin-top  "1em"
+          ["h1" (merge header-style {:margin-top  "1em"
+                                     :color (if inverse "white" (:primary color-palette))
                                      :white-space (if wrap-header "normal" "nowrap")})]
-          ["h2" (merge header-style {:font-size   (:huge font-sizes)
-                                     :margin-top  "1em"
+          ["h2" (merge header-style {:margin-top  "1em"
+                                     :color (if inverse "white" (:primary color-palette))
                                      :white-space (if wrap-header "normal" "nowrap")})]
-          ["h3" (merge header-style {:font-size   (:big font-sizes)
-                                     :margin-top  "1em"
+          ["h3" (merge header-style {:margin-top  "1em"
+                                     :color (if inverse "white" (:primary color-palette))
                                      :white-space (if wrap-header "normal" "nowrap")})]
-          ["h4" (merge header-style {:font-size   (:large font-sizes)
-                                     :margin-top  "1em"
+          ["h4" (merge header-style {:margin-top  "1em"
+                                     :color (if inverse "white" (:primary color-palette))
                                      :white-space (if wrap-header "normal" "nowrap")})]
           [".container:hover > div[name=separator]" {:width "10em"}]
           [".description" {:font-family (:body font-families)
