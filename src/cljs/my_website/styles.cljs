@@ -16,7 +16,7 @@
                  :medium  "1em"
                  :large   "1.25em"
                  :big     "1.5em"
-                 :huge    "1.75em"
+                 :huge    "2.25em"
                  :massive "3.125em"})
 
 (def font-families {:body   "\"Work Sans\", sans-serif"
@@ -28,13 +28,34 @@
                     :tertiary-alt "#CF6F46"
                     :quaternary   "#FFF8BE"})
 
+(def screen-sizes {:tiny "650px"
+                   :small "890px"})
+
+(def spacing-sizes {:medium "1em"
+                    :large "2.5em"
+                    :big "3.25em"
+                    :huge "4em"
+                    :massive "7.25em"})
+
 (def header-style
   {:font-weight "1000"
+   :color       (:primary color-palette)
    :font-family (:header font-families)
-   :margin      "0"
-   :white-space "nowrap"})
+   :margin      "0"})
 
 (defglobal window-styles
+           [".no-word-wrap" {:white-space "nowrap"}]
+           [".inverse" {:color "white"}]
+           [".justify-center" {:justify-self "center"}]
+           [".align-center" {:align-self "center"}]
+           [".align-start" {:align-self "start"}]
+           [".padding-horizontal" {:padding-left  (:massive spacing-sizes)
+                                   :padding-right (:massive spacing-sizes)}]
+           [".padding-top" {:padding-top (:massive spacing-sizes)}]
+           [".padding-bottom" {:padding-bottom (:massive spacing-sizes)}]
+           ["body" {:color            (:primary color-palette)
+                    :font-family      (:body font-families)
+                    :background-color (:primary color-palette)}]
            ["h1" (merge header-style {:font-size (:massive font-sizes)})]
            ["h2" (merge header-style {:font-size (:huge font-sizes)})]
            ["h3" (merge header-style {:font-size (:big font-sizes)})]
