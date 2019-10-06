@@ -1,5 +1,6 @@
 (ns my-website.utilities
   (:require [my-website.styles :refer [color-palette]]
+            [clojure.string :as str]
             [cljs.spec.alpha :as s]))
 
 (defn word-concat [& words] (clojure.string/trim
@@ -15,8 +16,17 @@
               a b))
 
 (defn dark-background [& children] (into
-                                     [:div {:style {:background-color (:primary color-palette)}}]
+                                     [:div {:style {:background-color (:primary color-palette)
+                                                    :width "100%"
+                                                    :height "100%"}}]
                                      children))
+
+(defn seq->css-grid-areas [areas]
+  (word-concat
+    (map #(-> %
+              (assoc 0 (str "\"" (first %)))
+              (assoc (dec (count %)) (str (last %) "\"")))
+         (js->clj areas))))
 
 (defn map->css-attribute-selectors [m elem attribute css-attribute]
   (map (fn [tuple] (let [key (first tuple)
@@ -69,6 +79,20 @@
   (let [args-map (apply hash-map args)
         only-non-nil (filter #(not (nil? (get % 1))) args-map)]
     (apply op (flatten only-non-nil))))
+
+(def css-translator {:start "flex-start"
+                     :end "flex-end"
+                     :around "space-around"
+                     :between "space-between"
+                     :evenly "space-evenly"
+                     :reverse "wrap-reverse"})
+
+(defn on-unit [op unit & args]
+  (let [to-float (js/parseFloat unit)
+        unit-type (str/replace unit (str to-float) "")]
+    (if args
+      (str (apply op (into [to-float] args)) unit-type)
+      (str (op to-float) unit-type))))
 
 (s/def ::parent vector?)
 (s/def ::children vector?)
