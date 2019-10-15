@@ -40,3 +40,16 @@
                                                  :inverse true}
                                      placeholder]]))))))
 
+(defcard
+  iframe-game
+  "A simple test of my Phaser game implemented as an iframe"
+  (fn []
+    (sab/html [:iframe
+               {:src   "https://sansarip.github.io/cs325-game-prototypes/Assignment3/"
+                :scrolling "no"
+                :frameborder "0"
+                :allowfullscreen true
+                :style {:width    "815px"
+                        :border (str "1em solid " (:primary color-palette))
+                        :height   "615px"}}])))
+
