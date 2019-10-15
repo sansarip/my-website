@@ -70,8 +70,10 @@
                            (wrap-all-children (if as (js->clj as) :h2) header)
                            [:div {:class "separator"
                                   :name  "separator"}]
-                           [:div {:class "description"}
-                            content]]]))
+                           [:div {:class "description line-height"}
+                            (if (array? content)
+                              (js->clj content)
+                              content)]]]))
 
 (def summary
   (r/create-class {:display-name :summary
