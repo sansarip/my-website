@@ -171,14 +171,13 @@
                 austin edison bulb VHS bushwick artisan helvetica.
                 Letterpress readymade pork belly distillery, vape pabst tilde.
                 Austin disrupt enamel pin pour-over."]]
-    (sab/html (as-element [:> grid {:columns   ["1fr 1fr 1fr"]
-                               :rows      "auto"
-                               :rowGap    "1em"
-                               :columnGap "1em"
-                               :areas     [["header1" "header2" "header2"]
-                                      ["main" "main" "main"]]}
-                      header1 header2 main])))))
-
+      (sab/html (as-element [:> grid {:columns   ["1fr 1fr 1fr"]
+                                      :rows      "auto"
+                                      :rowGap    "1em"
+                                      :columnGap "1em"
+                                      :areas     [["header1" "header2" "header2"]
+                                                  ["main" "main" "main"]]}
+                             header1 header2 main])))))
 
 
 
