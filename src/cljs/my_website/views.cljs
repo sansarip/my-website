@@ -6,26 +6,18 @@
     [my-website.components.navbar :refer [navbar]]
     [my-website.components.menuitem :refer [menuitem]]
     [my-website.styles :refer [screen-sizes font-sizes spacing-sizes]]
-    [my-website.utilities :refer [dark-background wrap-each-child word-concat]]
+    [my-website.utilities :refer [dark-background wrap-each-child wrap-all-children word-concat]]
     [my-website.views.home.panel :refer [home-panel]]
+    [my-website.views.about.panel :refer [about-panel]]
+    [my-website.views.games.panel :refer [games-panel]]
     [spade.core :refer [defclass]]))
 
-;; about
-
-(defn about-panel []
-  [:div
-   [:h1 {:class "inverse"} "This is the About Page."]
-   [:div
-    [:a {:href "#/"}
-     "go to Home Page"]]])
-
-;; main
-
-(defn- panels [panel-name]
-  (case panel-name
-    :home-panel [home-panel]
-    :about-panel [about-panel]
-    [:div "Nothing to see here!"]))
+(defn- panels [panel]
+  (cond
+    (= panel 'home-panel) [home-panel]
+    (= panel 'about-panel) [about-panel]
+    (= panel 'games-panel) [games-panel]
+    :else [:div "Nothing to see here!"]))
 
 (defn show-panel [panel-name]
   [panels panel-name])
@@ -37,24 +29,27 @@
                          :padding-right (:large spacing-sizes)}]))
 
 (defn main-panel []
-  (let [active-panel (re-frame/subscribe [::subs/active-panel])
-        parent (fn [] [:> menuitem {:textAlign "center"
-                                    :inverse   true
-                                    :strong    true
-                                    :padding   (:medium spacing-sizes)
-                                    :fontSize  "medium"}])]
+  (let [state (re-frame/subscribe [::subs/state])
+        parent (fn [& children] (into [:> menuitem {:textAlign "center"
+                                                    :inverse   true
+                                                    :strong    true
+                                                    :padding   (:medium spacing-sizes)
+                                                    :fontSize  "medium"}]
+                                      children))
+        link (fn [href name] [:a {:href  href
+                                  :class "delink"} name])]
+
     [:div {:class (word-concat "padding-horizontal" (page-class))}
-     (into [:> navbar {:title            "SETOOTLE"
-                       :as               parent
+     (into [:> navbar {:as               #(parent (link "#/" "SETOOTLE"))
                        :widthCollapsible (:small screen-sizes)
                        :background-color "inherit"
                        :inverse          true}]
            (wrap-each-child parent
                             ["SHOP"
                              "WORK"
-                             "GAMES"
+                             (link "#/games" "GAMES")
                              "SANDBOX"
                              "BLOG"
-                             "ABOUT"]))
+                             (link "#/about" "ABOUT")]))
      [:div {:class "padding-top"}
-      [show-panel @active-panel]]]))
+      [show-panel (second @state)]]]))

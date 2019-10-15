@@ -8,6 +8,6 @@
    (:name db)))
 
 (re-frame/reg-sub
- ::active-panel
+ ::state
  (fn [db _]
-   (:active-panel db)))
+   (:state db)))

@@ -6,8 +6,9 @@
    [goog.events :as gevents]
    [goog.history.EventType :as EventType]
    [re-frame.core :as re-frame]
-   [my-website.events :as events]
-   ))
+   [my-website.views.games.events :as games-events]
+   [my-website.events :as events]))
+
 
 (defn hook-browser-navigation! []
   (doto (History.)
@@ -20,14 +21,20 @@
 (defn app-routes []
   (secretary/set-config! :prefix "#")
   ;; --------------------
+
   ;; define routes here
   (defroute "/" []
-    (re-frame/dispatch [::events/set-active-panel :home-panel])
-    )
+    (re-frame/dispatch [::events/transition-state :home]))
 
   (defroute "/about" []
-    (re-frame/dispatch [::events/set-active-panel :about-panel]))
+    (re-frame/dispatch [::events/transition-state :about]))
 
+  (defroute "/games" []
+            (re-frame/dispatch [::events/transition-state :games]))
+
+  (defroute "/games/:game" [game]
+            (re-frame/dispatch [::games-events/set-selected-game game])
+            (re-frame/dispatch [::events/transition-state :game]))
 
   ;; --------------------
   (hook-browser-navigation!))
