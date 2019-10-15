@@ -29,7 +29,8 @@
                     :quaternary   "#FFF8BE"})
 
 (def screen-sizes {:tiny "650px"
-                   :small "890px"})
+                   :small "890px"
+                   :medium "1210px"})
 
 (def spacing-sizes {:medium "1em"
                     :large "2.5em"
@@ -46,6 +47,11 @@
 (defglobal window-styles
            [".no-word-wrap" {:white-space "nowrap"}]
            [".inverse" {:color "white"}]
+           [".delink" {:color "inherit"
+                       :text-decoration "inherit"}]
+           [".line-height" {:line-height "155.8%"}]
+           [".box-shadow-inverse"
+            {:box-shadow "0 4px 8px 0 rgba(255, 255, 255, 0.2), 0 6px 20px 0 rgba(255, 255, 255, 0.19)"}]
            [".justify-center" {:justify-self "center"}]
            [".align-center" {:align-self "center"}]
            [".align-start" {:align-self "start"}]
