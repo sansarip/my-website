@@ -6,11 +6,12 @@
             [spade.core :refer [defclass]]
             [clojure.spec.alpha :as s]))
 
-(defclass summary-class [& {:keys [inverse width background wrap-header]
+(defclass summary-class [& {:keys [inverse width background wrap-header animated]
                             :or   {inverse     false
                                    width       "auto"
                                    background  "none"
-                                   wrap-header true}}]
+                                   wrap-header true
+                                   animated true}}]
           {:cursor "pointer"
            :width width}
           [".container" {:padding       "1em"
@@ -35,7 +36,8 @@
           ["h4" (merge header-style {:margin-top  "1em"
                                      :color (if inverse "white" (:primary color-palette))
                                      :white-space (if wrap-header "normal" "nowrap")})]
-          [".container:hover > div[name=separator]" {:width "10em"}]
+          [".container:hover > div[name=separator]" {:width (if animated "10em"
+                                                                         "6.5em")}]
           [".description" {:font-family (:body font-families)
                            :width       (if (not= width "auto") "auto" "65%")
                            :height      "auto"}])
@@ -46,8 +48,10 @@
                              children (.. this -props -children)
                              header (.. this -props -header)
                              as (.. this -props -as)
+                             animated (.. this -props -animated)
                              content (.. this -props -content)
                              width (.. this -props -width)
+                             href (.. this -props -href)
                              background (.. this -props -background)
                              on-click (.. this -props -onClick)
                              wrap-header (.. this -props -wrapHeader)]
@@ -55,9 +59,11 @@
                                             summary-class
                                             :inverse inverse
                                             :width width
+                                            :animated animated
                                             :background background
                                             :wrap-header wrap-header)
-                                :on-click on-click}
+                                :on-click on-click
+                                :href href}
                           [:> flexbox {:extraClasses (word-concat
                                                        "container"
                                                        classes)
