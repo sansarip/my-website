@@ -7,7 +7,7 @@
                  [com.bhauman/rebel-readline-cljs "0.1.4"]
                  [reagent "0.8.1"]
                  [re-frame "0.10.8"]
-                 [secretary "1.2.3"]
+                 [clj-commons/secretary "1.2.4"]
                  [compojure "1.6.1"]
                  [yogthos/config "1.1.5"]
                  [ring "1.7.1"]
