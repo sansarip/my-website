@@ -43,10 +43,13 @@
    [:div {:class (description-class)}
     [:h1 {:class "inverse"}
      "About me"]
-    [:p {:class "inverse"}
-     "Hey—my name’s Sepehr, and I’m nineteen. I like to lift weights and wear sunscreen. SPF 100?
-     I hope it’s in stock...’cause I rub it on my nips and my bell-shaped cook. I’ve been known to nut
-     for Clojure, pecan pie, and reading manga on my iPhone X."]]
+    [:p {:class "inverse line-height"}
+     "HI, my name is Sepehr, and I'm coo coo for creative programming! From faulting segments in C, collecting
+     garbage in Java, cooking spaghetti with JavaScript, doing everything in Python, to composing "
+     [:i "d a t a"]
+     " in Clojure, and everything in between - I'm an engineer who's done and seen a lot, folks \uD83D\uDC40
+     These days I've found myself wondering the realms of functional programming and learning from the wise sages I
+     encounter along with sharing the fruits of knowledge with hungry students also on their own journeys."]]
    [:> image {:extraClasses (word-concat (image-class))
               :src          "assets/profpic.png"}]])
 

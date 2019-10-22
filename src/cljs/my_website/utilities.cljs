@@ -8,17 +8,22 @@
                                                     (apply word-concat %2)
                                                     %2)) "" words)))
 
-(defn deep-merge [a b]
-  (merge-with (fn [x y]
-                (cond (map? y) (deep-merge x y)
-                      (vector? y) (concat x y)
-                      :else y))
-              a b))
+(defn deep-merge
+  ([a b]
+   (merge-with (fn [x y]
+                 (cond (map? y) (deep-merge x y)
+                       (vector? y) (concat x y)
+                       :else y))
+               a b))
+  ([a b & rest]
+   (let [all (into [a b] rest)]
+     (reduce #(deep-merge % %2) {} all))))
+
 
 (defn dark-background [& children] (into
                                      [:div {:style {:background-color (:primary color-palette)
-                                                    :width "100%"
-                                                    :height "100%"}}]
+                                                    :width            "100%"
+                                                    :height           "100%"}}]
                                      children))
 
 (defn seq->css-grid-areas [areas]
@@ -36,7 +41,7 @@
                            (if (keyword? attribute) (name attribute) attribute)
                            "="
                            (if (keyword? key) (name key) key)
-                           :backgroundColor (:primary color-palette)"]")
+                           :backgroundColor (:primary color-palette) "]")
                       {css-attribute val}])) m))
 
 (defn seq-of?
@@ -80,11 +85,11 @@
         only-non-nil (filter #(not (nil? (get % 1))) args-map)]
     (apply op (flatten only-non-nil))))
 
-(def css-translator {:start "flex-start"
-                     :end "flex-end"
-                     :around "space-around"
+(def css-translator {:start   "flex-start"
+                     :end     "flex-end"
+                     :around  "space-around"
                      :between "space-between"
-                     :evenly "space-evenly"
+                     :evenly  "space-evenly"
                      :reverse "wrap-reverse"})
 
 (defn on-unit [op unit & args]
