@@ -69,6 +69,7 @@
                             :height       "615px"
                             :instructions "Type the word at the center of the screen! No need to worry about caps,
                             everything should be lowercase/case-insensitive. If a virus crosses the bottom of the
-                            screen, you will lose a cyber heart!"
+                            screen, you will lose a cyber heart! Enemies will speed up linearly every minute, up to a
+                            maximum of 5 minutes. Enemy spawn rate increases after 3 minutes."
                             :alt          "click clack"
                             :href         "https://sansarip.github.io/cs325-game-prototypes/Assignment7/"}})
