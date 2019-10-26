@@ -15,8 +15,6 @@
                  [binaryage/devtools "0.9.10"]
                  [net.dhleong/spade "1.0.3"]
                  [org.clojure/test.check "0.9.0"]]
-  :lein-tools-deps/config {:config-files [:install :user :project]}
-  :middleware [lein-tools-deps.plugin/resolve-dependencies-with-deps-edn]
   :min-lein-version "2.5.3"
   :source-paths ["src/clj" "src/cljs" "src/cljc"]
   :test-paths ["test/cljs"]
