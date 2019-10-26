@@ -11,6 +11,7 @@ log/
 /classes/
 /target/
 /checkouts/
+node_modules/
 .lein-deps-sum
 .lein-repl-history
 .lein-plugins/
