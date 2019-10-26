@@ -10,7 +10,8 @@
             [my-website.components.icon :refer [icon]]
             [my-website.components.navbar :refer [navbar]]
             [my-website.components.image :refer [image]]
-            [my-website.components.grid :refer [grid]]))
+            [my-website.components.grid :refer [grid]]
+            [my-website.components.text :refer [text]]))
 
 (defcard
   summary
@@ -178,6 +179,12 @@
                                       :areas     [["header1" "header2" "header2"]
                                                   ["main" "main" "main"]]}
                              header1 header2 main])))))
+
+(defcard
+  markdown
+  "basic text component with markdown"
+  (fn []
+    (sab/html (as-element [:> text {:src "# Testing?\n\n```python\nprint(\"Hello World!\")\n```\n* Bullet time!"}]))))
 
 
 
