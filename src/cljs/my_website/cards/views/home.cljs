@@ -1,7 +1,7 @@
-(ns my-website.cards.home
+(ns my-website.cards.views.home
   (:require
     [reagent.core :refer [as-element]]
-    [devcards.core :refer-macros (defcard)]
+    [devcards.core :refer-macros [defcard]]
     [sablono.core :as sab]
     [reagent.core :refer [as-element]]
     [my-website.styles :refer [color-palette]]

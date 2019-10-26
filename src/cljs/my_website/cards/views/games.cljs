@@ -1,5 +1,5 @@
-(ns my-website.cards.games
-  (:require [devcards.core :refer-macros (defcard)]
+(ns my-website.cards.views.games
+  (:require [devcards.core :refer-macros [defcard]]
             [sablono.core :as sab]
             [reagent.core :refer [as-element]]
             [my-website.styles :refer [color-palette]]

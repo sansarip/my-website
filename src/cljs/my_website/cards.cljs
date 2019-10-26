@@ -8,8 +8,8 @@
             [my-website.cards.components.navbar]
             [my-website.cards.components.summary]
             [my-website.cards.components.text]
-            [my-website.cards.home]
-            [my-website.cards.games]))
+            [my-website.cards.views.home]
+            [my-website.cards.views.games]))
 
 (enable-console-print!)
 
