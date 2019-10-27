@@ -11,10 +11,24 @@
 
 
 (defn play-game [game]
-  (let [{:keys [header instructions href width height]} game]
+  (let [{:keys [header
+                about
+                instructions
+                strategies
+                issues
+                credits
+                href
+                width
+                height]} game]
     [:> summary {:header   header
-                 :content  instructions
+                 :content  [:div
+                            about
+                            instructions
+                            strategies
+                            issues
+                            credits]
                  :width    (on-unit + width 33)
+                 :separatorColor (:secondary color-palette)
                  :animated false
                  :height   "100%"
                  :inverse  true}
@@ -29,11 +43,11 @@
 
 
 (defn make-game-summaries [& summaries]
-  (map (fn [{:keys [key header content src alt]}]
+  (map (fn [{:keys [key header description src alt]}]
          [:> summary {:header  header
                       :width   "20em"
                       :inverse true
-                      :content content
+                      :content description
                       :onClick #(set! (.. js/window -location)
                                       (str "#/games/" (name key)))}
           [:> image {:src          src

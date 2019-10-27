@@ -1,75 +1,146 @@
 (ns my-website.views.games.content
-  (:require [my-website.components.menuitem :refer [menuitem]]
-            [my-website.styles :refer [color-palette]]))
+  (:require [my-website.components.text :refer [text]]
+            [my-website.components.renderers :refer [gen-renderers]]
+            [my-website.utilities :refer [deep-merge]]))
+
+(defonce ^{:private true}
+         catching-clouds-md
+         {:description  "You play as the _woke_ cloud. Clouds are to blow in the breeze, but not you! You control
+         your own breeze (and destiny). Grab your fellow floofy companions, and set sail! But do be cautious, for
+         dangerous thunder bois lurk about. This game is also
+         [hosted on Github](https://sansarip.github.io/cs325-game-prototypes/Assignment3/)."
+          :about        (str
+                          "### About\n"
+                          "This was one of the first little Phaser games I made for a college elective about game
+                          design. It ended up being a pretty amusing game to create _and_ play. Give it a whirl!")
+          :instructions (str
+                          "### Instructions\n"
+                          "* Move around by clicking and holding down the mouse button\n"
+                          "* Accrue points as you move, and collecting white clouds also grants 100 points\n"
+                          "* Catching white clouds will also increases the rate at which you gain points, _but_ will
+                          increase your size - up to a cap\n"
+                          "* Watch out for the dark clouds - they can only move when you move, and if they get you it's
+                          game-over")
+          :strategies   (str
+                          "### Strategies\n"
+                          "* The edges of the screen are very dangerous as that's where the dark clouds spawn,
+                          so stay towards the center\n"
+                          "* Collecting white clouds will increase your points and point-gain-rate, but it will make
+                          you a bigger target - choose wisely")
+          :issues       (str
+                          "### Issues\n"
+                          "* Horizontal movement may not be apparent when there are no other objects on the screen,
+                          because the background doesn't have a horizontal gradient\n"
+                          "* The music may not play upon game initialization, but it should play if you touch a dark
+                          cloud")
+          :credits      (str
+                          "### Credits\n"
+                          "* Art by [Anna Rose Chi](https://annarosechi.myportfolio.com/)\n"
+                          "* Music sampled from
+                          [Masayoshi Takanaka - An Insatiable High LP 1977](https://www.youtube.com/watch?v=9cuxrkZeai8)\n"
+                          "* [Phaser camera example](https://phaser.io/examples/v2/camera/basic-follow)\n"
+                          "* [Phaser sound example](https://phaser.io/examples/v2/audio/sound-complete)")})
+
+(defonce ^{:private true} bearly-iced-md
+         {:description  "You play as a young genius that has developed an ice gun.
+         To test the combat ability of such a weapon, you enter a simulated environment with giant bears as enemies.
+         It was quite a joy to make a game that functioned on a simple grid system.
+         [Also on Github](https://sansarip.github.io/cs325-game-prototypes/Assignment4/)!"
+          :about        (str
+                          "### About\n"
+                          "Crafted this little game for a game design elective in the college days.
+                          It's nothing _too_ special, but I did enjoy developing it to run on a simple grid system.
+                          Also, the bears are _a d o r a b l e_ and the music is quite pleasant \uD83C\uDFB5")
+          :instructions (str
+                          "### Instructions\n"
+                          "* Use the arrow keys to move\n"
+                          "* Press **A** to shoot left and **D** to shoot right - shoot the bears\n"
+                          "* If a bear is close enough it can attack you and you'll lose a heart\n"
+                          "* Losing all your hearts will result in game-over")
+          :issues       (str
+                          "### Issues\n"
+                          "* The bears continue to move after the game has ended\n"
+                          "* Player character can occupy the same spaces as bears\n")
+          :strategies   (str
+                          "### Strategies\n"
+                          "* Avoid the edged of the screen as those are where the bears will spawn")
+          :credits      (str
+                          "### Credits\n"
+                          "* Art by [Anna Rose Chi](https://annarosechi.myportfolio.com/)\n"
+                          "* Music sampled from
+                          [Casiopea - Mint James (1982) - Midnight Rendezvous](https://www.youtube.com/watch?v=6GEI3PpXEAo&t=626s)\n"
+                          "* [Tile sprite example](https://phaser.io/examples/v2/camera/basic-follow)
+                          used to add the overlaying grid dynamically")})
+
+(defonce ^{:private true} click-clack-md
+         {:description  "You play as a confident lad with a funky hairdo and a nack for hackin' - hacking the
+         _DARK MAINFRAME_. Should be no problem for you, right?
+         [Github](https://sansarip.github.io/cs325-game-prototypes/Assignment7/)!"
+          :about        (str
+                          "### About\n"
+                          "Here be the final game I made for my game design elective; it's certainly the most pplished of the
+                          like. The game concept is nothing new - typing games have been around since the dawn of Flash games.
+                          Nevertheless, you don't see typing games _too_ often, and this definitely was a joy to build and
+                          really quite fun to play. Certainly brings back memories \uD83D\uDE22")
+          :strategies   (str
+                          "### Strategies\n"
+                          "* You don't really get penalized for mistyping, so feel free to mash your keys \uD83D\uDE09")
+          :issues       (str
+                          "### Issues\n"
+                          "* If you finish typing a word when no viruses have spawned, you'll have to repeat the word you
+                          typed")
+          :instructions (str
+                          "### Instructions\n"
+                          "* Type the word at the center of the screen to squash the viruses\n"
+                          "* No need to worry about caps, everything should be lowercase/case-insensitive\n"
+                          "* If a virus crosses the bottom of the screen, you will lose a cyber heart\n"
+                          "* Enemies will speed up linearly every minute, up to a maximum of 5 minutes\n"
+                          "* Enemy spawn rate increases after 3 minutes\n")
+          :credits      (str
+                          "### Credits\n"
+                          "* Art by [Anna Rose Chi](https://annarosechi.myportfolio.com/)\n"
+                          "* Music sampled from [LVX - The Naked Sun](https://www.youtube.com/watch?v=G0CWuyidm4Y)")})
+
+(defonce renderers (gen-renderers))
+
+(defn to-text-components [md]
+  (reduce-kv (fn [coll key val]
+               (let [text-component [:> text {:src       val
+                                              :renderers renderers}]]
+                 (if (= key :description)
+                   (assoc coll key (assoc-in text-component
+                                             [2 :renderers]
+                                             (gen-renderers :link-options
+                                                            {:target "_self"})))
+                   (assoc coll key text-component))))
+             {}
+             md))
 
 (defonce content
-         {:catching-clouds {:header       "Catching Clouds"
-                            :content      [:p
-                                           "One of my first Phaser games, I crafted this c u t e, lil' gem for an
-                                           elective during my senior year of college. You play as the \"woke\" cloud.
-                                           Clouds are to blow in the breeze, but not you! You control your own breeze
-                                           (and destiny). Grab your fellow floofy companions, and set sail! But do be
-                                           cautious, for dangerous thunder bois lurk about. This game is also "
-                                           [:> menuitem {:color      (:tertiary color-palette)
-                                                         :hoverColor (:tertiary-alt color-palette)
-                                                         :strong     true
-                                                         :delink     true
-                                                         :href       "https://sansarip.github.io/cs325-game-prototypes/Assignment3/"}
-                                            "hosted on Github"]
-                                           "."]
-                            :src          ["/assets/catching-clouds-1.png"
-                                           "/assets/catching-clouds.gif"]
-                            :alt          "catching clouds"
-                            :width        "815px"
-                            :height       "615px"
-                            :instructions "You can move around by clicking and holding down the mouse button. You
-                            accrue points as you move, and collecting white clouds also gives you points! Watch out
-                            for the dark clouds - they can only move when you move, and if they get you it's
-                            game-over! Horizontal movement may not be apparent when there are no other objects on the
-                            screen because the background doesn't have a horizontal gradient, sorry!"
-                            :href         "https://sansarip.github.io/cs325-game-prototypes/Assignment3/"}
-          :bearly-iced     {:header       "Bearly Iced"
-                            :content      [:p
-                                           "Another college-elective creation! You play as a young genius that has
-                                           developed an ice gun. To test the combat ability of such a weapon, you enter
-                                           a simulated environment with giant bears as enemies. It was quite a joy to
-                                            make a game that functioned on a simple grid system. "
-                                           [:> menuitem {:color      (:tertiary color-palette)
-                                                         :hoverColor (:tertiary-alt color-palette)
-                                                         :strong     true
-                                                         :delink     true
-                                                         :href       "https://sansarip.github.io/cs325-game-prototypes/Assignment4/"}
-                                            "Also on Github"]
-                                           "!"]
-                            :src          ["/assets/bearly-iced-1.png"
-                                           "/assets/bearly-iced.gif"]
-                            :alt          "bearly iced"
-                            :width        "783px"
-                            :height       "591px"
-                            :instructions "Use the arrow keys to move! Press A to shoot left! Press D to shoot right!
-                            Shoot the bears, don't let them get near you!"
-                            :href         "https://sansarip.github.io/cs325-game-prototypes/Assignment4/"}
-          :click-clack     {:header       "Click Clack, I'm in!"
-                            :content      [:p
-                                           "I was really starting to get a hang of pumpin' out lil' bitty Phaser games
-                                           towards the end of the semester! You play as a confident lad with a funky
-                                           hairdo and a nack for hackin' - hacking the "
-                                           [:i "DARK MAINFRAME"]
-                                           " should be no problem for you, right? "
-                                           [:> menuitem {:color      (:tertiary color-palette)
-                                                         :hoverColor (:tertiary-alt color-palette)
-                                                         :strong     true
-                                                         :delink     true
-                                                         :href       "https://sansarip.github.io/cs325-game-prototypes/Assignment7/"}
-                                            "Github"]
-                                           "!"]
-                            :src          ["/assets/click-clack-1.png"
-                                           "/assets/click-clack.gif"]
-                            :width        "815px"
-                            :height       "615px"
-                            :instructions "Type the word at the center of the screen! No need to worry about caps,
-                            everything should be lowercase/case-insensitive. If a virus crosses the bottom of the
-                            screen, you will lose a cyber heart! Enemies will speed up linearly every minute, up to a
-                            maximum of 5 minutes. Enemy spawn rate increases after 3 minutes."
-                            :alt          "click clack"
-                            :href         "https://sansarip.github.io/cs325-game-prototypes/Assignment7/"}})
+         {:catching-clouds (deep-merge
+                             {:header "Catching Clouds"
+                              :src    ["/assets/catching-clouds-1.png"
+                                       "/assets/catching-clouds.gif"]
+                              :alt    "catching clouds"
+                              :width  "815px"
+                              :height "615px"
+                              :href   "https://sansarip.github.io/cs325-game-prototypes/Assignment3/"}
+                             (to-text-components catching-clouds-md))
+          :bearly-iced     (deep-merge
+                             {:header "Bearly Iced"
+                              :src    ["/assets/bearly-iced-1.png"
+                                       "/assets/bearly-iced.gif"]
+                              :alt    "bearly iced"
+                              :width  "783px"
+                              :height "591px"
+                              :href   "https://sansarip.github.io/cs325-game-prototypes/Assignment4/"}
+                             (to-text-components bearly-iced-md))
+          :click-clack     (deep-merge
+                             {:header "Click Clack, I'm in!"
+                              :src    ["/assets/click-clack-1.png"
+                                       "/assets/click-clack.gif"]
+                              :width  "815px"
+                              :height "615px"
+                              :alt    "click clack"
+                              :href   "https://sansarip.github.io/cs325-game-prototypes/Assignment7/"}
+                             (to-text-components click-clack-md))})
