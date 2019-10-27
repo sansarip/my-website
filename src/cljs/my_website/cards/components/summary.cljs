@@ -6,6 +6,7 @@
     [my-website.styles :refer [color-palette]]
     [my-website.components.summary :refer [summary]]
     [my-website.components.image :refer [image]]
+    [my-website.components.text :refer [text]]
     [reagent.core :refer [as-element]]))
 
 (defcard
@@ -63,3 +64,16 @@
                             :border (str "5px solid " (:primary color-palette))
                             :width  "100%"
                             :height "100%"}]]))))
+
+(defcard
+  summary-component-with-markdown
+  "Summary component with markdown content"
+  (fn []
+    (sab/html (as-element
+                [:> summary {:header   "Weather gif"
+                             :width    "20em"
+                             :content  [:> text {:src "* Hello\n* My\n* Name\n* Is\n* *CaCa*"}]
+                             :on-click #(js/alert "Summarize deez Nutellas!")}
+                 [:div {:style {:width "20em"
+                                :height "20em"
+                                :border (str "5px solid " (:primary color-palette))}}]]))))
