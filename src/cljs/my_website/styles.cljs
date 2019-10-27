@@ -57,7 +57,7 @@
            [".align-start" {:align-self "start"}]
            [".padding-horizontal" {:padding-left  (:massive spacing-sizes)
                                    :padding-right (:massive spacing-sizes)}]
-           [".padding-top" {:padding-top (:massive spacing-sizes)}]
+           [".padding-top" {:padding-top (:huge spacing-sizes)}]
            [".padding-bottom" {:padding-bottom (:massive spacing-sizes)}]
            ["body" {:color            (:primary color-palette)
                     :font-family      (:body font-families)
