@@ -6,19 +6,27 @@
             [spade.core :refer [defclass]]
             [clojure.spec.alpha :as s]))
 
-(defclass summary-class [& {:keys [inverse width background wrap-header animated]
+(defclass summary-class [& {:keys [inverse
+                                   width
+                                   background
+                                   wrap-header
+                                   animated
+                                   clickable
+                                   separator-color]
                             :or   {inverse     false
                                    width       "auto"
                                    background  "none"
                                    wrap-header true
-                                   animated true}}]
-          {:cursor "pointer"
+                                   animated true
+                                   clickable false
+                                   separator-color (:tertiary color-palette)}}]
+          {:cursor (if clickable "pointer" "auto")
            :width width}
           [".container" {:padding       "1em"
                          :background    background
                          :border-radius "1%"
                          :color         (if inverse "white" (:primary color-palette))}]
-          [".separator" {:background-color (:tertiary color-palette)
+          [".separator" {:background-color separator-color
                          :width            "6.5em"
                          :height           ".5em"
                          :margin-top       "1em"
@@ -54,13 +62,17 @@
                              href (.. this -props -href)
                              background (.. this -props -background)
                              on-click (.. this -props -onClick)
-                             wrap-header (.. this -props -wrapHeader)]
+                             separator-color (.. this -props -separatorColor)
+                             wrap-header (.. this -props -wrapHeader)
+                             clickable (boolean on-click)]
                          [:div {:class    (omit-nil-keyword-args
                                             summary-class
                                             :inverse inverse
+                                            :clickable clickable
                                             :width width
                                             :animated animated
                                             :background background
+                                            :separator-color separator-color
                                             :wrap-header wrap-header)
                                 :on-click on-click
                                 :href href}

@@ -7,12 +7,17 @@
             [spade.core :refer [defclass]]
             [clojure.spec.alpha :as s]))
 
-(defclass text-class [])
-
 (defn render-fn [this]
   (let [children (.. this -props -children)
-        src (.. this -props -src)]
-    [:> markdown {:source src}]))
+        src (.. this -props -src)
+        renderers (.. this -props -renderers)
+        classes (.. this -props -extraClasses)
+        style (.. this -props -style)]
+    [:div
+     [:> markdown {:source    src
+                   :renderers renderers}]
+     children]))
+
 
 (def text (r/create-class {:display-name :text
-                           :render render-fn}))
+                           :render       render-fn}))
