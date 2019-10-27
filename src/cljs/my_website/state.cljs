@@ -1,19 +1,4 @@
-(ns my-website.state
-  (:require [my-website.utilities :refer [deep-merge]]))
-
-(defonce navbar-fsm {:games [:ok 'games-panel]
-                     :about [:ok 'about-panel]
-                     :home  [:ok 'home-panel]})
-
-(defonce fsm {[:ok 'home-panel]  (deep-merge
-                                   navbar-fsm
-                                   {:else [:ok 'home-panel]})
-              [:ok 'about-panel] (deep-merge
-                                   navbar-fsm
-                                   {:else [:ok 'about-panel]})
-              [:ok 'games-panel] (deep-merge
-                                   navbar-fsm
-                                   {:else [:ok 'games-panel]})})
+(ns my-website.state)
 
 (defn next-state [fsm app-state transition]
   (let [state (:state app-state)

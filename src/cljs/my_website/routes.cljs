@@ -24,18 +24,18 @@
 
   ;; define routes here
   (defroute home-path "/" []
-            (re-frame/dispatch [::events/transition-state :home]))
+            (re-frame/dispatch [::events/set-state 'home-panel]))
 
   (defroute about-path "/about" []
-            (re-frame/dispatch [::events/transition-state :about]))
+            (re-frame/dispatch [::events/set-state 'about-panel]))
 
   (defroute games-path "/games" []
             (re-frame/dispatch [::games-events/set-selected-game nil])
-            (re-frame/dispatch [::events/transition-state :games]))
+            (re-frame/dispatch [::events/set-state 'games-panel]))
 
   (defroute game-path "/games/:game" [game]
             (re-frame/dispatch [::games-events/set-selected-game (keyword game)])
-            (re-frame/dispatch [::events/transition-state :games]))
+            (re-frame/dispatch [::events/set-state 'games-panel]))
 
   ;; --------------------
   (hook-browser-navigation!))

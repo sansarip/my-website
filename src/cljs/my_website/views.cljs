@@ -52,4 +52,4 @@
                              "BLOG"
                              (link "#/about" "ABOUT")]))
      [:div {:class "padding-top"}
-      [show-panel (second @state)]]]))
+      [show-panel @state]]]))
