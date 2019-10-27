@@ -100,8 +100,6 @@
             id (or (.. this -props -id) (.. this -state -id))
 
             overflowed (and id is-mounted (let [el (.getElementById js/document id)]
-                                               (println (.-clientWidth el))
-                                               (println (.-scrollWidth el))
                                                (< (.-clientWidth el)
                                                   (.-scrollWidth el))))]
            (assoc-component-state this -overflowed (boolean overflowed))))
