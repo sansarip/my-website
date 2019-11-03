@@ -46,6 +46,8 @@
         padding (.. this -props -padding)
         on-click (.. this -props -onClick)
         inverse (.. this -props -inverse)
+        id (.. this -props -id)
+        name (.. this -props -name)
         class (word-concat
                 (omit-nil-keyword-args
                   menuitem-class

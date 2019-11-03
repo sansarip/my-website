@@ -73,11 +73,15 @@
         style (.. this -props -style)
         padding (.. this -props -padding)
         width-collapsible (.. this -props -widthCollapsible)
-        background-color (.. this -props -backgroundColor)]
+        background-color (.. this -props -backgroundColor)
+        id (.. this -props -id)
+        name (.. this -props -name)]
     [:div {:class (omit-nil-keyword-args navbar-class
                                          :width-collapsible width-collapsible
                                          :inverse inverse)
-           :style style}
+           :style style
+           :id    id
+           :name  name}
      [:> flexbox {:justify         "between"
                   :extraClasses    classes
                   :alignItems      "center"
@@ -91,7 +95,7 @@
                    :wrap         "wrap"}
        children]
       [:> menuitem {:extraClasses "hide-mobile-bars"
-                    :inverse inverse}
+                    :inverse      inverse}
        [:> icon {:name         "bars"
                  :inheritColor true
                  :strength     "strong"

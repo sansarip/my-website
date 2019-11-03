@@ -33,7 +33,9 @@
         strength (.. this -props -strength)
         on-click (.. this -props -onClick)
         inverse (.. this -props -inverse)
-        clickable (fn? on-click)]
+        clickable (fn? on-click)
+        id (.. this -props -id)
+        name (.. this -props -name)]
     [:i {:class    (word-concat
                      (omit-nil-keyword-args
                        icon-class
@@ -50,6 +52,8 @@
                        "fa-" name)
                      classes)
          :style    style
+         :id       id
+         :name     name
          :on-click on-click}
      children]))
 

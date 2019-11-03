@@ -46,77 +46,79 @@
                                    :else direction)})
 
 (defn render-fn [this]
-      (let [children (.. this -props -children)
-            justify (.. this -props -justify)
-            justify-items (.. this -props -justifyItems)
-            classes (.. this -props -extraClasses)
-            align (.. this -props -align)
-            align-items (.. this -props -alignItems)
-            style (.. this -props -style)
-            id (or (.. this -props -id) (.. this -state -id))
-            padding (.. this -props -padding)
-            width (.. this -props -width)
-            text-align (.. this -props -textAlign)
-            grow (.. this -props -grow)
-            background-color (.. this -props -backgroundColor)
-            overflowed (.. this -state -overflowed)
-            wrap (.. this -props -wrap)
-            direction (.. this -props -direction)]
-           [:div {:class (word-concat
-                           (omit-nil-keyword-args flexbox-class
-                                                  :justify justify
-                                                  :justify-items justify-items
-                                                  :direction direction
-                                                  :align align
-                                                  :align-items align-items
-                                                  :background-color background-color
-                                                  :padding padding
-                                                  :width width
-                                                  :wrap wrap
-                                                  :overflowed overflowed
-                                                  :grow grow
-                                                  :text-align text-align)
-                           classes)
-                  :style style
-                  :id    id}
-            children]))
+  (let [children (.. this -props -children)
+        justify (.. this -props -justify)
+        justify-items (.. this -props -justifyItems)
+        classes (.. this -props -extraClasses)
+        align (.. this -props -align)
+        align-items (.. this -props -alignItems)
+        style (.. this -props -style)
+        id (or (.. this -props -id) (.. this -state -id))
+        name (.. this -props -name)
+        padding (.. this -props -padding)
+        width (.. this -props -width)
+        text-align (.. this -props -textAlign)
+        grow (.. this -props -grow)
+        background-color (.. this -props -backgroundColor)
+        overflowed (.. this -state -overflowed)
+        wrap (.. this -props -wrap)
+        direction (.. this -props -direction)]
+    [:div {:class (word-concat
+                    (omit-nil-keyword-args flexbox-class
+                                           :justify justify
+                                           :justify-items justify-items
+                                           :direction direction
+                                           :align align
+                                           :align-items align-items
+                                           :background-color background-color
+                                           :padding padding
+                                           :width width
+                                           :wrap wrap
+                                           :overflowed overflowed
+                                           :grow grow
+                                           :text-align text-align)
+                    classes)
+           :style style
+           :id    id
+           :name  name}
+     children]))
 
 (defn get-initial-state-fn [this]
-      #js {:id                     (or (.. this -props -id) (str (random-uuid)))
-           :isMounted              false
-           :overflowed             false
-           :isListeningForOverflow false
-           :setOverflowedFn        #(.setOverflowed this this)})
+  #js {:id                     (or (.. this -props -id) (str (random-uuid)))
+       :isMounted              false
+       :overflowed             false
+       :isListeningForOverflow false
+       :setOverflowedFn        #(.setOverflowed this this)})
 
 (defn mount-fn [this]
-      (assoc-component-state this -isMounted true)
-      (if (and (= (.. this -props -wrap) "rigid") (not (.. this -state -isListeningForOverflow)))
-        (do (.setOverflowed this this)
-            (-> js/window (.addEventListener "resize" (.. this -state -setOverflowedFn)))
-            (set! (.. this -state -isListeningForOverflow) true))))
+  (assoc-component-state this -isMounted true)
+  (if (and (= (.. this -props -wrap) "rigid") (not (.. this -state -isListeningForOverflow)))
+    (do (.setOverflowed this this)
+        (-> js/window (.addEventListener "resize" (.. this -state -setOverflowedFn)))
+        (set! (.. this -state -isListeningForOverflow) true))))
 
 (defn set-overflowed [this]
-      (let [is-mounted (.. this -state -isMounted)
-            id (or (.. this -props -id) (.. this -state -id))
+  (let [is-mounted (.. this -state -isMounted)
+        id (or (.. this -props -id) (.. this -state -id))
 
-            overflowed (and id is-mounted (let [el (.getElementById js/document id)]
-                                               (< (.-clientWidth el)
-                                                  (.-scrollWidth el))))]
-           (assoc-component-state this -overflowed (boolean overflowed))))
+        overflowed (and id is-mounted (let [el (.getElementById js/document id)]
+                                        (< (.-clientWidth el)
+                                           (.-scrollWidth el))))]
+    (assoc-component-state this -overflowed (boolean overflowed))))
 
 (defn unmmount-fn [this]
-      (-> js/window (.removeEventListener "resize" (.. this -state -setOverflowedFn))))
+  (-> js/window (.removeEventListener "resize" (.. this -state -setOverflowedFn))))
 
 (defn update-fn [this _ _ _]
-      (cond
-        (and (= (.. this -props -wrap) "rigid") (not (.. this -state -isListeningForOverflow)))
-        (do
-          (-> js/window (.addEventListener "resize" (.. this -state -setOverflowedFn)))
-          (set! (.. this -state -isListeningForOverflow) true))
-        (and (not= (.. this -props -wrap) "rigid") (.. this -state -isListeningForOverflow))
-        (do
-          (-> js/window (.removeEventListener "resize" (.. this -state -setOverflowedFn)))
-          (set! (.. this -state -isListeningForOverflow) false))))
+  (cond
+    (and (= (.. this -props -wrap) "rigid") (not (.. this -state -isListeningForOverflow)))
+    (do
+      (-> js/window (.addEventListener "resize" (.. this -state -setOverflowedFn)))
+      (set! (.. this -state -isListeningForOverflow) true))
+    (and (not= (.. this -props -wrap) "rigid") (.. this -state -isListeningForOverflow))
+    (do
+      (-> js/window (.removeEventListener "resize" (.. this -state -setOverflowedFn)))
+      (set! (.. this -state -isListeningForOverflow) false))))
 
 
 

@@ -12,8 +12,13 @@
         src (.. this -props -src)
         renderers (.. this -props -renderers)
         classes (.. this -props -extraClasses)
-        style (.. this -props -style)]
-    [:div
+        style (.. this -props -style)
+        id (.. this -props -id)
+        name (.. this -props -name)]
+    [:div {:class classes
+           :style style
+           :id    id
+           :name  name}
      [:> markdown {:source    src
                    :renderers renderers}]
      children]))

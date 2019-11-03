@@ -72,6 +72,7 @@
     (sab/html (as-element
                 [:> summary {:header   "Weather gif"
                              :width    "20em"
+                             :id       "cool-summary"
                              :content  [:> text {:src "* Hello\n* My\n* Name\n* Is\n* *CaCa*"}]
                              :on-click #(js/alert "Summarize deez Nutellas!")}
                  [:div {:style {:width "20em"

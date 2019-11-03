@@ -60,6 +60,8 @@
                              content (.. this -props -content)
                              width (.. this -props -width)
                              href (.. this -props -href)
+                             id (.. this -props -id)
+                             name (.. this -props -name)
                              background (.. this -props -background)
                              on-click (.. this -props -onClick)
                              separator-color (.. this -props -separatorColor)
@@ -75,7 +77,9 @@
                                             :separator-color separator-color
                                             :wrap-header wrap-header)
                                 :on-click on-click
-                                :href href}
+                                :href href
+                                :id id
+                                :name name}
                           [:> flexbox {:extraClasses (word-concat
                                                        "container"
                                                        classes)

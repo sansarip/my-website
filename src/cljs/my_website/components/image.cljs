@@ -64,6 +64,8 @@
         intervalFn (.. this -state -intervalFn)
         current-image-index (.. this -state -currentImageIndex)
         multiple-sources (and (array? src) (seq-of? string? src))
+        id (.. this -props -id)
+        name (.. this -props -name)
         main [:img {:class         (word-concat
                                      (omit-nil-keyword-args
                                        image-class

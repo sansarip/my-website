@@ -50,6 +50,8 @@
         justify-items (.. this -props -justifyItems)
         align-items (.. this -props -alignItems)
         align (.. this -props -align)
+        id (.. this -props -id)
+        name (.. this -props -name)
         padding (.. this -props -padding)]
     [:div {:class (word-concat
                     (omit-nil-keyword-args grid-class
@@ -61,7 +63,9 @@
                                            :areas (if areas (seq->css-grid-areas areas)))
 
                     classes)
-           :style style}
+           :style style
+           :id id
+           :name name}
      children]))
 
 (def grid (r/create-class {:display-name :grid
