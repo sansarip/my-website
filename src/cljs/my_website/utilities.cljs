@@ -99,6 +99,9 @@
       (str (apply op (into [to-float] args)) unit-type)
       (str (op to-float) unit-type))))
 
+(defn scroll-to-top []
+  (.scrollTo js/window 0 0))
+
 (s/def ::parent vector?)
 (s/def ::children vector?)
 

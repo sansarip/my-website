@@ -7,6 +7,7 @@
     [goog.history.EventType :as EventType]
     [re-frame.core :as re-frame]
     [my-website.views.games.events :as games-events]
+    [my-website.utilities :refer [scroll-to-top]]
     [my-website.events :as events]))
 
 
@@ -24,18 +25,22 @@
 
   ;; define routes here
   (defroute home-path "/" []
-            (re-frame/dispatch [::events/set-state 'home-panel]))
+            (re-frame/dispatch [::events/set-state 'home-panel])
+            (scroll-to-top))
 
   (defroute about-path "/about" []
-            (re-frame/dispatch [::events/set-state 'about-panel]))
+            (re-frame/dispatch [::events/set-state 'about-panel])
+            (scroll-to-top))
 
   (defroute games-path "/games" []
             (re-frame/dispatch [::games-events/set-selected-game nil])
-            (re-frame/dispatch [::events/set-state 'games-panel]))
+            (re-frame/dispatch [::events/set-state 'games-panel])
+            (scroll-to-top))
 
   (defroute game-path "/games/:game" [game]
             (re-frame/dispatch [::games-events/set-selected-game (keyword game)])
-            (re-frame/dispatch [::events/set-state 'games-panel]))
+            (re-frame/dispatch [::events/set-state 'games-panel])
+            (scroll-to-top))
 
   ;; --------------------
   (hook-browser-navigation!))
