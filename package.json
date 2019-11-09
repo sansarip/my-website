@@ -7,9 +7,9 @@
     "webpack-cli": "^3.3.9"
   },
   "dependencies": {
+    "animejs": "^3.1.0",
     "create-react-class": "^15.6.3",
     "react": "^16.8.6",
-    "react-anime": "^2.2.0",
     "react-dom": "^16.8.6",
     "react-flip-move": "^3.0.1",
     "react-highlight.js": "^1.0.7",

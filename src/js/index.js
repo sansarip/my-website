@@ -1,5 +1,5 @@
 import ReactMarkdown from 'react-markdown';
-import Anime from 'react-anime';
+import anime from 'animejs/lib/anime.es.js';
 
 window.ReactMarkdown = ReactMarkdown;
-window.Anime = Anime;
+window.anime = anime;

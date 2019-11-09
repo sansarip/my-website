@@ -9,7 +9,8 @@
             [my-website.cards.components.summary]
             [my-website.cards.components.text]
             [my-website.cards.views.home]
-            [my-website.cards.views.games]))
+            [my-website.cards.views.games]
+            [my-website.cards.components.animate]))
 
 (enable-console-print!)
 
