@@ -3,7 +3,7 @@
             [my-website.utilities :refer [css-translator deep-merge word-concat omit-nil-keyword-args]]
             [my-website.styles :refer [color-palette]]
             [spade.core :refer [defclass]]
-            [my-website.macros :refer-macros [assoc-component-state get-component-prop]]))
+            [my-website.macros :refer-macros [assoc-component-state]]))
 
 (defclass flexbox-class [& {:keys [align
                                    justify

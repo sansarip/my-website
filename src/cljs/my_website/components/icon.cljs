@@ -28,7 +28,7 @@
         style (.. this -props -style)
         size (.. this -props -size)
         padding (.. this -props -padding)
-        name (.. this -props -name)
+        icon-name (.. this -props -iconName)
         inherit-color (.. this -props -inheritColor)
         strength (.. this -props -strength)
         on-click (.. this -props -onClick)
@@ -49,11 +49,11 @@
                              (= strength "light") "fal "
                              (= strength "duotone") "fad "
                              :else "far ")
-                       "fa-" name)
+                       "fa-" icon-name)
                      classes)
          :style    style
          :id       id
-         :name     name
+         :name name
          :on-click on-click}
      children]))
 
@@ -63,12 +63,14 @@
   :size [:tiny :small :medium :large :big :huge :massive]
   :inverse true or false
   :extraClasses string
+  :iconName string
   :strength ["strong" "light" "duotone"] :else "regular"
   :onClick fn
 
   Example usage
   [:> icon {:size         :big
             :strength     "strong"
+            :iconName     "hand-spock"
             :on-click     some-function
             :inverse      true
             :extraClasses "some-class"}])

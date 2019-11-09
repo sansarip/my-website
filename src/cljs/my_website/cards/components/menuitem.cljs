@@ -24,7 +24,7 @@
   (fn []
     (sab/html (as-element
                 [:> menuitem
-                 [:> icon {:name         "hand-pointer"
+                 [:> icon {:iconName         "hand-pointer"
                            :inheritColor true
                            :strength     "strong"
                            :size         :huge}]]))))

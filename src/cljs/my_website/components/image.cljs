@@ -102,7 +102,9 @@
                                      (and multiple-sources toggle)
                                      #(assoc-component-state this -currentImageIndex 0))
                     :on-click      on-click
-                    :style         style}
+                    :style         style
+                    :id id
+                    :name name}
               children]]
 
     (cond
