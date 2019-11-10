@@ -3,6 +3,7 @@
             [devcards.core :refer-macros [defcard]]
             [sablono.core :as sab]
             [anime]
+            [debounce]
             [my-website.components.animate :refer [animate]]
             [my-website.components.icon :refer [icon]]
             [my-website.components.menuitem :refer [menuitem]]))
@@ -10,6 +11,9 @@
 (defonce state-1 (r/atom 0))
 (defonce interval-fn (.setInterval js/window #(swap! state-1 inc) 1000))
 (defonce state-2 (r/atom false))
+(defonce state-3 (r/atom {:enabled   false
+                          :timeout   nil
+                          :triggered false}))
 
 (defcard anime-js
          "Basic animation example using an icon and anime.js"
@@ -51,8 +55,8 @@
                                           :loop     true
                                           :rotate   "1turn"
                                           :duration 1000}
-                             :pause    @state
-                             :play     (not @state)}
+                             :pause      @state
+                             :play       (not @state)}
                  [:> icon {:size     :huge
                            :id       "coocoo-3"
                            :strength :strong
@@ -62,3 +66,49 @@
                               :on-click  #(reset! state (not @state))
                               :fontSize  "large"} "Pause/Resume"]])))
          state-2)
+
+(defcard animate-on-scroll-stop
+         "Starting animation after a scroll or swipe"
+         (fn [state]
+           (let [{:keys [enabled triggered timeout]} @state
+                 scroll-fn (debounce (fn [event]
+                                       (when (> (.-deltaY event) 0)
+                                         (.clearTimeout js/window timeout)
+                                         (swap! state assoc :timeout
+                                                (js/setTimeout
+                                                  (swap! state assoc :triggered true)
+                                                  100))))
+                                     100)]
+             (sab/html
+               (r/as-element
+                 [:div
+                  [:> animate {:animeProps       {:targets    ["#coocoo-4"]
+                                                  :translateY {:value    [-100 0]
+                                                               :duration 1000
+                                                               :easing   "easeOutBounce"}
+                                                  :opacity    {:value    [0 1]
+                                                               :duration 1250
+                                                               :easing   "linear"}
+                                                  :complete   #(swap! state assoc :triggered false)
+                                                  :autoplay   false}
+                               :staticAnimeProps [:complete]
+                               :play             (and enabled triggered)}
+                   [:> icon {:size     :huge
+                             :id       "coocoo-4"
+                             :strength :strong
+                             :iconName "hand-spock"}]]
+                  [:> menuitem {:textAlign "center"
+                                :strong    true
+                                :on-click  (fn [_]
+                                             (swap! state assoc :enabled (not enabled))
+                                             (if (not enabled)
+                                               (.addEventListener js/window
+                                                                  "wheel"
+                                                                  scroll-fn)
+                                               (do
+                                                 (swap! state assoc :triggered false)
+                                                 (.removeEventListener js/window "wheel" scroll-fn))))
+                                :fontSize  "large"} (str (if enabled "Disable"
+                                                                     "Enable")
+                                                         " Scrolling-Trigger")]]))))
+         state-3)
