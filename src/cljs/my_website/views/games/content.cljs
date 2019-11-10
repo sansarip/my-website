@@ -119,8 +119,8 @@
 (defonce content
          {:catching-clouds (deep-merge
                              {:header "Catching Clouds"
-                              :src    ["/assets/catching-clouds-1.png"
-                                       "/assets/catching-clouds.gif"]
+                              :src    ["assets/catching-clouds-1.png"
+                                       "assets/catching-clouds.gif"]
                               :alt    "catching clouds"
                               :width  "815px"
                               :height "615px"
@@ -128,8 +128,8 @@
                              (to-text-components catching-clouds-md))
           :bearly-iced     (deep-merge
                              {:header "Bearly Iced"
-                              :src    ["/assets/bearly-iced-1.png"
-                                       "/assets/bearly-iced.gif"]
+                              :src    ["assets/bearly-iced-1.png"
+                                       "assets/bearly-iced.gif"]
                               :alt    "bearly iced"
                               :width  "783px"
                               :height "591px"
@@ -137,8 +137,8 @@
                              (to-text-components bearly-iced-md))
           :click-clack     (deep-merge
                              {:header "Click Clack, I'm in!"
-                              :src    ["/assets/click-clack-1.png"
-                                       "/assets/click-clack.gif"]
+                              :src    ["assets/click-clack-1.png"
+                                       "assets/click-clack.gif"]
                               :width  "815px"
                               :height "615px"
                               :alt    "click clack"

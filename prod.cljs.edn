@@ -1,7 +1,7 @@
 ^{:npm {:bundles {"dist/index.bundle.js" "src/js/index.js"}}}
 {:main            my_website.core
- :optimizations   :none
- :asset-path      "/js/compiled/prod"
+ :optimizations   :advanced
+ :asset-path      "js/compiled/prod"
  :output-to       "resources/public/js/compiled/app.js"
  :output-dir      "resources/public/js/compiled/prod"
  :closure-defines {"re_frame.trace.trace_enabled_QMARK_"        false
