@@ -1,5 +1,6 @@
 .idea/
 .rebel_readline_history
+.DS_Store
 *.iml
 pom.xml
 pom.xml.asc
