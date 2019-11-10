@@ -5,3 +5,5 @@
 Coming soon...
 
 ![logo](https://i.gyazo.com/3e9352aa87d3985402772f963745c8ea.png)
+
+Based on [my fullstack clojure web app template](https://github.com/sansarip/yet-another-clojure-web-app-template)
