@@ -10,6 +10,7 @@
     [my-website.views.home.panel :refer [home-panel]]
     [my-website.views.about.panel :refer [about-panel]]
     [my-website.views.games.panel :refer [games-panel]]
+    [my-website.views.work.panel :refer [work-panel]]
     [spade.core :refer [defclass]]))
 
 (defn- panels [panel]
@@ -17,6 +18,7 @@
     (= panel 'home-panel) [home-panel]
     (= panel 'about-panel) [about-panel]
     (= panel 'games-panel) [games-panel]
+    (= panel 'work-panel) [work-panel]
     :else [:div "Nothing to see here!"]))
 
 (defn show-panel [panel-name]
@@ -46,7 +48,7 @@
                        :inverse          true}]
            (wrap-each-child parent
                             ["SHOP"
-                             "WORK"
+                             (link "#/work" "WORK")
                              (link "#/games" "GAMES")
                              "SANDBOX"
                              "BLOG"

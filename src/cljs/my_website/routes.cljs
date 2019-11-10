@@ -42,5 +42,9 @@
             (re-frame/dispatch [::events/set-state 'games-panel])
             (scroll-to-top))
 
+  (defroute work-path "/work" []
+            (re-frame/dispatch [::events/set-state 'work-panel])
+            (scroll-to-top))
+
   ;; --------------------
   (hook-browser-navigation!))
