@@ -96,7 +96,7 @@
        children]
       [:> menuitem {:extraClasses "hide-mobile-bars"
                     :inverse      inverse}
-       [:> icon {:name         "bars"
+       [:> icon {:iconName         "bars"
                  :inheritColor true
                  :strength     "strong"
                  :inverse      true
