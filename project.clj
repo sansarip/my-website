@@ -19,9 +19,10 @@
   :source-paths ["src/clj" "src/cljs" "src/cljc"]
   :test-paths ["test/cljs"]
   :clean-targets ^{:protect false} ["resources/public/cljs-out" "resources/public/js/compiled" "target"]
-  :aliases {"prod"    ["with-profile" "prod" "cljsbuild" "once" "min"]
-            "fig"     ["trampoline" "run" "-m" "figwheel.main"]
-            "fig:dev" ["trampoline" "run" "-m" "figwheel.main" "-b" "dev" "-r"]}
+  :aliases {"prod"     ["with-profile" "prod" "cljsbuild" "once" "min"]
+            "fig:prod" ["run" "-m" "figwheel.main" "-O" "advanced" "-bo" "prod"]
+            "fig:stage" ["trampoline" "run" "-m"]
+            "fig:dev"  ["trampoline" "run" "-m" "figwheel.main" "-b" "dev" "-r"]}
 
   :profiles
   {:dev     {:dependencies [[binaryage/devtools "0.9.10"]
@@ -39,7 +40,7 @@
              :main               my-website.server
              :aot                [my-website.server]
              :uberjar-name       "my-website-1.jar"
-             :prep-tasks         ["compile" ["prod"]]
+             :prep-tasks         ["compile" ["fig:prod"]]
              :uberjar-exclusions [#"devcards\.html"]}}
 
   :ring {:handler my-website.handler/app}
