@@ -14,7 +14,7 @@
  :optimizations   :none
  :pretty-print    true
  :source-map      true
- :asset-path      "/js/compiled/dev"
+ :asset-path      "js/compiled/dev"
  :output-to       "resources/public/js/compiled/app.js"
  :output-dir      "resources/public/js/compiled/dev"
  :closure-defines {"re_frame.trace.trace_enabled_QMARK_"        true
