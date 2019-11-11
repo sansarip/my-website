@@ -6,9 +6,11 @@
             [spade.core :refer [defclass]]
             [my-website.components.menuitem :refer [menuitem]]
             [my-website.components.icon :refer [icon]]
-            [my-website.macros :refer-macros [assoc-component-state]]))
+            [my-website.macros :refer-macros [assoc-component-state]]
+            [debounce]
+            [on-click-outside]))
 
-
+(def default-width-collapsible "768px")
 
 (defclass navbar-class [& {:keys [inverse width-collapsible]
                            :or   {inverse           false
@@ -32,31 +34,43 @@
           [".grow" {:max-height "20em"}])
 
 
+(defn toggle-mobile-navbar-children-element [el]
+  (-> el
+      (.-classList)
+      (.toggle "hide-mobile-navbar-children"))
+  (-> el
+      (.-classList)
+      (.toggle "grow")))
+
 (defn toggle-mobile-navbar-children [this]
-  (let [mobileNavbarChildren (-> js/document
-                                 (.getElementById (.. this
-                                                      -state
-                                                      -mobileNavbarChildrenId)))]
-    (-> mobileNavbarChildren
-        (.-classList)
-        (.toggle "hide-mobile-navbar-children"))
-    (-> mobileNavbarChildren
-        (.-classList)
-        (.toggle "grow"))
+  (let [el (-> js/document
+               (.getElementById (.. this
+                                    -state
+                                    -mobileNavbarChildrenId)))]
+    (toggle-mobile-navbar-children-element el)
     (set! (.. this -state -isShowingMobileNavbarChildren)
-          (not (-> mobileNavbarChildren
-                   (.-classList)
+          (not (-> el
+                   .-classList
                    (.contains "hide-mobile-navbar-children"))))))
 
+(defn hide-mobile-navbar-children-element [el]
+  (let [is-showing (not (-> el
+                            .-classList
+                            (.contains "hide-mobile-navbar-children")))]
+
+    (and is-showing
+         (toggle-mobile-navbar-children-element el))))
+
 (defn hide-mobile-navbar-children [this]
-  (and (> (.-innerWidth js/window) 768)
-       (.. this -state -isShowingMobileNavbarChildren)
-       (toggle-mobile-navbar-children this)))
+  (let [width-collapsible (or (.. this -props -widthCollapsible) default-width-collapsible)]
+    (and (> (.-innerWidth js/window) (js/parseFloat width-collapsible))
+         (.. this -state -isShowingMobileNavbarChildren)
+         (toggle-mobile-navbar-children this))))
 
 (defn get-initial-state-fn [this]
   #js {:mobileNavbarChildrenId        (str (random-uuid))
        :isShowingMobileNavbarChildren false
-       :hideMobileNavbarChildrenFn    #(hide-mobile-navbar-children this)})
+       :hideMobileNavbarChildrenFn    (debounce #(hide-mobile-navbar-children this) 100)})
 
 (defn mount-fn [this]
   (-> js/window (.addEventListener "resize" (.. this -state -hideMobileNavbarChildrenFn))))
@@ -72,7 +86,7 @@
         inverse (.. this -props -inverse)
         style (.. this -props -style)
         padding (.. this -props -padding)
-        width-collapsible (.. this -props -widthCollapsible)
+        width-collapsible (or (.. this -props -widthCollapsible) default-width-collapsible)
         background-color (.. this -props -backgroundColor)
         id (.. this -props -id)
         name (.. this -props -name)]
@@ -96,7 +110,7 @@
        children]
       [:> menuitem {:extraClasses "hide-mobile-bars"
                     :inverse      inverse}
-       [:> icon {:iconName         "bars"
+       [:> icon {:iconName     "bars"
                  :inheritColor true
                  :strength     "strong"
                  :inverse      true
@@ -112,8 +126,15 @@
                   :grow            true}
       children]]))
 
-(def navbar (r/create-class {:display-name           :navbar
-                             :get-initial-state      get-initial-state-fn
-                             :component-did-mount    mount-fn
-                             :component-will-unmount unmount-fn
-                             :render                 render-fn}))
+(def navbar (on-click-outside
+              (r/create-class {:display-name           :navbar
+                               :get-initial-state      get-initial-state-fn
+                               :component-did-mount    mount-fn
+                               :component-will-unmount unmount-fn
+                               :render                 render-fn
+                               :handleClickOutside     #(doall
+                                                          (map
+                                                            hide-mobile-navbar-children-element
+                                                            (.from js/Array
+                                                             (.querySelectorAll js/document
+                                                                                ".mobile-navbar-children"))))})))

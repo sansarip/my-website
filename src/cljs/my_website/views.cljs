@@ -40,9 +40,9 @@
                                       children))
         link (fn [href name] [:a {:href  href
                                   :class "delink"} name])]
-
     [:div {:class (word-concat "padding-horizontal" (page-class))}
-     (into [:> navbar {:as               #(parent (link "#/" "SETOOTLE"))
+     (into ^{:key @state}
+           [:> navbar {:as               #(parent (link "#/" "SETOOTLE"))
                        :widthCollapsible (:small screen-sizes)
                        :background-color "inherit"
                        :inverse          true}]
