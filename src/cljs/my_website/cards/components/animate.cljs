@@ -6,15 +6,22 @@
             [debounce]
             [my-website.components.animate :refer [animate]]
             [my-website.components.icon :refer [icon]]
-            [my-website.components.menuitem :refer [menuitem]]))
+            [my-website.components.menuitem :refer [menuitem]]
+            [react-scroll-wheel-handler]))
 
 (defonce state-1 (r/atom 0))
+
 (defonce interval-fn (.setInterval js/window #(swap! state-1 inc) 1000))
+
 (defonce state-2 (r/atom false))
+
 (defonce state-3 (r/atom {:enabled   false
                           :timeout   nil
                           :triggered false}))
 
+(defonce state-4 (r/atom {:enabled   false
+                          :timeout   nil
+                          :triggered false}))
 (defcard anime-js
          "Basic animation example using an icon and anime.js"
          (fn [state]
@@ -67,8 +74,8 @@
                               :fontSize  "large"} "Pause/Resume"]])))
          state-2)
 
-(defcard animate-on-scroll-stop
-         "Starting animation after a scroll or swipe"
+(defcard animate-on-wheel-stop
+         "Starting animation after a wheel stop"
          (fn [state]
            (let [{:keys [enabled triggered timeout]} @state
                  scroll-fn (debounce (fn [event]
@@ -112,3 +119,45 @@
                                                                      "Enable")
                                                          " Scrolling-Trigger")]]))))
          state-3)
+
+(defcard animate-on-swipe-or-scroll
+         "Starting animation after a swipe or scroll"
+         (fn [state]
+           (let [{:keys [enabled triggered timeout]} @state
+                 scroll-fn (debounce (fn [_]
+                                       (.clearTimeout js/window timeout)
+                                       (swap! state assoc
+                                              :timeout
+                                              (js/setTimeout
+                                                (swap! state assoc :triggered true)
+                                                100)))
+                                     60)]
+             (sab/html
+               (r/as-element
+                 [:> react-scroll-wheel-handler {:downHandler scroll-fn}
+                  [:> animate {:animeProps       {:targets    ["#coocoo-5"]
+                                                  :translateY {:value    [-100 0]
+                                                               :duration 1000
+                                                               :easing   "easeOutBounce"}
+                                                  :opacity    {:value    [0 1]
+                                                               :duration 1250
+                                                               :easing   "linear"}
+                                                  :complete   #(swap! state assoc :triggered false)
+                                                  :autoplay   false}
+                               :staticAnimeProps [:complete]
+                               :play             (and enabled triggered)}
+                   [:> icon {:size     :huge
+                             :id       "coocoo-5"
+                             :strength :strong
+                             :iconName "hand-spock"}]]
+                  [:> menuitem {:textAlign "center"
+                                :strong    true
+                                :on-click  (fn [_]
+                                             (swap! state assoc :enabled (not enabled))
+                                             (if (not enabled)
+                                               (swap! state assoc :triggered false)))
+                                :fontSize  "large"} (str (if enabled "Disable"
+                                                                     "Enable")
+                                                         " Scrolling-Trigger")]]))))
+         state-4)
+
