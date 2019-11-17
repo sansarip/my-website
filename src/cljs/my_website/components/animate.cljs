@@ -14,6 +14,7 @@
                      "inherit")})
 
 (defn initialize-anime [this anime-props]
+  (println "Starting ANIME " anime-props)
   (let [animation (anime (clj->js anime-props))]
     (assoc-component-state this -animation animation)
     animation))
@@ -25,13 +26,23 @@
 (defn set-current-anime-props [this anime-props]
   (assoc-component-state this -currentAnimeProps (js->clj anime-props :keywordize-keys true)))
 
-(defn get-initial-state-fn [_this]
+(defn add-id-to-anime-targets [anime-props id]
+  (let [clj-anime-props (js->clj anime-props :keywordize-keys true)]
+    (clj->js (update clj-anime-props :targets #(conj (set %) (str "#" id))))))
+
+(defn get-initial-state-fn [this]
+  (println "Initializing!")
   #js {:animation         nil
+       :id                (or (.. this -props -id) (str "id-" (random-uuid)))
        :currentAnimeProps {}})
 
 (defn mount-fn [this]
-  (let [anime-props (.. this -props -animeProps)]
+  (let [id (.. this -state -id)
+        anime-props (add-id-to-anime-targets (.. this -props -animeProps) id)]
+    (println "ID: " id)
+    (println "ANIME PROPS: " (js->clj anime-props :keywordize-keys true))
     (set-current-anime-props this anime-props)
+    ;; conversion is necessary to copy anime-props object
     (initialize-anime this (js->clj anime-props))))
 
 (defn update-fn [this]
@@ -39,7 +50,10 @@
         play (.. this -props -play)
         seek (.. this -props -seek)
         restart (.. this -props -restart)
-        incoming-anime-props (js->clj (.. this -props -animeProps) :keywordize-keys true)
+        id (.. this -state -id)
+        incoming-id (.. this -props -id)
+        incoming-anime-props (js->clj (add-id-to-anime-targets (.. this -props -animeProps) id)
+                                      :keywordize-keys true)
         current-anime-props (.. this -state -currentAnimeProps)
         static-anime-props (.. this -props -staticAnimeProps)
         refined-incoming-anime-props (refine-props incoming-anime-props static-anime-props)
@@ -50,6 +64,9 @@
                       (set-current-anime-props this incoming-anime-props)
                       (initialize-anime this incoming-anime-props))
                     (.. this -state -animation))]
+    (println "Updating!")
+    (when (and incoming-id (not= incoming-id id))
+      (assoc-component-state this -id incoming-id))
     (cond pause (.pause animation)
           play (.play animation)
           seek (.seek animation seek)
@@ -59,10 +76,11 @@
   (let [children (.. this -props -children)
         classes (.. this -props -extraClasses)
         style (.. this -props -style)
-        id (.. this -props -id)
+        id (.. this -state -id)
         name (.. this -props -name)
         on-click (.. this -props -onClick)
         clickable (fn? on-click)]
+    (println "RID: " id)
     [:div {:style    style
            :class    (word-concat
                        (omit-nil-keyword-args animate-class
