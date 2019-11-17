@@ -43,12 +43,11 @@
          "Basic animation example using an icon and animate component"
          (sab/html
            (r/as-element
-             [:> animate {:animeProps {:targets    ["#coocoo-2"]
-                                       :translateX 250
+             [:> animate {:animeProps {:translateX 250
                                        :rotate     "1turn"
-                                       :duration   2000}}
+                                       :duration   2000
+                                       :autoplay   true}}
               [:> icon {:size     :huge
-                        :id       "coocoo-2"
                         :strength :strong
                         :iconName "hand-spock"}]])))
 
@@ -58,14 +57,12 @@
            (sab/html
              (r/as-element
                [:div
-                [:> animate {:animeProps {:targets  ["#coocoo-3"]
-                                          :loop     true
+                [:> animate {:animeProps {:loop     true
                                           :rotate   "1turn"
                                           :duration 1000}
                              :pause      @state
                              :play       (not @state)}
                  [:> icon {:size     :huge
-                           :id       "coocoo-3"
                            :strength :strong
                            :iconName "hand-spock"}]]
                 [:> menuitem {:textAlign "center"
@@ -160,4 +157,3 @@
                                                                      "Enable")
                                                          " Scrolling-Trigger")]]))))
          state-4)
-
