@@ -84,7 +84,7 @@
      children]))
 
 (defn get-initial-state-fn [this]
-  #js {:id                     (or (.. this -props -id) (str (random-uuid)))
+  #js {:id                     (or (.. this -props -id) (str "id-" (random-uuid)))
        :isMounted              false
        :overflowed             false
        :isListeningForOverflow false
