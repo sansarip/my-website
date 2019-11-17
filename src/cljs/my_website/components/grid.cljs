@@ -60,6 +60,8 @@
                                            :column-gap column-gap
                                            :columns (if columns (word-concat columns))
                                            :rows (if rows (word-concat rows))
+                                           :justify-items justify-items
+                                           :align-content align-items
                                            :areas (if areas (seq->css-grid-areas areas)))
 
                     classes)
