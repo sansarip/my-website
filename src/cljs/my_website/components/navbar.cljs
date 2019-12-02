@@ -96,34 +96,34 @@
            :style style
            :id    id
            :name  name}
-     [:> flexbox {:justify         "between"
-                  :extraClasses    classes
-                  :alignItems      "center"
-                  :padding         padding
-                  :backgroundColor background-color}
+     [:> flexbox {:justify          "between"
+                  :extra-classes    classes
+                  :align-items      "center"
+                  :padding          padding
+                  :background-color background-color}
       (wrap-all-children (if as (js->clj as) :h3) title)
-      [:> flexbox {:justify      "around"
-                   :extraClasses "hide-desktop-navbar-children"
-                   :grow         true
-                   :width        "auto"
-                   :wrap         "wrap"}
+      [:> flexbox {:justify       "around"
+                   :extra-classes "hide-desktop-navbar-children"
+                   :grow          true
+                   :width         "auto"
+                   :wrap          "wrap"}
        children]
-      [:> menuitem {:extraClasses "hide-mobile-bars"
-                    :inverse      inverse}
-       [:> icon {:iconName     "bars"
-                 :inheritColor true
-                 :strength     "strong"
-                 :inverse      true
-                 :onClick      #(toggle-mobile-navbar-children this)}]]]
-     [:> flexbox {:justify         "around"
-                  :extraClasses    "hide-mobile-navbar-children mobile-navbar-children"
-                  :id              (.. this -state -mobileNavbarChildrenId)
-                  :backgroundColor background-color
-                  :direction       "column"
-                  :wrap            "none"
-                  :align           "around"
-                  :align-items     "center"
-                  :grow            true}
+      [:> menuitem {:extra-classes "hide-mobile-bars"
+                    :inverse       inverse}
+       [:> icon {:icon-name     "bars"
+                 :inherit-color true
+                 :strength      "strong"
+                 :inverse       true
+                 :on-click      #(toggle-mobile-navbar-children this)}]]]
+     [:> flexbox {:justify          "around"
+                  :extra-classes    "hide-mobile-navbar-children mobile-navbar-children"
+                  :id               (.. this -state -mobileNavbarChildrenId)
+                  :background-color background-color
+                  :direction        "column"
+                  :wrap             "none"
+                  :align            "around"
+                  :align-items      "center"
+                  :grow             true}
       children]]))
 
 (def navbar (on-click-outside
@@ -136,5 +136,5 @@
                                                           (map
                                                             hide-mobile-navbar-children-element
                                                             (.from js/Array
-                                                             (.querySelectorAll js/document
-                                                                                ".mobile-navbar-children"))))})))
+                                                                   (.querySelectorAll js/document
+                                                                                      ".mobile-navbar-children"))))})))
