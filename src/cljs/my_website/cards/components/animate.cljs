@@ -22,6 +22,9 @@
 (defonce state-4 (r/atom {:enabled   false
                           :timeout   nil
                           :triggered false}))
+
+(defonce state-5 (r/atom false))
+
 (defcard anime-js
          "Basic animation example using an icon and anime.js"
          (fn [state]
@@ -35,21 +38,25 @@
                           :id       "coocoo"
                           :onClick  #(anime (clj->js {:targets    ["#coocoo"]
                                                       :translateX 250
+                                                      :direction  "alternate"
                                                       :rotate     "1turn"
                                                       :duration   2000}))}]])))
          state-1)
 
 (defcard animate
          "Basic animation example using an icon and animate component"
-         (sab/html
-           (r/as-element
-             [:> animate {:animeProps {:translateX 250
-                                       :rotate     "1turn"
-                                       :duration   2000
-                                       :autoplay   true}}
-              [:> icon {:size     :huge
-                        :strength :strong
-                        :iconName "hand-spock"}]])))
+         (fn [state]
+           (sab/html
+             (r/as-element
+               [:div [:> animate {:animeProps {:translateX 250
+                                               :rotate     "1turn"
+                                               :duration   2000
+                                               :autoplay   @state}}
+                      [:> icon {:size     :huge
+                                :strength :strong
+                                :iconName "hand-spock"}]]
+                [:button {:on-click #(reset! state (not @state))} "Click to Start!"]])))
+         state-5)
 
 (defcard animate-pause
          "Pausing an animate component"
