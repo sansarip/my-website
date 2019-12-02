@@ -14,7 +14,6 @@
                      "inherit")})
 
 (defn initialize-anime [this anime-props]
-  (println "Starting ANIME " anime-props)
   (let [animation (anime (clj->js anime-props))]
     (assoc-component-state this -animation animation)
     animation))
@@ -31,19 +30,19 @@
     (clj->js (update clj-anime-props :targets #(conj (set %) (str "#" id))))))
 
 (defn get-initial-state-fn [this]
-  (println "Initializing!")
   #js {:animation         nil
        :id                (or (.. this -props -id) (str "id-" (random-uuid)))
        :currentAnimeProps {}})
 
 (defn mount-fn [this]
   (let [id (.. this -state -id)
-        anime-props (add-id-to-anime-targets (.. this -props -animeProps) id)]
-    (println "ID: " id)
-    (println "ANIME PROPS: " (js->clj anime-props :keywordize-keys true))
+        delay-start (or (.. this -props -delayStart) 0)
+        anime-props (add-id-to-anime-targets (.. this -props -animeProps) id)
+        anime-props-deep-copy (js->clj anime-props)]
     (set-current-anime-props this anime-props)
-    ;; conversion is necessary to copy anime-props object
-    (initialize-anime this (js->clj anime-props))))
+    ;; conversion serves as deep copy of anime props
+    (js/setTimeout #(initialize-anime this anime-props-deep-copy)
+                   delay-start)))
 
 (defn update-fn [this]
   (let [pause (.. this -props -pause)
@@ -58,13 +57,13 @@
         static-anime-props (.. this -props -staticAnimeProps)
         refined-incoming-anime-props (refine-props incoming-anime-props static-anime-props)
         refined-current-anime-props (refine-props current-anime-props static-anime-props)
+        ;; handle anime prop updates
         animation (if (not= refined-incoming-anime-props refined-current-anime-props)
                     (do
                       (.remove anime (string/join " " (:targets current-anime-props)))
                       (set-current-anime-props this incoming-anime-props)
                       (initialize-anime this incoming-anime-props))
                     (.. this -state -animation))]
-    (println "Updating!")
     (when (and incoming-id (not= incoming-id id))
       (assoc-component-state this -id incoming-id))
     (cond pause (.pause animation)
@@ -75,12 +74,11 @@
 (defn render-fn [this]
   (let [children (.. this -props -children)
         classes (.. this -props -extraClasses)
-        style (.. this -props -style)
+        style (js->clj (.. this -props -style))
         id (.. this -state -id)
         name (.. this -props -name)
         on-click (.. this -props -onClick)
         clickable (fn? on-click)]
-    (println "RID: " id)
     [:div {:style    style
            :class    (word-concat
                        (omit-nil-keyword-args animate-class
