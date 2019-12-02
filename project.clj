@@ -19,10 +19,10 @@
   :source-paths ["src/clj" "src/cljs" "src/cljc"]
   :test-paths ["test/cljs"]
   :clean-targets ^{:protect false} ["resources/public/cljs-out" "resources/public/js/compiled" "target"]
-  :aliases {"prod"     ["with-profile" "prod" "cljsbuild" "once" "min"]
-            "fig:prod" ["run" "-m" "figwheel.main" "-O" "advanced" "-bo" "prod"]
+  :aliases {"prod"      ["with-profile" "prod" "cljsbuild" "once" "min"]
+            "fig:prod"  ["run" "-m" "figwheel.main" "-bo" "prod"]
             "fig:stage" ["trampoline" "run" "-m"]
-            "fig:dev"  ["trampoline" "run" "-m" "figwheel.main" "-b" "dev" "-r"]}
+            "fig:dev"   ["trampoline" "run" "-m" "figwheel.main" "-b" "dev" "-r"]}
 
   :profiles
   {:dev     {:dependencies [[binaryage/devtools "0.9.10"]
@@ -32,7 +32,8 @@
                             [com.bhauman/rebel-readline-cljs "0.1.4"]
                             [devcards "0.2.5"]
                             [javax.servlet/servlet-api "2.5"]
-                            [ring/ring-mock "0.3.2"]]}
+                            [ring/ring-mock "0.3.2"]
+                            [org.clojure/test.check "0.10.0"]]}
    :prod    {:dependencies [[day8.re-frame/tracing-stubs "0.5.3"]]}
    :uberjar {:source-paths       ["env/prod/clj"]
              :dependencies       [[day8.re-frame/tracing-stubs "0.5.3"]]
@@ -41,7 +42,7 @@
              :aot                [my-website.server]
              :uberjar-name       "my-website-1.jar"
              :prep-tasks         ["compile" ["fig:prod"]]
-             :uberjar-exclusions [#"devcards\.html"]}}
+             :uberjar-exclusions [#"devcards\.html" #"auto\-testing\.html"]}}
 
   :ring {:handler my-website.handler/app}
 
