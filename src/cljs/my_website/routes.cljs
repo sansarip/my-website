@@ -6,9 +6,12 @@
     [goog.events :as gevents]
     [goog.history.EventType :as EventType]
     [re-frame.core :as re-frame]
-    [my-website.views.games.events :as games-events]
     [my-website.utilities :refer [scroll-to-top]]
-    [my-website.events :as events]))
+    [my-website.events :as events]
+    [my-website.views.work.events :as work-events]
+    [my-website.views.about.events :as about-events]
+    [my-website.views.games.events :as games-events]
+    [my-website.views.home.events :as home-events]))
 
 
 (defn hook-browser-navigation! []
@@ -25,25 +28,25 @@
 
   ;; define routes here
   (defroute home-path "/" []
-            (re-frame/dispatch [::events/set-state 'home-panel])
+            (re-frame/dispatch [::home-events/init-state])
             (scroll-to-top))
 
   (defroute about-path "/about" []
-            (re-frame/dispatch [::events/set-state 'about-panel])
+            (re-frame/dispatch [::about-events/init-state])
             (scroll-to-top))
 
   (defroute games-path "/games" []
             (re-frame/dispatch [::games-events/set-selected-game nil])
-            (re-frame/dispatch [::events/set-state 'games-panel])
+            (re-frame/dispatch [::games-events/init-state])
             (scroll-to-top))
 
   (defroute game-path "/games/:game" [game]
             (re-frame/dispatch [::games-events/set-selected-game (keyword game)])
-            (re-frame/dispatch [::events/set-state 'games-panel])
+            (re-frame/dispatch [::games-events/init-state])
             (scroll-to-top))
 
   (defroute work-path "/work" []
-            (re-frame/dispatch [::events/set-state 'work-panel])
+            (re-frame/dispatch [::work-events/init-state])
             (scroll-to-top))
 
   ;; --------------------

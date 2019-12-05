@@ -1,6 +1,6 @@
 (ns my-website.views
   (:require
-    [re-frame.core :as re-frame]
+    [re-frame.core :refer [subscribe]]
     [my-website.subs :as subs]
     [my-website.components.grid :refer [grid]]
     [my-website.components.navbar :refer [navbar]]
@@ -14,12 +14,13 @@
     [spade.core :refer [defclass]]))
 
 (defn- panels [panel]
-  (cond
-    (= panel 'home-panel) [home-panel]
-    (= panel 'about-panel) [about-panel]
-    (= panel 'games-panel) [games-panel]
-    (= panel 'work-panel) [work-panel]
-    :else [:div "Nothing to see here!"]))
+  (println "Panel " panel)
+  (condp = panel
+    'home-panel [home-panel]
+    'about-panel [about-panel]
+    'games-panel [games-panel]
+    'work-panel [work-panel]
+    [:div "Nothing to see here!"]))
 
 (defn show-panel [panel-name]
   [panels panel-name])
@@ -31,7 +32,8 @@
                          :padding-right (:large spacing-sizes)}]))
 
 (defn main-panel []
-  (let [state (re-frame/subscribe [::subs/state])
+  (let [state @(subscribe [::subs/state])
+        active-panel @(subscribe [::subs/active-panel])
         parent (fn [& children] (into [:> menuitem {:textAlign "center"
                                                     :inverse   true
                                                     :strong    true
@@ -41,7 +43,7 @@
         link (fn [href name] [:a {:href  href
                                   :class "delink"} name])]
     [:div {:class (word-concat "padding-horizontal" (page-class))}
-     (into ^{:key @state}
+     (into ^{:key state}
            [:> navbar {:as               #(parent (link "#/" "SETOOTLE"))
                        :widthCollapsible (:small screen-sizes)
                        :background-color "inherit"
@@ -54,4 +56,4 @@
                              "BLOG"
                              (link "#/about" "ABOUT")]))
      [:div {:class "padding-top"}
-      [show-panel @state]]]))
+      [show-panel active-panel]]]))
