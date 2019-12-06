@@ -14,7 +14,6 @@
     [spade.core :refer [defclass]]))
 
 (defn- panels [panel]
-  (println "Panel " panel)
   (condp = panel
     'home-panel [home-panel]
     'about-panel [about-panel]
