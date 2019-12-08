@@ -21,36 +21,47 @@
                  (vec (concat left center right)))
               (range rows)))))
 
-(defn make-animated-icons [& ratoms]
-  (map-indexed (fn [_index ratom]
-                 (vector :> animate {:animeProps {:opacity  [0 1]
-                                                  :duration 250
-                                                  :autoplay (:start @ratom)
-                                                  :easing   "linear"}
-                                     :style      {:grid-area    (str "item" (:grid-area @ratom))
-                                                  :justify-self "center"
-                                                  :align-self   "center"}}
-                         [:> animate {:animeProps {:translateY [-10 10]
-                                                   :duration   1000
-                                                   :autoplay   (:start @ratom)
-                                                   :easing     "easeInOutQuad"
-                                                   :direction  "alternate"
-                                                   :loop       true}}
-                          [:> icon {:iconName (:name @ratom)
-                                    :size     :massive
-                                    :inverse  true}]]))
-               ratoms))
+(defn make-animated-icons [& work-items]
+  (map-indexed (fn [_index work-item]
+                 (let [{:keys [start stop grid-area]} work-item]
+                   (cond->> [:> icon {:iconName (:name work-item)
+                                      :size     :massive
+                                      :inverse  true}]
+                            '->> (vector :> animate {:animeProps {:translateY (if stop
+                                                                                20
+                                                                                [-10 10])
+                                                                  :duration   (if stop
+                                                                                400
+                                                                                1000)
+                                                                  :autoplay   start
+                                                                  :easing     "easeInOutQuad"
+                                                                  :direction  "alternate"
+                                                                  :loop       (not stop)}})
+                            (not stop) (vector :> animate {:animeProps {:opacity  [0 1]
+                                                                        :duration 400
+                                                                        :autoplay start
+                                                                        :easing   "linear"}})
+                            stop (vector :> animate {:animeProps {:translateY 40
+                                                                  :opacity    [1 0]
+                                                                  :duration   250
+                                                                  :easing     "linear"}})
+                            '->> (vector :div {:style {:grid-area    (str "item" grid-area)
+                                                       :justify-self "center"
+                                                       :align-self   "center"}}))))
 
-(defn make-ratoms [& {:keys [names
-                             shelves
-                             size]}]
+               work-items))
+
+(defn make-work-items [& {:keys [names
+                                 shelves
+                                 size]}]
   (let [delays (shuffle (range 4 (+ 4 (count names))))
         grid-areas (shuffle (range size))]
     (map-indexed (fn [index name]
-                   (r/atom {:start     false
-                            :name      name
-                            :delay     (* (get delays index) 100)
-                            :grid-area (or (get shelves index) (get grid-areas index))}))
+                   {:start     false
+                    :stop      false
+                    :name      name
+                    :delay     (* (get delays index) 100)
+                    :grid-area (or (get shelves index) (get grid-areas index))})
                  names)))
 
 (defn make-grid-columns [columns center-width center-ratio]
@@ -59,28 +70,21 @@
                          (into (vec (map #(str center-ratio "fr") (range center-width))))
                          (into half-fr)))))
 
-(defn make-item-grid [& {:keys [rows columns center-width center-ratio shelves work-items-index]
+(defn make-item-grid [& {:keys [rows
+                                columns
+                                center-width
+                                center-ratio
+                                work-items]
                          :or   {rows         4
                                 columns      12
                                 center-width 2
                                 center-ratio 3
-                                shelves      [2 25 8 34]
-                                work-items-index 0}}]
-  (r/with-let [ratoms [(make-ratoms :names ["smile-beam" "smile-wink" "poo" "grin-squint"]
-                                    :shelves shelves
-                                    :size (* rows columns))
-                       (make-ratoms :names ["poo" "poo" "poo" "poo"]
-                                    :shelves shelves
-                                    :size (* rows columns))
-                       []]
-               _ (doall (map #(js/setTimeout (partial swap! % assoc :start true)
-                                             (:delay @%))
-                             (first ratoms)))]
-              (->> (get ratoms work-items-index)
-                   (apply make-animated-icons)
-                   (into [[:div {:style {:background-color "green"
-                                         :grid-area        "center"}}]])
-                   (into [:> grid {:columns (make-grid-columns columns center-width center-ratio)
-                                   :areas   (make-grid-areas rows columns center-width)
-                                   :rowGap  ".5em"}]))))
+                                work-items   {}}}]
+  (->> work-items
+       (apply make-animated-icons)
+       (into [[:div {:style    {:background-color "green"
+                                :grid-area        "center"}}]])
+       (into [:> grid {:columns (make-grid-columns columns center-width center-ratio)
+                       :areas   (make-grid-areas rows columns center-width)
+                       :rowGap  ".5em"}])))
 

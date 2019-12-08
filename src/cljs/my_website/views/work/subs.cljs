@@ -2,12 +2,27 @@
   (:require [re-frame.core :refer [reg-sub]]
             [my-website.subs :as subs]))
 
+(defn state->work-items-key [state]
+  (condp = state
+    'clojure :clojure
+    'docker :docker
+    'android :android
+    'common :common))
+
 (reg-sub
-  ::work-items-index
+  ::all-work-items
+  (fn [db _]
+    (-> db :work/db :all-work-items)))
+
+(reg-sub
+  ::work-items-key
   :<- [::subs/state]
   (fn [state _]
-    (condp = state
-      'clojure 0
-      'docker 1
-      'android 2
-      'common 3)))
+    (state->work-items-key state)))
+
+(reg-sub
+  ::work-items
+  :<- [::subs/state]
+  :<- [::all-work-items]
+  (fn [[state all-work-items] _]
+    (all-work-items (state->work-items-key state))))

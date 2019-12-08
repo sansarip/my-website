@@ -18,5 +18,5 @@
 
 (re-frame/reg-event-db
   ::transition-state
-  (fn-traced [db [_ fsm transition]]
-             (next-state fsm db transition)))
+  (fn-traced [db [_ transition]]
+             (next-state (:fsm db) db transition)))

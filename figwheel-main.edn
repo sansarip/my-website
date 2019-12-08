@@ -1,4 +1,4 @@
 {:target-dir   "resources"
  :log-file     "log/figwheel-main.log"
  :ring-handler my-website.handler/app
- :log-level    :debug}
+ :log-level    :error}

@@ -46,7 +46,7 @@
             (scroll-to-top))
 
   (defroute work-path "/work" []
-            (re-frame/dispatch [::work-events/init-state])
+            (re-frame/dispatch [::work-events/init])
             (scroll-to-top))
 
   ;; --------------------
