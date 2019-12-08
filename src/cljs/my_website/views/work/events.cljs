@@ -1,8 +1,8 @@
 (ns my-website.views.work.events
   (:require [re-frame.core :refer [reg-event-db reg-event-fx]]
-            [day8.re-frame.tracing :refer-macros [fn-traced]]
             [my-website.views.work.components.item-grid.component :refer [make-work-items]]
             [my-website.views.work.state :refer [start fsm]]
+            [day8.re-frame.tracing :refer-macros [fn-traced]]
             [my-website.effects]))
 
 (reg-event-fx
@@ -21,17 +21,17 @@
 
 (reg-event-db
   ::init-work-items
-  (fn-traced [db [_ names shelves rows columns]]
-             (let [size (* rows columns)]
-               (update-in db
-                          [:work/db :all-work-items]
-                          #(reduce-kv
-                             (fn [c k {:keys [names shelves]}]
-                               (assoc c k (make-work-items :names names
-                                                           :shelves shelves
-                                                           :size size)))
-                             %
-                             %)))))
+  (fn [db [_ names shelves rows columns]]
+    (let [size (* rows columns)]
+      (update-in db
+                 [:work/db :all-work-items]
+                 #(reduce-kv
+                    (fn [c k {:keys [names shelves]}]
+                      (assoc c k (make-work-items :names names
+                                                  :shelves shelves
+                                                  :size size)))
+                    %
+                    %)))))
 
 (reg-event-db
   ::start-anim
@@ -42,14 +42,14 @@
 
 (reg-event-fx
   ::start-anims
-  (fn-traced [{:keys [db]} [_ k]]
-             (let [work-items (-> db :work/db :all-work-items k)
-                   events-delays (reduce-kv (fn [c i v]
-                                              (conj c [[::start-anim k i] (:delay v)]))
-                                            []
-                                            work-items)]
-               {:db          db
-                :with-delays events-delays})))
+  (fn [{:keys [db]} [_ k]]
+    (let [work-items (-> db :work/db :all-work-items k)
+          events-delays (reduce-kv (fn [c i v]
+                                     (conj c [[::start-anim k i] (:delay v)]))
+                                   []
+                                   work-items)]
+      {:db          db
+       :with-delays events-delays})))
 
 
 (reg-event-db

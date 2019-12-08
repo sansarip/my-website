@@ -10,7 +10,7 @@
 
 (reg-event-db
   ::init-state
-  (fn [db _]
-    (-> db
-        (assoc :fsm fsm)
-        (assoc :state start))))
+  (fn-traced [db _]
+             (-> db
+                 (assoc :fsm fsm)
+                 (assoc :state start))))
