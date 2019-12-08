@@ -56,13 +56,13 @@
                                  size]}]
   (let [delays (shuffle (range 4 (+ 4 (count names))))
         grid-areas (shuffle (range size))]
-    (map-indexed (fn [index name]
-                   {:start     false
-                    :stop      false
-                    :name      name
-                    :delay     (* (get delays index) 100)
-                    :grid-area (or (get shelves index) (get grid-areas index))})
-                 names)))
+    (vec (map-indexed (fn [index name]
+                        {:start     false
+                         :stop      false
+                         :name      name
+                         :delay     (* (get delays index) 100)
+                         :grid-area (or (get shelves index) (get grid-areas index))})
+                      names))))
 
 (defn make-grid-columns [columns center-width center-ratio]
   (let [half-fr (vec (map #(str "1fr") (range (/ columns 2))))]
@@ -82,8 +82,8 @@
                                 work-items   {}}}]
   (->> work-items
        (apply make-animated-icons)
-       (into [[:div {:style    {:background-color "green"
-                                :grid-area        "center"}}]])
+       (into [[:div {:style {:background-color "green"
+                             :grid-area        "center"}}]])
        (into [:> grid {:columns (make-grid-columns columns center-width center-ratio)
                        :areas   (make-grid-areas rows columns center-width)
                        :rowGap  ".5em"}])))

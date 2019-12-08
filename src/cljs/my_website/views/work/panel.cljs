@@ -8,32 +8,35 @@
             [my-website.events :as root-events]
             [my-website.state :refer [next-state-only]]
             [re-frame.core :refer [subscribe dispatch]]
-            [react-scroll-wheel-handler]))
+            [react-scroll-wheel-handler]
+            [reagent.core :as r]))
 
-(defn transition-state []
+(defn transition-state [direction]
   (let [next-work-item-key (subs/state->work-items-key
                              (next-state-only
                                fsm
                                {:state @(subscribe [::root-subs/state])}
-                               :next))]
-    (dispatch [::root-events/transition-state :next])
+                               direction))]
+    (dispatch [::root-events/transition-state direction])
     next-work-item-key))
 
-(defn transition [work-items-key]
+(defn transition [work-items-key direction]
   (do
     (dispatch [::events/stop-anims work-items-key])
     (js/setTimeout (fn []
-                     (let [k (transition-state)]
+                     (let [k (transition-state direction)]
                        (dispatch [::events/start-anims k])))
                    400)))
 
 (defn work-panel []
   (let [work-items-key @(subscribe [::subs/work-items-key])
         work-items @(subscribe [::subs/work-items])]
-    [:> react-scroll-wheel-handler {:downHandler #(transition work-items-key)}
-     [:> grid {:columns "1fr"
-               :rows    "2fr 1fr"
-               :style   {:height "80vh"}
-               :rowGap  "1em"}
-      (make-item-grid :work-items work-items)
-      [:div {:style {:background-color "green"}}]]]))
+    (r/with-let [_ (dispatch [::events/start-anims work-items-key])]
+                [:> react-scroll-wheel-handler {:downHandler #(transition work-items-key :next)
+                                                :upHandler   #(transition work-items-key :prev)}
+                 [:> grid {:columns "1fr"
+                           :rows    "2fr 1fr"
+                           :style   {:height "80vh"}
+                           :rowGap  "1em"}
+                  (make-item-grid :work-items work-items)
+                  [:div {:style {:background-color "green"}}]]])))
