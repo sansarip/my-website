@@ -3,6 +3,7 @@
             [my-website.components.animate :refer [animate]]
             [my-website.components.icon :refer [icon]]
             [my-website.components.grid :refer [grid]]
+            [my-website.views.work.components.item-grid.styles :refer [item-class]]
             [clojure.string :as string]))
 
 (defn directional-vec [columns row is-right]
@@ -45,9 +46,7 @@
                                                                   :opacity    [1 0]
                                                                   :duration   250
                                                                   :easing     "linear"}})
-                            '->> (vector :div {:style {:grid-area    (str "item" grid-area)
-                                                       :justify-self "center"
-                                                       :align-self   "center"}}))))
+                            '->> (vector :div {:class (item-class (str "item" grid-area))}))))
 
                work-items))
 
