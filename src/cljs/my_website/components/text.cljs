@@ -7,6 +7,16 @@
             [spade.core :refer [defclass]]
             [clojure.spec.alpha :as s]))
 
+(defclass text-class [& {:keys [inverse]
+                         :or   {inverse false}}]
+          {:color (if inverse "white" "inherit")}
+          ["h1" {:color (if inverse "white" "inherit")}]
+          ["h2" {:color (if inverse "white" "inherit")}]
+          ["h3" {:color (if inverse "white" "inherit")}]
+          ["h4" {:color (if inverse "white" "inherit")}]
+          ["h5" {:color (if inverse "white" "inherit")}]
+          ["h6" {:color (if inverse "white" "inherit")}])
+
 (defn render-fn [this]
   (let [children (.. this -props -children)
         src (.. this -props -src)
@@ -14,8 +24,10 @@
         classes (.. this -props -extraClasses)
         style (.. this -props -style)
         id (.. this -props -id)
-        name (.. this -props -name)]
-    [:div {:class classes
+        name (.. this -props -name)
+        inverse (.. this -props -inverse)]
+    [:div {:class (word-concat (omit-nil-keyword-args text-class :inverse inverse)
+                               classes)
            :style style
            :id    id
            :name  name}
