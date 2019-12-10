@@ -27,23 +27,23 @@
                  [:work/db :all-work-items]
                  #(reduce-kv
                     (fn [c k {:keys [names shelves]}]
-                      (assoc c k (make-work-items :names names
-                                                  :shelves shelves
-                                                  :size size)))
+                      (assoc-in c [k :items] (make-work-items :names names
+                                                              :shelves shelves
+                                                              :size size)))
                     %
                     %)))))
 
 (reg-event-db
   ::start-anim
   (fn-traced [db [_ k index]]
-             (update-in db [:work/db :all-work-items k index] #(-> %
-                                                                   (assoc :start true)
-                                                                   (assoc :stop false)))))
+             (update-in db [:work/db :all-work-items k :items index] #(-> %
+                                                                          (assoc :start true)
+                                                                          (assoc :stop false)))))
 
 (reg-event-fx
   ::start-anims
   (fn [{:keys [db]} [_ k]]
-    (let [work-items (-> db :work/db :all-work-items k)
+    (let [work-items (-> db :work/db :all-work-items k :items)
           events-delays (reduce-kv (fn [c i v]
                                      (conj c [[::start-anim k i] (:delay v)]))
                                    []
@@ -55,7 +55,7 @@
 (reg-event-db
   ::stop-anims
   (fn-traced [db [_ k]]
-             (update-in db [:work/db :all-work-items k]
+             (update-in db [:work/db :all-work-items k :items]
                         #(reduce (fn [c v]
                                    (conj c (assoc v :stop true)))
                                  []

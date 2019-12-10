@@ -25,4 +25,4 @@
   :<- [::subs/state]
   :<- [::all-work-items]
   (fn [[state all-work-items] _]
-    (all-work-items (state->work-items-key state))))
+    (get-in all-work-items [(state->work-items-key state) :items])))

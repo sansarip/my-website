@@ -1,6 +1,7 @@
 (ns my-website.views.work.panel
   (:require [my-website.components.grid :refer [grid]]
             [my-website.views.work.components.item-grid.component :refer [make-item-grid]]
+            [my-website.views.work.components.description.component :refer [make-description]]
             [my-website.views.work.subs :as subs]
             [my-website.views.work.events :as events]
             [my-website.views.work.state :refer [fsm]]
@@ -39,4 +40,4 @@
                            :style   {:height "80vh"}
                            :rowGap  "1em"}
                   (make-item-grid :work-items work-items)
-                  [:div {:style {:background-color "green"}}]]])))
+                  (make-description "# Clojure and FP\n\nMe name jeff, and I like Clojure (at night). Been doin' it for a wee while now. I def like it a lot so don't steal it from me, bih.")]])))
