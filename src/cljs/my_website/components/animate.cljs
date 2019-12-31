@@ -66,10 +66,11 @@
                     (.. this -state -animation))]
     (when (and incoming-id (not= incoming-id id))
       (assoc-component-state this -id incoming-id))
-    (cond pause (.pause animation)
-          play (.play animation)
-          seek (.seek animation seek)
-          restart (.restart animation restart))))
+    (when animation
+      (cond pause (.pause animation)
+            play (.play animation)
+            seek (.seek animation seek)
+            restart (.restart animation restart)))))
 
 (defn render-fn [this]
   (let [children (.. this -props -children)

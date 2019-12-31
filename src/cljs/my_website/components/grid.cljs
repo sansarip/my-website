@@ -10,27 +10,15 @@
                                 rows
                                 row-gap
                                 column-gap
-                                areas
-                                justify
-                                align
-                                justify-items
-                                align-items]
+                                areas]
                          :or   {padding       "1em"
                                 columns       "auto"
                                 rows          "auto"
                                 row-gap       "0"
                                 column-gap    "0"
-                                areas         ""
-                                justify-items "initial"
-                                align-items   "initial"
-                                justify       "stretch"
-                                align         "initial"}}]
+                                areas         ""}}]
           {:display               "grid"
            :padding               padding
-           :justify-content       (get css-translator (keyword justify) justify)
-           :justify-items         (get css-translator (keyword justify-items) justify-items)
-           :align-content         (get css-translator (keyword align) align)
-           :align-items           (get css-translator (keyword align-items) align-items)
            :grid-template-columns columns
            :grid-template-rows    rows
            :grid-column-gap       column-gap
@@ -46,10 +34,6 @@
         row-gap (.. this -props -rowGap)
         column-gap (.. this -props -columnGap)
         areas (.. this -props -areas)
-        justify (.. this -props -justify)
-        justify-items (.. this -props -justifyItems)
-        align-items (.. this -props -alignItems)
-        align (.. this -props -align)
         id (.. this -props -id)
         name (.. this -props -name)
         padding (.. this -props -padding)]
@@ -60,8 +44,6 @@
                                            :column-gap column-gap
                                            :columns (if columns (word-concat columns))
                                            :rows (if rows (word-concat rows))
-                                           :justify-items justify-items
-                                           :align-content align-items
                                            :areas (if areas (seq->css-grid-areas areas)))
 
                     classes)

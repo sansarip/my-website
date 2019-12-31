@@ -12,7 +12,14 @@
     (sab/html (as-element [:> text {:src "# Testing?\n\n```python\nprint(\"Hello World!\")\n```\n* Bullet time!"}]))))
 
 (defcard
-  markdown
+  markdown-with-children
   "basic text component with markdown and children"
   (fn []
     (sab/html (as-element [:> text {:src "# MD Header1\n## Header 2"} [:p "Test paragraph"]]))))
+
+(defcard
+  markdown-with-html
+  "basic text component with html in markdown"
+  (fn []
+    (sab/html (as-element [:> text {:src "# Link Below\n\n<a href=\"http://google.com\">Google</a>"
+                                    :markdownOptions {:escapeHtml false}}]))))

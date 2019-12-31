@@ -5,8 +5,8 @@
             [spade.core :refer [defclass]]
             [my-website.macros :refer-macros [assoc-component-state]]))
 
-(defclass flexbox-class [& {:keys [align
-                                   justify
+(defclass flexbox-class [& {:keys [align-content
+                                   justify-content
                                    align-items
                                    justify-items
                                    direction
@@ -17,8 +17,8 @@
                                    text-align
                                    grow
                                    background-color]
-                            :or   {align            "around"
-                                   justify          "between"
+                            :or   {align-content    "around"
+                                   justify-content  "between"
                                    align-items      "around"
                                    justify-items    "start"
                                    wrap             "wrap"
@@ -38,19 +38,19 @@
            :max-width        (if (not grow) width "auto")
            :min-width        (if grow width "auto")
            :align-items      (get css-translator (keyword align-items) align-items)
-           :align-content    (get css-translator (keyword align) align)
+           :align-content    (get css-translator (keyword align-content) align-content)
            :text-align       text-align
-           :justify-content  (get css-translator (keyword justify) justify)
+           :justify-content  (get css-translator (keyword justify-content) justify-content)
            :justify-items    (get css-translator (keyword justify-items) justify-items)
            :flex-direction   (cond (and (= wrap "rigid") overflowed) "column"
                                    :else direction)})
 
 (defn render-fn [this]
   (let [children (.. this -props -children)
-        justify (.. this -props -justify)
+        justify-content (.. this -props -justifyContent)
         justify-items (.. this -props -justifyItems)
         classes (.. this -props -extraClasses)
-        align (.. this -props -align)
+        align-content (.. this -props -alignContent)
         align-items (.. this -props -alignItems)
         style (.. this -props -style)
         id (or (.. this -props -id) (.. this -state -id))
@@ -65,10 +65,10 @@
         direction (.. this -props -direction)]
     [:div {:class (word-concat
                     (omit-nil-keyword-args flexbox-class
-                                           :justify justify
+                                           :justify-content justify-content
                                            :justify-items justify-items
                                            :direction direction
-                                           :align align
+                                           :align-content align-content
                                            :align-items align-items
                                            :background-color background-color
                                            :padding padding

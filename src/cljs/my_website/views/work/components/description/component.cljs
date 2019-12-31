@@ -4,7 +4,7 @@
             [my-website.views.work.components.description.styles :refer [description-class]]))
 
 (defn make-description [description]
-  [:> flexbox {:justify "center"}
+  [:> flexbox {:justify-content "center"}
    [:> text {:src          description
              :inverse      true
              :extraClasses (str "line-height " (description-class))}]])

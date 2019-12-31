@@ -25,14 +25,16 @@
         style (.. this -props -style)
         id (.. this -props -id)
         name (.. this -props -name)
-        inverse (.. this -props -inverse)]
+        inverse (.. this -props -inverse)
+        markdown-options (.. this -props -markdownOptions)]
     [:div {:class (word-concat (omit-nil-keyword-args text-class :inverse inverse)
                                classes)
            :style style
            :id    id
            :name  name}
-     [:> markdown {:source    src
-                   :renderers renderers}]
+     [:> markdown (deep-merge {:source    src
+                               :renderers renderers}
+                              (js->clj markdown-options :keywordize-keys true))]
      children]))
 
 

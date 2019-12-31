@@ -96,17 +96,17 @@
            :style style
            :id    id
            :name  name}
-     [:> flexbox {:justify          "between"
+     [:> flexbox {:justify-content  "between"
                   :extra-classes    classes
                   :align-items      "center"
                   :padding          padding
                   :background-color background-color}
       (wrap-all-children (if as (js->clj as) :h3) title)
-      [:> flexbox {:justify       "around"
-                   :extra-classes "hide-desktop-navbar-children"
-                   :grow          true
-                   :width         "auto"
-                   :wrap          "wrap"}
+      [:> flexbox {:justify-content "around"
+                   :extra-classes   "hide-desktop-navbar-children"
+                   :grow            true
+                   :width           "auto"
+                   :wrap            "wrap"}
        children]
       [:> menuitem {:extra-classes "hide-mobile-bars"
                     :inverse       inverse}
@@ -115,13 +115,13 @@
                  :strength      "strong"
                  :inverse       true
                  :on-click      #(toggle-mobile-navbar-children this)}]]]
-     [:> flexbox {:justify          "around"
+     [:> flexbox {:justify-content  "around"
                   :extra-classes    "hide-mobile-navbar-children mobile-navbar-children"
                   :id               (.. this -state -mobileNavbarChildrenId)
                   :background-color background-color
                   :direction        "column"
                   :wrap             "none"
-                  :align            "around"
+                  :align-content    "around"
                   :align-items      "center"
                   :grow             true}
       children]]))

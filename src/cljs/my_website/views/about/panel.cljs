@@ -7,12 +7,12 @@
             [spade.core :refer [defclass]]))
 
 (defn about-panel []
-  [:> flexbox {:extraClasses  (styles/container-class)
-               :justify       "between"
-               :align         "center"
-               :justify-items "center"
-               :align-items   "start"
-               :wrap          "nowrap"}
+  [:> flexbox {:extra-classes   (styles/container-class)
+               :justify-content "between"
+               :align-content   "center"
+               :justify-items   "center"
+               :align-items     "start"
+               :wrap            "nowrap"}
    [:div {:class (styles/description-class)}
     [:h1 {:class "inverse"}
      "About me"]

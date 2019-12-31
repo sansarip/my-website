@@ -13,15 +13,15 @@
                                    animated
                                    clickable
                                    separator-color]
-                            :or   {inverse     false
-                                   width       "auto"
-                                   background  "none"
-                                   wrap-header true
-                                   animated true
-                                   clickable false
+                            :or   {inverse         false
+                                   width           "auto"
+                                   background      "none"
+                                   wrap-header     true
+                                   animated        true
+                                   clickable       false
                                    separator-color (:tertiary color-palette)}}]
           {:cursor (if clickable "pointer" "auto")
-           :width width}
+           :width  width}
           [".container" {:padding       "1em"
                          :background    background
                          :border-radius "1%"
@@ -33,16 +33,16 @@
                          :margin-bottom    "1em"
                          :transition       "width 1s"}]
           ["h1" (merge header-style {:margin-top  "1em"
-                                     :color (if inverse "white" (:primary color-palette))
+                                     :color       (if inverse "white" (:primary color-palette))
                                      :white-space (if wrap-header "normal" "nowrap")})]
           ["h2" (merge header-style {:margin-top  "1em"
-                                     :color (if inverse "white" (:primary color-palette))
+                                     :color       (if inverse "white" (:primary color-palette))
                                      :white-space (if wrap-header "normal" "nowrap")})]
           ["h3" (merge header-style {:margin-top  "1em"
-                                     :color (if inverse "white" (:primary color-palette))
+                                     :color       (if inverse "white" (:primary color-palette))
                                      :white-space (if wrap-header "normal" "nowrap")})]
           ["h4" (merge header-style {:margin-top  "1em"
-                                     :color (if inverse "white" (:primary color-palette))
+                                     :color       (if inverse "white" (:primary color-palette))
                                      :white-space (if wrap-header "normal" "nowrap")})]
           [".container:hover > div[name=separator]" {:width (if animated "10em"
                                                                          "6.5em")}]
@@ -77,17 +77,17 @@
                                             :separator-color separator-color
                                             :wrap-header wrap-header)
                                 :on-click on-click
-                                :href href
-                                :id id
-                                :name name}
-                          [:> flexbox {:extraClasses (word-concat
-                                                       "container"
-                                                       classes)
-                                       :style        style
-                                       :direction    "column"
-                                       :justify      "start"
-                                       :width        width
-                                       :align        "start"}
+                                :href     href
+                                :id       id
+                                :name     name}
+                          [:> flexbox {:extraClasses    (word-concat
+                                                          "container"
+                                                          classes)
+                                       :style           style
+                                       :direction       "column"
+                                       :justify-content "start"
+                                       :width           width
+                                       :align-content   "start"}
                            children
                            (wrap-all-children (if as (js->clj as) :h2) header)
                            [:div {:class "separator"

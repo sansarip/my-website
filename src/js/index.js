@@ -1,4 +1,4 @@
-import ReactMarkdown from 'react-markdown';
+import ReactMarkdown from 'react-markdown/with-html';
 import anime from 'animejs/lib/anime.es.js';
 import { debounce } from 'debounce';
 import onClickOutside from 'react-onclickoutside';

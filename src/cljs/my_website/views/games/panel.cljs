@@ -20,18 +20,18 @@
                 href
                 width
                 height]} game]
-    [:> summary {:header   header
-                 :content  [:div
-                            about
-                            instructions
-                            strategies
-                            issues
-                            credits]
-                 :width    (on-unit + width 33)
+    [:> summary {:header         header
+                 :content        [:div
+                                  about
+                                  instructions
+                                  strategies
+                                  issues
+                                  credits]
+                 :width          (on-unit + width 33)
                  :separatorColor (:secondary color-palette)
-                 :animated false
-                 :height   "100%"
-                 :inverse  true}
+                 :animated       false
+                 :height         "100%"
+                 :inverse        true}
      [:iframe
       {:src             href
        :class           "box-shadow-inverse"
@@ -51,7 +51,7 @@
                       :onClick #(set! (.. js/window -location)
                                       (str "#/games/" (name key)))}
           [:> image {:src          src
-                     :extraClasses "box-shadow-inverse"
+                     :extra-classes "box-shadow-inverse"
                      :alt          alt
                      :toggle       true
                      :width        "100%"
@@ -61,7 +61,7 @@
 (defn games-panel []
   (let [games (reduce-kv #(conj % (assoc %3 :key %2)) [] content)
         selected-game @(re-frame/subscribe [::subs/selected-game])]
-    (into [:> flexbox {:justify "around"}]
+    (into [:> flexbox {:justify-content "around"}]
           (if selected-game
             [(play-game (get content selected-game))]
             (apply make-game-summaries games)))))
