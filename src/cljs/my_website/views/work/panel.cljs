@@ -1,16 +1,18 @@
 (ns my-website.views.work.panel
-  (:require [my-website.components.grid :refer [grid]]
-            [my-website.views.work.components.item-grid.component :refer [make-item-grid]]
-            [my-website.views.work.components.description.component :refer [make-description]]
-            [my-website.views.work.subs :as subs]
-            [my-website.views.work.events :as events]
-            [my-website.views.work.state :refer [fsm]]
-            [my-website.subs :as root-subs]
-            [my-website.events :as root-events]
-            [my-website.state :refer [next-state-only]]
-            [re-frame.core :refer [subscribe dispatch]]
-            [react-scroll-wheel-handler]
-            [reagent.core :as r]))
+  (:require
+    [debounce]
+    [my-website.components.grid :refer [grid]]
+    [my-website.views.work.components.item-grid.component :refer [item-grid]]
+    [my-website.views.work.components.description.component :refer [description]]
+    [my-website.views.work.subs :as subs]
+    [my-website.views.work.events :as events]
+    [my-website.views.work.state :refer [fsm]]
+    [my-website.subs :as root-subs]
+    [my-website.events :as root-events]
+    [my-website.state :refer [next-state-only]]
+    [re-frame.core :refer [subscribe dispatch]]
+    [react-scroll-wheel-handler]
+    [reagent.core :as r]))
 
 (defn transition-state [direction]
   (let [next-work-item-key (subs/state->work-items-key
@@ -21,13 +23,15 @@
     (dispatch [::root-events/transition-state direction])
     next-work-item-key))
 
-(defn transition [work-items-key direction]
-  (do
-    (dispatch [::events/stop-anims work-items-key])
-    (js/setTimeout (fn []
-                     (let [k (transition-state direction)]
-                       (dispatch [::events/start-anims k])))
-                   400)))
+(def transition (debounce (fn [work-items-key direction]
+                            (do
+                              (dispatch [::events/stop-anims work-items-key])
+                              (js/setTimeout (fn []
+                                               (let [k (transition-state direction)]
+                                                 (dispatch [::events/start-anims k])))
+                                             400)))
+                          460
+                          true))
 
 (defn work-panel []
   (let [work-items-key @(subscribe [::subs/work-items-key])
@@ -39,5 +43,5 @@
                            :rows    "2fr 1fr"
                            :style   {:height "80vh"}
                            :rowGap  "1em"}
-                  (make-item-grid :work-items work-items)
-                  (make-description "# Clojure and FP\n\nMe name jeff, and I like Clojure (at night). Been doin' it for a wee while now. I def like it a lot so don't steal it from me, bih.")]])))
+                  [item-grid :work-items work-items]
+                  [description "# Clojure and FP\n\nMe name jeff, and I like Clojure (at night). Been doin' it for a wee while now. I def like it a lot so don't steal it from me, bih."]]])))

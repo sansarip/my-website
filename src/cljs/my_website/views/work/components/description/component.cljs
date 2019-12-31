@@ -3,7 +3,7 @@
             [my-website.components.flexbox :refer [flexbox]]
             [my-website.views.work.components.description.styles :refer [description-class]]))
 
-(defn make-description [description]
+(defn description [description]
   [:> flexbox {:justify-content "center"}
    [:> text {:src          description
              :inverse      true

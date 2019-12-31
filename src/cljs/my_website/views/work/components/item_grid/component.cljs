@@ -69,16 +69,16 @@
                          (into (vec (map #(str center-ratio "fr") (range center-width))))
                          (into half-fr)))))
 
-(defn make-item-grid [& {:keys [rows
-                                columns
-                                center-width
-                                center-ratio
-                                work-items]
-                         :or   {rows         4
-                                columns      12
-                                center-width 2
-                                center-ratio 3
-                                work-items   {}}}]
+(defn item-grid [& {:keys    [rows
+                              columns
+                              center-width
+                              center-ratio
+                              work-items]
+                    :or {rows         4
+                         columns      12
+                         center-width 2
+                         center-ratio 3
+                         work-items   {}}}]
   (->> work-items
        (apply make-animated-icons)
        (into [[:div {:style {:background-color "green"

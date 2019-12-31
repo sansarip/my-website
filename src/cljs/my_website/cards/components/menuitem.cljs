@@ -12,11 +12,11 @@
   "Basic menu-item component"
   (fn [] (sab/html (as-element
                      (dark-background
-                       [:> menuitem {:textAlign "center"
-                                     :inverse   true
-                                     :strong    true
-                                     :on-click  #(js/alert "Basic menu item, bih!")
-                                     :fontSize  "large"} "click me!"])))))
+                       [:> menuitem {:text-align "center"
+                                     :inverse    true
+                                     :strong     true
+                                     :on-click   #(js/alert "Basic menu item, bih!")
+                                     :font-size  "large"} "click me!"])))))
 
 (defcard
   icon-menuitem
@@ -24,7 +24,7 @@
   (fn []
     (sab/html (as-element
                 [:> menuitem
-                 [:> icon {:iconName         "hand-pointer"
-                           :inheritColor true
-                           :strength     "strong"
-                           :size         :huge}]]))))
+                 [:> icon {:icon-name     "hand-pointer"
+                           :inherit-color true
+                           :strength      "strong"
+                           :size          :huge}]]))))
