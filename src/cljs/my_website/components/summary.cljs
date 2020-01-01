@@ -50,23 +50,23 @@
                            :width       (if (not= width "auto") "auto" "65%")
                            :height      "auto"}])
 
-(defn render-fn [this] (let [inverse (.. this -props -inverse)
-                             classes (.. this -props -extraClasses)
-                             style (.. this -props -style)
-                             children (.. this -props -children)
-                             header (.. this -props -header)
+(defn render-fn [this] (let [animated (.. this -props -animated)
                              as (.. this -props -as)
-                             animated (.. this -props -animated)
+                             background (.. this -props -background)
+                             children (.. this -props -children)
+                             classes (.. this -props -extraClasses)
+                             on-click (.. this -props -onClick)
+                             clickable (boolean on-click)
                              content (.. this -props -content)
-                             width (.. this -props -width)
+                             header (.. this -props -header)
                              href (.. this -props -href)
                              id (.. this -props -id)
+                             inverse (.. this -props -inverse)
                              name (.. this -props -name)
-                             background (.. this -props -background)
-                             on-click (.. this -props -onClick)
                              separator-color (.. this -props -separatorColor)
-                             wrap-header (.. this -props -wrapHeader)
-                             clickable (boolean on-click)]
+                             style (.. this -props -style)
+                             width (.. this -props -width)
+                             wrap-header (.. this -props -wrapHeader)]
                          [:div {:class    (omit-nil-keyword-args
                                             summary-class
                                             :inverse inverse
@@ -84,7 +84,7 @@
                                                           "container"
                                                           classes)
                                        :style           style
-                                       :direction       "column"
+                                       :flex-direction  "column"
                                        :justify-content "start"
                                        :width           width
                                        :align-content   "start"}

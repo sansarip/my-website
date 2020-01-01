@@ -9,7 +9,7 @@
                                    justify-content
                                    align-items
                                    justify-items
-                                   direction
+                                   flex-direction
                                    padding
                                    width
                                    wrap
@@ -17,12 +17,12 @@
                                    text-align
                                    grow
                                    background-color]
-                            :or   {align-content    "around"
-                                   justify-content  "between"
-                                   align-items      "around"
+                            :or   {align-content    "start"
+                                   justify-content  "start"
+                                   align-items      "start"
                                    justify-items    "start"
                                    wrap             "wrap"
-                                   direction        "row"
+                                   flex-direction   "row"
                                    padding          "0"
                                    background-color "inherit"
                                    width            "auto"
@@ -43,7 +43,7 @@
            :justify-content  (get css-translator (keyword justify-content) justify-content)
            :justify-items    (get css-translator (keyword justify-items) justify-items)
            :flex-direction   (cond (and (= wrap "rigid") overflowed) "column"
-                                   :else direction)})
+                                   :else flex-direction)})
 
 (defn render-fn [this]
   (let [children (.. this -props -children)
@@ -62,12 +62,12 @@
         background-color (.. this -props -backgroundColor)
         overflowed (.. this -state -overflowed)
         wrap (.. this -props -wrap)
-        direction (.. this -props -direction)]
+        flex-direction (.. this -props -flexDirection)]
     [:div {:class (word-concat
                     (omit-nil-keyword-args flexbox-class
                                            :justify-content justify-content
                                            :justify-items justify-items
-                                           :direction direction
+                                           :flex-direction flex-direction
                                            :align-content align-content
                                            :align-items align-items
                                            :background-color background-color

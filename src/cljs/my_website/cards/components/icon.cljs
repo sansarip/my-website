@@ -11,4 +11,4 @@
   (fn [] (sab/html (as-element
                      [:> icon {:size     :big
                                :strength "strong"
-                               :iconName     "hand-spock"}]))))
+                               :iconName "hand-spock"}]))))

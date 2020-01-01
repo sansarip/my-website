@@ -3,7 +3,7 @@
     [debounce]
     [my-website.components.grid :refer [grid]]
     [my-website.views.work.components.item-grid.component :refer [item-grid]]
-    [my-website.views.work.components.description.component :refer [description]]
+    [my-website.views.work.components.description.component :refer [description] :rename {description anime-description}]
     [my-website.views.work.subs :as subs]
     [my-website.views.work.events :as events]
     [my-website.views.work.state :refer [fsm]]
@@ -35,13 +35,14 @@
 
 (defn work-panel []
   (let [work-items-key @(subscribe [::subs/work-items-key])
-        work-items @(subscribe [::subs/work-items])]
+        work-items @(subscribe [::subs/work-items])
+        description @(subscribe [::subs/description])]
     (r/with-let [_ (dispatch [::events/start-anims work-items-key])]
                 [:> react-scroll-wheel-handler {:downHandler #(transition work-items-key :next)
                                                 :upHandler   #(transition work-items-key :prev)}
-                 [:> grid {:columns "1fr"
-                           :rows    "2fr 1fr"
+                 [:> grid {:grid-template-columns "1fr"
+                           :grid-template-rows    "2fr 1fr"
                            :style   {:height "80vh"}
-                           :rowGap  "1em"}
+                           :grid-row-gap  "1em"}
                   [item-grid :work-items work-items]
-                  [description "# Clojure and FP\n\nMe name jeff, and I like Clojure (at night). Been doin' it for a wee while now. I def like it a lot so don't steal it from me, bih."]]])))
+                  [anime-description description]]])))

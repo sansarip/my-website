@@ -83,7 +83,7 @@
        (apply make-animated-icons)
        (into [[:div {:style {:background-color "green"
                              :grid-area        "center"}}]])
-       (into [:> grid {:columns (make-grid-columns columns center-width center-ratio)
-                       :areas   (make-grid-areas rows columns center-width)
-                       :rowGap  ".5em"}])))
+       (into [:> grid {:grid-template-columns (make-grid-columns columns center-width center-ratio)
+                       :grid-template-areas   (make-grid-areas rows columns center-width)
+                       :grid-row-gap  ".5em"}])))
 

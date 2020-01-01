@@ -29,11 +29,11 @@
   (let [children (.. this -props -children)
         classes (.. this -props -extraClasses)
         style (.. this -props -style)
-        columns (.. this -props -columns)
-        rows (.. this -props -rows)
-        row-gap (.. this -props -rowGap)
-        column-gap (.. this -props -columnGap)
-        areas (.. this -props -areas)
+        columns (.. this -props -gridTemplateColumns)
+        rows (.. this -props -gridTemplateRows)
+        row-gap (.. this -props -gridRowGap)
+        column-gap (.. this -props -gridColumnGap)
+        areas (.. this -props -gridTemplateAreas)
         id (.. this -props -id)
         name (.. this -props -name)
         padding (.. this -props -padding)]
@@ -41,7 +41,7 @@
                     (omit-nil-keyword-args grid-class
                                            :padding padding
                                            :row-gap row-gap
-                                           :column-gap column-gap
+                                           :grid-column-gap column-gap
                                            :columns (if columns (word-concat columns))
                                            :rows (if rows (word-concat rows))
                                            :areas (if areas (seq->css-grid-areas areas)))

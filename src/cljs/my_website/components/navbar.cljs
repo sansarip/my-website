@@ -119,7 +119,7 @@
                   :extra-classes    "hide-mobile-navbar-children mobile-navbar-children"
                   :id               (.. this -state -mobileNavbarChildrenId)
                   :background-color background-color
-                  :direction        "column"
+                  :flex-direction   "column"
                   :wrap             "none"
                   :align-content    "around"
                   :align-items      "center"

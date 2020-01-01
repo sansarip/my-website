@@ -57,15 +57,15 @@
                                          :class "justify-center"}]]
 
                   (dark-background
-                    [:> grid {:columns      ["1fr" "1fr"]
-                              :rows         "auto"
+                    [:> grid {:grid-template-columns      ["1fr" "1fr"]
+                              :grid-template-rows         "auto"
                               :extraClasses (grid-class (seq->css-grid-areas [["navbar" "navbar"]
                                                                               ["avatar" "avatar"]
                                                                               ["main" "main"]]))
                               :padding      "0px"
-                              :row-gap      "1em"
-                              :areas        [["navbar" "navbar"]
-                                             ["main" "avatar"]]}
+                              :grid-row-gap      "1em"
+                              :grid-template-areas        [["navbar" "navbar"]
+                                                           ["main" "avatar"]]}
                      (into [:> navbar
                             {:as      parent
                              :title   "PEHRANS"
