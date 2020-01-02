@@ -101,12 +101,9 @@
                           "* Art by [Anna Rose Chi](https://annarosechi.myportfolio.com/)\n"
                           "* Music sampled from [LVX - The Naked Sun](https://www.youtube.com/watch?v=G0CWuyidm4Y)")})
 
-(defonce renderers (gen-renderers))
-
 (defn to-text-components [md]
   (reduce-kv (fn [coll key val]
-               (let [text-component [:> text {:src       val
-                                              :renderers renderers}]]
+               (let [text-component [:> text {:src val}]]
                  (if (= key :description)
                    (assoc coll key (assoc-in text-component
                                              [2 :renderers]

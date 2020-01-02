@@ -4,6 +4,7 @@
             [my-website.utilities :refer [word-concat wrap-all-children deep-merge omit-nil-keyword-args]]
             [my-website.styles :refer [header-style color-palette font-families font-sizes]]
             [my-website.components.flexbox :refer [flexbox]]
+            [my-website.components.renderers :refer [gen-renderers]]
             [spade.core :refer [defclass]]
             [clojure.spec.alpha :as s]))
 
@@ -33,7 +34,7 @@
            :id    id
            :name  name}
      [:> markdown (deep-merge {:source    src
-                               :renderers renderers}
+                               :renderers (deep-merge (gen-renderers) (js->clj renderers :keywordize-keys true))}
                               (js->clj markdown-options :keywordize-keys true))]
      children]))
 
