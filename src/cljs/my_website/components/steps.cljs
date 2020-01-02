@@ -5,9 +5,15 @@
     [my-website.styles :refer [color-palette font-families font-sizes]]
     [my-website.utilities :refer [word-concat deep-merge wrap-each-child omit-nil-keyword-args]]
     [reagent.core :as r]
-    [spade.core :refer [defclass]]))
+    [spade.core :refer [defclass defkeyframes]]))
 
-(defclass steps-class [])
+(defkeyframes glow-frames [inverse]
+              [:to {:text-shadow (str "0 0 7px " (if inverse
+                                                   (:tertiary color-palette)
+                                                   (:tertiary-alt color-palette)))}])
+
+(defclass steps-class [inverse]
+          [".selected" {:animation [[(glow-frames inverse) "1.2s" "infinite" "alternate"]]}])
 
 (defn render-fn [this]
   (let [inverse (.. this -props -inverse)
@@ -19,15 +25,17 @@
         classes (.. this -props -extraClasses)]
     (reduce-kv (fn [c k v]
                  (let [given-key (or (:key v) k)
-                       on-click (:on-click v)]
-                   (conj c [:> icon {:icon-name "circle"
-                                     :inverse   inverse
-                                     :title     (:title v)
-                                     :on-click  (if on-click #(on-click given-key))
-                                     :strength  (if (= given-key selected-key) "strong"
-                                                                               "light")
-                                     :size      size}])))
-               [:> grid {:extra-classes         (word-concat (steps-class) classes)
+                       on-click (:on-click v)
+                       selected? (= given-key selected-key)]
+                   (conj c [:> icon {:icon-name     "circle"
+                                     :extra-classes (if selected? "selected")
+                                     :inverse       inverse
+                                     :title         (:title v)
+                                     :on-click      (if on-click #(on-click given-key))
+                                     :strength      (if selected? "strong"
+                                                                  "light")
+                                     :size          size}])))
+               [:> grid {:extra-classes         (word-concat (steps-class inverse) classes)
                          :style                 style
                          :grid-template-columns (get font-sizes (keyword size))
                          :grid-template-rows    "auto"
