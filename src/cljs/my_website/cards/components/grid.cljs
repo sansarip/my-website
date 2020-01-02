@@ -31,7 +31,7 @@
                                       :grid-template-rows    "auto"
                                       :grid-row-gap          "1em"
                                       :grid-column-gap       "1em"
-                                      :grid-template-areas   [["header1" "header2" "header2"]
-                                                              ["main" "main" "main"]]}
+                                      :grid-template-areas   [[:header1 :header2 :header2]
+                                                              [:main :main :main]]}
                              header1 header2 main])))))
 

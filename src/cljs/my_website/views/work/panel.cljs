@@ -66,8 +66,8 @@
                                                 :style       {:outline "none"}}
                  [:> grid {:grid-template-columns ".05fr 1fr .05fr"
                            :grid-template-rows    "50vh 1fr"
-                           :grid-template-areas   [["steps" "work-items" "."]
-                                                   ["." "description" "."]]
+                           :grid-template-areas   [[:steps :work-items :.]
+                                                   [:. :description :.]]
                            :style                 {:height "80vh"}
                            :grid-row-gap          "1em"}
                   [work-steps (work-items->steps-items all-work-items work-items-key duration) work-items-key]
