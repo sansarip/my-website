@@ -7,15 +7,19 @@
    :games/db {:selected-game nil}
    :about/db {}
    :home/db  {}
-   :work/db  {:all-work-items {:clojure {:names   ["hand-peace" "hand-peace" "hand-peace" "hand-peace"]
-                                         :shelves [2 25 8 34]
-                                         :items   []}
-                               :docker  {:names   ["poo" "poo" "poo" "poo"]
-                                         :shelves [2 25 8 34]
-                                         :items   []}
-                               :android {:names   ["star" "star" "star" "star"]
-                                         :shelves [2 25 8 34]
-                                         :items   []}
-                               :common  {:names   ["hand-spock" "hand-spock" "hand-spock" "hand-spock"]
-                                         :shelves [2 25 8 34]
-                                         :items   []}}}})
+   :work/db  {:all-work-items {:fp         {:names       ["hand-peace" "hand-peace" "hand-peace" "hand-peace"]
+                                            :shelves     [2 25 8 34]
+                                            :items       []
+                                            :description {}}
+                               :containers {:names       ["poo" "poo" "poo" "poo"]
+                                            :shelves     [2 25 8 34]
+                                            :items       []
+                                            :description {}}
+                               :android    {:names       ["star" "star" "star" "star"]
+                                            :shelves     [2 25 8 34]
+                                            :items       []
+                                            :description {}}
+                               :common     {:names       ["hand-spock" "hand-spock" "hand-spock" "hand-spock"]
+                                            :shelves     [2 25 8 34]
+                                            :items       []
+                                            :description {}}}}})

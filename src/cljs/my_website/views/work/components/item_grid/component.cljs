@@ -3,7 +3,7 @@
             [my-website.components.animate :refer [animate]]
             [my-website.components.icon :refer [icon]]
             [my-website.components.grid :refer [grid]]
-            [my-website.views.work.components.item-grid.styles :refer [item-class]]
+            [my-website.views.work.components.item-grid.styles :refer [grid-class item-class]]
             [clojure.string :as string]))
 
 (defn directional-vec [columns row is-right]
@@ -22,30 +22,31 @@
                  (vec (concat left center right)))
               (range rows)))))
 
-(defn make-animated-icons [& work-items]
+(defn make-animated-icons [& {:keys [work-items
+                                     duration]}]
   (map-indexed (fn [_index work-item]
                  (let [{:keys [start stop grid-area]} work-item]
-                   (cond->> [:> icon {:iconName (:name work-item)
-                                      :size     :massive
-                                      :inverse  true}]
-                            '->> (vector :> animate {:animeProps {:translateY (if stop
-                                                                                20
-                                                                                [-10 10])
-                                                                  :duration   (if stop
-                                                                                400
-                                                                                1000)
-                                                                  :autoplay   start
-                                                                  :easing     "easeInOutQuad"
-                                                                  :direction  "alternate"
-                                                                  :loop       (not stop)}})
-                            (not stop) (vector :> animate {:animeProps {:opacity  [0 1]
-                                                                        :duration 400
-                                                                        :autoplay start
-                                                                        :easing   "linear"}})
-                            stop (vector :> animate {:animeProps {:translateY 40
-                                                                  :opacity    [1 0]
-                                                                  :duration   250
-                                                                  :easing     "linear"}})
+                   (cond->> [:> icon {:icon-name (:name work-item)
+                                      :size      :massive
+                                      :inverse   true}]
+                            '->> (vector :> animate {:anime-props {:translateY (if stop
+                                                                                 20
+                                                                                 [-10 10])
+                                                                   :duration   (if stop
+                                                                                 duration
+                                                                                 (* duration 3.5))
+                                                                   :autoplay   start
+                                                                   :easing     "easeInOutQuad"
+                                                                   :direction  "alternate"
+                                                                   :loop       (not stop)}})
+                            (not stop) (vector :> animate {:anime-props {:opacity  [0 1]
+                                                                         :duration duration
+                                                                         :autoplay start
+                                                                         :easing   "linear"}})
+                            stop (vector :> animate {:anime-props {:translateY 40
+                                                                   :opacity    [1 0]
+                                                                   :duration   (+ (/ duration 2) 50)
+                                                                   :easing     "linear"}})
                             '->> (vector :div {:class (item-class (str "item" grid-area))}))))
 
                work-items))
@@ -69,21 +70,24 @@
                          (into (vec (map #(str center-ratio "fr") (range center-width))))
                          (into half-fr)))))
 
-(defn item-grid [& {:keys    [rows
-                              columns
-                              center-width
-                              center-ratio
-                              work-items]
-                    :or {rows         4
-                         columns      12
-                         center-width 2
-                         center-ratio 3
-                         work-items   {}}}]
-  (->> work-items
-       (apply make-animated-icons)
+(defn item-grid [& {:keys [rows
+                           columns
+                           center-width
+                           center-ratio
+                           duration
+                           work-items]
+                    :or   {rows         4
+                           columns      12
+                           center-width 2
+                           center-ratio 3
+                           duration     400
+                           work-items   {}}}]
+  (->> (make-animated-icons :work-items work-items
+                            :duration duration)
        (into [[:div {:style {:background-color "green"
                              :grid-area        "center"}}]])
        (into [:> grid {:grid-template-columns (make-grid-columns columns center-width center-ratio)
                        :grid-template-areas   (make-grid-areas rows columns center-width)
-                       :grid-row-gap  ".5em"}])))
+                       :grid-row-gap          ".5em"
+                       :extra-classes (grid-class)}])))
 

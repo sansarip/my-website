@@ -2,7 +2,8 @@
   (:require [spade.core :refer [defclass]]))
 
 (defclass description-class []
-          {:width "50vw"}
+          {:grid-area "description"}
+          [".text" {:width "50vw"}]
           ["p" {:padding-top "1em"}]
           ["h1" {:text-align "center"}]
           ["h2" {:text-align "center"}]

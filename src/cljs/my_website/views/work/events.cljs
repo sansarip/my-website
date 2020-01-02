@@ -36,9 +36,13 @@
 (reg-event-db
   ::start-anim
   (fn-traced [db [_ k index]]
-             (update-in db [:work/db :all-work-items k :items index] #(-> %
-                                                                          (assoc :start true)
-                                                                          (assoc :stop false)))))
+             (-> db
+                 (update-in [:work/db :all-work-items k :description] #(-> %
+                                                                           (assoc :start true)
+                                                                           (assoc :stop false)))
+                 (update-in [:work/db :all-work-items k :items index] #(-> %
+                                                                           (assoc :start true)
+                                                                           (assoc :stop false))))))
 
 (reg-event-fx
   ::start-anims
@@ -51,12 +55,13 @@
       {:db          db
        :with-delays events-delays})))
 
-
 (reg-event-db
   ::stop-anims
   (fn-traced [db [_ k]]
-             (update-in db [:work/db :all-work-items k :items]
-                        #(reduce (fn [c v]
-                                   (conj c (assoc v :stop true)))
-                                 []
-                                 %))))
+             (-> db
+                 (assoc-in [:work/db :all-work-items k :description :stop] true)
+                 (update-in [:work/db :all-work-items k :items]
+                            #(reduce (fn [c v]
+                                       (conj c (assoc v :stop true)))
+                                     []
+                                     %)))))
