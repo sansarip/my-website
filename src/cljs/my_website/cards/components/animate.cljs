@@ -21,7 +21,7 @@
                           [:p @state]
                           [:> icon {:size     :huge
                                     :strength "strong"
-                                    :iconName (if (> @state 10) "hand-spock" "hand-peace")
+                                    :icon-name (if (> @state 10) "hand-spock" "hand-peace")
                                     :id       "coocoo"
                                     :onClick  #(anime (clj->js {:targets    ["#coocoo"]
                                                                 :translateX 250
@@ -36,13 +36,13 @@
                    (fn [state]
                      (sab/html
                        (as-element
-                         [:div [:> animate {:animeProps {:translateX 250
-                                                         :rotate     "1turn"
-                                                         :duration   2000
-                                                         :autoplay   @state}}
+                         [:div [:> animate {:anime-props {:translateX 250
+                                                          :rotate     "1turn"
+                                                          :duration   2000
+                                                          :autoplay   @state}}
                                 [:> icon {:size     :huge
                                           :strength :strong
-                                          :iconName "hand-spock"}]]
+                                          :icon-name "hand-spock"}]]
                           [:button {:on-click #(reset! state (not @state))} "Click to Start!"]])))
                    state))
 
@@ -53,14 +53,14 @@
                      (sab/html
                        (as-element
                          [:div
-                          [:> animate {:animeProps {:loop     true
-                                                    :rotate   "1turn"
-                                                    :duration 1000}
+                          [:> animate {:anime-props {:loop     true
+                                                     :rotate   "1turn"
+                                                     :duration 1000}
                                        :pause      @state
                                        :play       (not @state)}
                            [:> icon {:size     :huge
                                      :strength :strong
-                                     :iconName "hand-spock"}]]
+                                     :icon-name "hand-spock"}]]
                           [:> menuitem {:textAlign "center"
                                         :strong    true
                                         :on-click  #(reset! state (not @state))
@@ -85,21 +85,21 @@
                        (sab/html
                          (as-element
                            [:div
-                            [:> animate {:animeProps       {:targets    ["#coocoo-4"]
-                                                            :translateY {:value    [-100 0]
-                                                                         :duration 1000
-                                                                         :easing   "easeOutBounce"}
-                                                            :opacity    {:value    [0 1]
-                                                                         :duration 1250
-                                                                         :easing   "linear"}
-                                                            :complete   #(swap! state assoc :triggered false)
-                                                            :autoplay   false}
+                            [:> animate {:anime-props       {:targets    ["#coocoo-4"]
+                                                             :translateY {:value    [-100 0]
+                                                                          :duration 1000
+                                                                          :easing   "easeOutBounce"}
+                                                             :opacity    {:value    [0 1]
+                                                                          :duration 1250
+                                                                          :easing   "linear"}
+                                                             :complete   #(swap! state assoc :triggered false)
+                                                             :autoplay   false}
                                          :staticAnimeProps [:complete]
                                          :play             (and enabled triggered)}
                              [:> icon {:size     :huge
                                        :id       "coocoo-4"
                                        :strength :strong
-                                       :iconName "hand-spock"}]]
+                                       :icon-name "hand-spock"}]]
                             [:> menuitem {:textAlign "center"
                                           :strong    true
                                           :on-click  (fn [_]
@@ -134,21 +134,21 @@
                        (sab/html
                          (as-element
                            [:> react-scroll-wheel-handler {:downHandler scroll-fn}
-                            [:> animate {:animeProps       {:targets    ["#coocoo-5"]
-                                                            :translateY {:value    [-100 0]
-                                                                         :duration 1000
-                                                                         :easing   "easeOutBounce"}
-                                                            :opacity    {:value    [0 1]
-                                                                         :duration 1250
-                                                                         :easing   "linear"}
-                                                            :complete   #(swap! state assoc :triggered false)
-                                                            :autoplay   false}
+                            [:> animate {:anime-props       {:targets    ["#coocoo-5"]
+                                                             :translateY {:value    [-100 0]
+                                                                          :duration 1000
+                                                                          :easing   "easeOutBounce"}
+                                                             :opacity    {:value    [0 1]
+                                                                          :duration 1250
+                                                                          :easing   "linear"}
+                                                             :complete   #(swap! state assoc :triggered false)
+                                                             :autoplay   false}
                                          :staticAnimeProps [:complete]
                                          :play             (and enabled triggered)}
                              [:> icon {:size     :huge
                                        :id       "coocoo-5"
                                        :strength :strong
-                                       :iconName "hand-spock"}]]
+                                       :icon-name "hand-spock"}]]
                             [:> menuitem {:textAlign "center"
                                           :strong    true
                                           :on-click  (fn [_]

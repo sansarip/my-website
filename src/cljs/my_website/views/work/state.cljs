@@ -1,12 +1,12 @@
 (ns my-website.views.work.state)
 
-(def start 'clojure)
+(def start 'fp)
 
-(def fsm {'clojure {:next 'docker
-                    :prev 'clojure}
-          'docker  {:next 'android
-                    :prev 'clojure}
-          'android {:next 'common
-                    :prev 'docker}
-          'common  {:next 'common
-                    :prev 'android}})
+(def fsm {'fp         {:next 'containers
+                       :prev 'fp}
+          'containers {:next 'android
+                       :prev 'fp}
+          'android    {:next 'common
+                       :prev 'containers}
+          'common     {:next 'common
+                       :prev 'android}})
