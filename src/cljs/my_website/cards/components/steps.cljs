@@ -45,14 +45,17 @@
 (with-let [state (ratom :a)]
           (defcard
             clickable-steps
-            "Clickable steps demonstration"
+            "Clickable steps demonstration with hover text"
             (fn [state]
               (let [set-state #(reset! state %)
                     items [{:key      :a
+                            :title    :A
                             :on-click #(set-state %)}
                            {:key      :b
+                            :title    :B
                             :on-click #(set-state %)}
                            {:key      :c
+                            :title    :C
                             :on-click #(set-state %)}]]
                 (-> [:> steps {:items        items
                                :selected-key @state}]
@@ -66,11 +69,16 @@
             "Clickable steps demonstration with implicit keys"
             (fn [state]
               (let [set-state #(reset! state %)
-                    items [{:on-click #(set-state %)}
-                           {:on-click #(set-state %)}
-                           {:on-click #(set-state %)}]]
+                    items [{:on-click #(set-state %)
+                            :title    0}
+                           {:on-click #(set-state %)
+                            :title    1}
+                           {:on-click #(set-state %)
+                            :title    2}]]
                 (-> [:> steps {:items        items
+                               :inverse      true
                                :selected-key @state}]
+                    dark-background
                     as-element
                     (sab/html))))
             state))

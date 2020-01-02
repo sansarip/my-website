@@ -35,7 +35,8 @@
         inverse (.. this -props -inverse)
         clickable (fn? on-click)
         id (.. this -props -id)
-        name (.. this -props -name)]
+        name (.. this -props -name)
+        title (.. this -props -title)]
     [:i {:class    (word-concat
                      (omit-nil-keyword-args
                        icon-class
@@ -53,7 +54,8 @@
                      classes)
          :style    style
          :id       id
-         :name name
+         :title    title
+         :name     name
          :on-click on-click}
      children]))
 
@@ -62,18 +64,18 @@
   Params
   :size [:tiny :small :medium :large :big :huge :massive]
   :inverse true or false
-  :extraClasses string
-  :iconName string
+  :extra-classes string
+  :icon-name string
   :strength ["strong" "light" "duotone"] :else "regular"
-  :onClick fn
+  :on-click fn
 
   Example usage
-  [:> icon {:size         :big
-            :strength     "strong"
-            :iconName     "hand-spock"
-            :on-click     some-function
-            :inverse      true
-            :extraClasses "some-class"}])
+  [:> icon {:size          :big
+            :strength      "strong"
+            :icon-name     "hand-spock"
+            :on-click      some-function
+            :inverse       true
+            :extra-classes "some-class"}])
 
 (def icon (r/create-class {:display-name :icon
                            :render       render-fn}))

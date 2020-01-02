@@ -22,6 +22,7 @@
                        on-click (:on-click v)]
                    (conj c [:> icon {:icon-name "circle"
                                      :inverse   inverse
+                                     :title     (:title v)
                                      :on-click  (if on-click #(on-click given-key))
                                      :strength  (if (= given-key selected-key) "strong"
                                                                                "light")
