@@ -1,7 +1,19 @@
 (ns my-website.utilities
-  (:require [my-website.styles :refer [color-palette]]
-            [clojure.string :as str]
-            [cljs.spec.alpha :as s]))
+  (:require
+    [cljs.js :refer [empty-state eval js-eval]]
+    [cljs.spec.alpha :as s]
+    [cljs.tools.reader :refer [read-string]]
+    [clojure.string :as str]
+    [my-website.styles :refer [color-palette]]))
+
+(defn eval-str [s]
+  (eval
+    (empty-state)
+    (read-string s)
+    {:eval       js-eval
+     :source-map true
+     :context    :expr}
+    (fn [result] result)))
 
 (defn word-concat [& words] (clojure.string/trim
                               (reduce #(str % " " (if (coll? %2)

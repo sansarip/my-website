@@ -2,6 +2,7 @@
   (:require
     [devcards.core :as dc]
     [my-website.cards.components.animate]
+    [my-website.cards.components.editor]
     [my-website.cards.components.grid]
     [my-website.cards.components.header]
     [my-website.cards.components.icon]
