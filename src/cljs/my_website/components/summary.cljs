@@ -100,21 +100,3 @@
 (def summary
   (r/create-class {:display-name :summary
                    :render       render-fn}))
-
-;; spec
-
-(s/def ::header string?)
-(s/def ::style map?)
-(s/def ::extra-classes vector?)
-(s/def ::children vector?)
-(s/def ::description string?)
-(s/def ::inverse boolean?)
-(s/def ::props (s/keys :req-un [::header ::description]
-                       :opt-un [::extra-classes ::style ::children ::inverse]))
-
-(s/fdef render-fn
-        :args (s/and #(fn? (:this %))
-                     #(s/valid? ::props (js->clj (.. (:this %) -props) :keywordize-keys true)))
-        :ret vector?)
-
-
