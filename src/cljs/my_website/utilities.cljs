@@ -9,7 +9,7 @@
 (defn eval-str [s]
   (eval
     (empty-state)
-    (read-string s)
+    (read-string (str "(do " s ")"))
     {:eval       js-eval
      :source-map true
      :context    :expr}
