@@ -13,7 +13,7 @@
 (defmacro get-component-prop [component key]
   `(.. ~component -prop ~key))
 
-(defmacro defn+ 
+(defmacro defn+
   "Allows for better docstrings! Pass in as many strings as you want!\n\nExample: ```clojure\n(defn+ foo \n \"string1\" \n \"string2\" \n [a b] \n (+ a b))```"
   [name & rest]
   (let [docstr (apply str (-> (take-while string? rest)
