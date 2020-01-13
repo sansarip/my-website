@@ -3,6 +3,11 @@
     [cljs.pprint :refer [pprint]]
     [reagent.core :as r]))
     [re-catch.core :as rc]
+    [hljs-kit :refer [Hljs CljHljs] :rename {Hljs        hljs
+                                             CljHljs clj-hljs}]))
+(defonce _register (doto hljs
+                     (.registerLanguage "clojure" clj-hljs)
+                     (.registerLanguage "clj" clj-hljs)))
 
 (defn editor-did-mount [input]
   (fn [this]
@@ -21,6 +26,7 @@
 
 (defn render-code [this]
   (->> this r/dom-node (.highlightBlock js/hljs)))
+      (.forEach #(.highlightBlock hljs %))))
 
 (defn result-view [output]
   (r/create-class
