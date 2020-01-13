@@ -14,7 +14,8 @@
                  [devcards "0.2.6"]
                  [binaryage/devtools "0.9.10"]
                  [net.dhleong/spade "1.0.3"]
-                 [org.clojure/test.check "0.9.0"]]
+                 [org.clojure/test.check "0.9.0"]
+                 [re-catch "0.1.4"]]
   :min-lein-version "2.5.3"
   :source-paths ["src/clj" "src/cljs" "src/cljc"]
   :test-paths ["test/cljs"]

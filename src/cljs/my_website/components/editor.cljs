@@ -2,6 +2,7 @@
   (:require
     [cljs.pprint :refer [pprint]]
     [reagent.core :as r]))
+    [re-catch.core :as rc]
 
 (defn editor-did-mount [input]
   (fn [this]
@@ -26,4 +27,4 @@
     {:render               (fn []
                              [:pre>code.clj
                               (with-out-str (pprint @output))])
-     :component-did-update render-code}))
+     :component-did-update render-code}))                            [rc/catch
