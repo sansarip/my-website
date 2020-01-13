@@ -1,22 +1,21 @@
 (ns my-website.cards.components.editor
-  (:require [devcards.core :refer-macros [defcard]]
-            [sablono.core :as sab]
+  (:require [devcards.core :refer-macros [defcard-rg]]
             [my-website.components.editor :refer [editor result-view]]
             [my-website.utilities :refer [eval-str]]
             [reagent.core :refer [as-element with-let atom] :rename {atom ratom}]))
 
-(let [input (ratom nil)
-      output (ratom nil)]
-  (defcard editor
-           "Simple demonstration of Clojure code editor"
-           (fn []
-             (-> [:div
-                  [editor input]
-                  [:div
-                   [:button
-                    {:on-click #(reset! output (eval-str @input))}
-                    "run"]]
-                  [:div
-                   [result-view output]]]
-                 as-element
-                 (sab/html)))))
+(defcard-rg editor
+            "Simple demonstration of Clojure code editor"
+            (fn [state]
+              [:div
+               (with-let [s [:> (editor (:input @state))
+                             {:on-change #(do
+                                            (swap! state assoc :output (eval-str %))
+                                            (swap! state assoc :key (str (random-uuid))))}]]
+                         s)
+               [:div
+                ^{:key (:key @state)}
+                [result-view (:value (:output @state))]]])
+            (ratom {:input  (atom nil)
+                    :output nil
+                    :key    (str (random-uuid))}))
