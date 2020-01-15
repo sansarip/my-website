@@ -10,36 +10,27 @@
             [my-website.components.summary :refer [summary]]))
 
 
-(defn play-game [game]
-  (let [{:keys [header
-                about
-                instructions
-                strategies
-                issues
-                credits
-                href
-                width
-                height]} game]
-    [:> summary {:header         header
-                 :content        [:div
-                                  about
-                                  instructions
-                                  strategies
-                                  issues
-                                  credits]
-                 :width          (on-unit + width 33)
-                 :separatorColor (:secondary color-palette)
-                 :animated       false
-                 :height         "100%"
-                 :inverse        true}
-     [:iframe
-      {:src             href
-       :class           "box-shadow-inverse"
-       :scrolling       "no"
-       :frameBorder     "0"
-       :allowFullScreen true
-       :style           {:width  "100%"
-                         :height height}}]]))
+(defn play-game [{:keys [header
+                         more-info
+                         href
+                         width
+                         height]}]
+  [:> summary {:header         header
+               :content        [:div
+                                more-info]
+               :width          (on-unit + width 33)
+               :separatorColor (:secondary color-palette)
+               :animated       false
+               :height         "100%"
+               :inverse        true}
+   [:iframe
+    {:src             href
+     :class           "box-shadow-inverse"
+     :scrolling       "no"
+     :frameBorder     "0"
+     :allowFullScreen true
+     :style           {:width  "100%"
+                       :height height}}]])
 
 
 (defn make-game-summaries [& summaries]
@@ -50,12 +41,12 @@
                       :content description
                       :onClick #(set! (.. js/window -location)
                                       (str "#/games/" (name key)))}
-          [:> image {:src          src
+          [:> image {:src           src
                      :extra-classes "box-shadow-inverse"
-                     :alt          alt
-                     :toggle       true
-                     :width        "100%"
-                     :height       "100%"}]])
+                     :alt           alt
+                     :toggle        true
+                     :width         "100%"
+                     :height        "100%"}]])
        summaries))
 
 (defn games-panel []
@@ -63,6 +54,6 @@
         selected-game @(re-frame/subscribe [::subs/selected-game])]
     (into [:> flexbox {:justify-content "around"}]
           (if selected-game
-            [(play-game (get content selected-game))]
+            [[play-game (get content selected-game)]]
             (apply make-game-summaries games)))))
 
