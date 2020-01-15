@@ -22,7 +22,7 @@
                  (vec (concat left center right)))
               (range rows)))))
 
-(defn make-animated-icons [& {:keys [work-items
+(defn make-animated-icons [& {:keys [selected-work-items
                                      duration]}]
   (map-indexed (fn [_index work-item]
                  (let [{:keys [start stop grid-area]} work-item]
@@ -49,7 +49,7 @@
                                                                    :easing     "linear"}})
                             '->> (vector :div {:class (item-class (str "item" grid-area))}))))
 
-               work-items))
+               selected-work-items))
 
 (defn make-work-items [& {:keys [names
                                  shelves
@@ -75,14 +75,14 @@
                            center-width
                            center-ratio
                            duration
-                           work-items]
-                    :or   {rows         4
-                           columns      12
-                           center-width 2
-                           center-ratio 3
-                           duration     400
-                           work-items   {}}}]
-  (->> (make-animated-icons :work-items work-items
+                           selected-work-items]
+                    :or   {rows                4
+                           columns             12
+                           center-width        2
+                           center-ratio        3
+                           duration            400
+                           selected-work-items {}}}]
+  (->> (make-animated-icons :selected-work-items selected-work-items
                             :duration duration)
        (into [[:div {:style {:background-color "green"
                              :grid-area        "center"}}]])

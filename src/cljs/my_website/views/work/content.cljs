@@ -16,5 +16,5 @@
                     "Luckily my career path has led me to the doorsteps of Docker, Kubernetes, and OpenShift, "
                     "and now I'm well acquainted with them. "
                     "Check out [my Dockerhub](https://hub.docker.com/u/sansarip)!")
-   :android    ""
+   :mobile     ""
    :common     ""})
