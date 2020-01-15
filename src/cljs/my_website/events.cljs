@@ -20,3 +20,9 @@
   ::transition-state
   (fn-traced [db [_ transition]]
              (next-state (:fsm db) db transition)))
+
+(re-frame/reg-event-fx
+  ::dispatch-n
+  (fn-traced [{:keys [db]} [_ & events]]
+             {:db db
+              :dispatch-n events}))
