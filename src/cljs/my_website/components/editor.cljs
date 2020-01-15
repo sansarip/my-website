@@ -4,7 +4,7 @@
     [cljs.pprint :refer [pprint]]
     [re-catch.core :as rc]
     [reagent.core :refer [create-class dom-node with-let]]
-    [hljs-kit :refer [Hljs CljHljs] :rename {Hljs        hljs
+    [hljs-kit :refer [Hljs CljHljs] :rename {Hljs    hljs
                                              CljHljs clj-hljs}]))
 
 (defonce _register (doto hljs
@@ -53,3 +53,6 @@
                                [:pre>code.clj
                                 (with-out-str (pprint output))])])
      :component-did-mount render-code}))
+
+(def interactive-coder (create-class {:render (fn [this]
+                                                [])}))
