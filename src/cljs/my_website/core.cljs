@@ -12,6 +12,8 @@
     (println "dev mode")))
 
 (defn mount-root []
+  (re-frame/clear-subscription-cache!)
+  (routes/init-routes!)
   (reagent/render [views/main-panel]
                   (.getElementById js/document "app")))
 
@@ -19,8 +21,6 @@
   (mount-root))
 
 (defn ^:export init []
-  (routes/app-routes)
   (re-frame/dispatch-sync [::events/initialize-db])
   (dev-setup)
-  (re-frame/clear-subscription-cache!)
   (mount-root))

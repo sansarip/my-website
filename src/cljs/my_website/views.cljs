@@ -7,22 +7,16 @@
     [my-website.components.menuitem :refer [menuitem]]
     [my-website.styles :refer [screen-sizes font-sizes spacing-sizes]]
     [my-website.utilities :refer [dark-background wrap-each-child wrap-all-children word-concat]]
-    [my-website.views.home.panel :refer [home-panel]]
-    [my-website.views.about.panel :refer [about-panel]]
-    [my-website.views.games.panel :refer [games-panel]]
-    [my-website.views.work.panel :refer [work-panel]]
+    [my-website.views.home.panel :as home]
+    [my-website.views.about.panel :as about]
+    [my-website.views.games.panel :as games]
+    [my-website.views.work.panel :as work]
     [spade.core :refer [defclass]]))
 
-(defn- panels [panel]
-  (condp = panel
-    'home-panel [home-panel]
-    'about-panel [about-panel]
-    'games-panel [games-panel]
-    'work-panel [work-panel]
-    [:div "Nothing to see here!"]))
-
-(defn show-panel [panel-name]
-  [panels panel-name])
+(def home-panel home/home-panel)
+(def about-panel about/about-panel)
+(def games-panel games/games-panel)
+(def work-panel work/work-panel)
 
 (defclass page-class []
           (at-media {:screen    :only
@@ -31,16 +25,15 @@
                          :padding-right (:large spacing-sizes)}]))
 
 (defn main-panel []
-  (let [state @(subscribe [::subs/state])
-        active-panel @(subscribe [::subs/active-panel])
-        parent (fn [& children] (into [:> menuitem {:textAlign "center"
+  (let [current-view (-> @(subscribe [::subs/current-route]) :data :view)
+        state @(subscribe [::subs/state])
+        parent (fn [& children] (into [:> menuitem {:text-align "center"
                                                     :inverse   true
                                                     :strong    true
                                                     :padding   (:medium spacing-sizes)
                                                     :fontSize  "medium"}]
                                       children))
-        link (fn [href name] [:a {:href  href
-                                  :class "delink"} name])]
+        link (fn [href name] [:a.delink {:href  href} name])]
     [:div {:class (word-concat "padding-horizontal" (page-class))}
      (into ^{:key state}
            [:> navbar {:as               #(parent (link "#/" "SETOOTLE"))
@@ -55,4 +48,5 @@
                              "BLOG"
                              (link "#/about" "ABOUT")]))
      [:div {:class "padding-top"}
-      [show-panel active-panel]]]))
+      (when current-view
+        [current-view])]]))

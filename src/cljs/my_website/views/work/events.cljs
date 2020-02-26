@@ -9,8 +9,7 @@
   ::init
   (fn-traced [{:keys [db]} _]
              {:db         db
-              :dispatch-n (list [::init-state]
-                                [::init-work-items])}))
+              :dispatch-n [[::init-work-items]]}))
 
 (reg-event-db
   ::init-state

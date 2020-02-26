@@ -22,13 +22,6 @@
     (:fsm db)))
 
 (reg-sub
-  ::active-panel
-  :<- [::fsm]
-  (fn [fsm _]
-    (condp = fsm
-      work-state/fsm 'work-panel
-      games-state/fsm 'games-panel
-      about-state/fsm 'about-panel
-      home-state/fsm 'home-panel
-      nil)))
-
+  ::current-route
+  (fn [db _]
+    (:current-route db)))
