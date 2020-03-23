@@ -7,6 +7,7 @@
     [my-website.views.work.components.work-steps.component :refer [work-steps]]
     [my-website.views.work.subs :as subs]
     [my-website.views.work.events :as events]
+    [my-website.views.work.styles :refer [container-class]]
     [my-website.views.work.state :refer [fsm]]
     [my-website.subs :as root-subs]
     [my-website.events :as root-events]
@@ -52,13 +53,9 @@
                                                 :upHandler   (transition :current-index work-items-index
                                                                          :upcoming-index prev-work-items-index
                                                                          :duration duration)
-                                                :style       {:outline "none"}}
-                 [:> grid {:grid-template-columns ".05fr 1fr .05fr"
-                           :grid-template-rows    "50vh 1fr"
-                           :grid-template-areas   [[:steps :work-items :.]
-                                                   [:. :description :.]]
-                           :style                 {:height "80vh"}
-                           :grid-row-gap          "1em"}
+                                                :style       {:outline "none"}
+                                                :class       (container-class)}
+                 [:div.grid
                   [work-steps (work-items->steps-items work-items work-items-index duration) work-items-index]
                   [item-grid :selected-work-items selected-work-items :duration (- duration 50)]
                   [anime-description description duration]]])))
