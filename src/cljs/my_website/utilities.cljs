@@ -40,9 +40,9 @@
 
 (defn seq->css-grid-areas [areas]
   (word-concat
-    (map #(-> %
-              (assoc 0 (str "\"" (first %)))
-              (assoc (dec (count %)) (str (last %) "\"")))
+    (map #(-> (mapv name %)
+              (update 0 (partial str "\""))
+              (update (dec (count %)) (fn [l](str l "\""))))
          (js->clj areas))))
 
 (defn map->css-attribute-selectors [m elem attribute css-attribute]
