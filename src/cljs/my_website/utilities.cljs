@@ -38,6 +38,11 @@
                                                     :height           "100%"}}]
                                      children))
 
+(s/def ::hiccup? (s/and vector? #(-> % first keyword?)))
+
+(defn hiccup? [v]
+  (s/valid? ::hiccup? v))
+
 (defn seq->css-grid-areas [areas]
   (word-concat
     (map #(-> (mapv name %)
