@@ -6,7 +6,7 @@
             [my-website.effects]))
 
 (reg-event-fx
-  ::init
+  ::initialize
   (fn-traced [{:keys [db]} _]
              {:db         db
               :dispatch-n [[::init-work-items]]}))
