@@ -30,8 +30,10 @@
   (fn [this]
     (let [cm (.fromTextArea js/CodeMirror
                             (dom-node this)
-                            #js {:mode        "clojure"
-                                 :lineNumbers true})
+                            #js {:mode              "clojure"
+                                 :lineNumbers       true
+                                 :autoCloseBrackets true
+                                 :matchBrackets     true})
           on-change (.. this -props -onChange)]
       (.on cm "change" #(let [val (.getValue %)]
                           (try
@@ -58,7 +60,7 @@
           {:background-color      (:secondary color-palette)
            :padding               :1em
            :display               :grid
-           :grid-template-columns "auto auto 1fr"
+           :grid-template-columns "auto 1fr"
            :grid-template-rows    "auto"
            :grid-column-gap       :.5em
            :border-radius         "4px"
@@ -67,9 +69,9 @@
           [:.prompt {:align-self :center}]
           [:.hiccup {:background-color :white
                      :border-radius    "4px"
-                     :padding          :.5em
-                     :display          :inline-flex}]
-          [:.other {:background-color (:quaternary color-palette)}])
+                     :padding          :.5em}]
+          [:.other {:background-color (:quaternary color-palette)
+                    :border-radius    "2px"}])
 (defn result-view [output]
   (create-class
     {:render              (fn [_this]
@@ -81,9 +83,9 @@
                               (condp apply [output]
                                 ;; render as hiccup if...
                                 ;; hiccup vector?
-                                hiccup? [:span.hiccup [(fn [] output)]] ; this fn wrapping is necessary to prevent errors
+                                hiccup? [:div.hiccup [(fn [] output)]] ; this fn wrapping is necessary to prevent errors
                                 ;; function?
-                                fn? [:span.hiccup [output]]
+                                fn? [:div.hiccup [output]]
                                 ;; everything else is treated as Clojure code
                                 [:pre>code.clj
                                  [:span.other
