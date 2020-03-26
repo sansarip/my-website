@@ -2,7 +2,7 @@
   :plugins [[lein-cljsbuild "1.1.7"]
             [lein-ring "0.12.5"]]
   :dependencies [[org.clojure/clojure "1.10.1"]
-                 [org.clojure/clojurescript "1.10.520"]
+                 [org.clojure/clojurescript "1.10.597"]
                  [com.bhauman/figwheel-main "0.2.3"]
                  [com.bhauman/rebel-readline-cljs "0.1.4"]
                  [reagent "0.8.1"]
@@ -45,16 +45,4 @@
              :uberjar-name       "my-website-1.jar"
              :prep-tasks         ["compile" ["fig:prod"]]
              :uberjar-exclusions [#"devcards\.html" #"auto\-testing\.html"]}}
-
-  :ring {:handler my-website.handler/app}
-
-  :cljsbuild
-  {:builds
-   {:min
-    {:source-paths ["src/cljs"]
-     :compiler     {:main            my_website.core
-                    :output-to       "resources/public/js/compiled/app.js"
-                    :optimizations   :simple
-                    :closure-defines {goog.DEBUG false}
-                    :pretty-print    false}}}})
-
+  :ring {:handler my-website.handler/app})
