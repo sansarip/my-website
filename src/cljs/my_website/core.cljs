@@ -1,7 +1,7 @@
 (ns ^:figwheel-hooks my-website.core
   (:require
    [reagent.core :as reagent]
-   [re-frame.core :as re-frame]
+   [re-frame.core :as rf]
    [my-website.events :as events]
    [my-website.routes :as routes]
    [my-website.views :as views]))
@@ -12,7 +12,7 @@
     (println "dev mode")))
 
 (defn mount-root []
-  (re-frame/clear-subscription-cache!)
+  (rf/clear-subscription-cache!)
   (routes/init-routes!)
   (reagent/render [views/main-panel]
                   (.getElementById js/document "app")))
@@ -21,6 +21,6 @@
   (mount-root))
 
 (defn ^:export init []
-  (re-frame/dispatch-sync [::events/initialize-db])
+  (rf/dispatch-sync [::events/initialize-db])
   (dev-setup)
   (mount-root))

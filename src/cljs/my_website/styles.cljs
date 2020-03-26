@@ -28,14 +28,14 @@
                     :tertiary-alt "#CF6F46"
                     :quaternary   "#FFF8BE"})
 
-(def screen-sizes {:tiny "650px"
-                   :small "890px"
+(def screen-sizes {:tiny   "650px"
+                   :small  "890px"
                    :medium "1210px"})
 
-(def spacing-sizes {:medium "1em"
-                    :large "2.5em"
-                    :big "3.25em"
-                    :huge "4em"
+(def spacing-sizes {:medium  "1em"
+                    :large   "2.5em"
+                    :big     "3.25em"
+                    :huge    "4em"
                     :massive "7.25em"})
 
 (def header-style
@@ -47,7 +47,7 @@
 (defglobal window-styles
            [".no-word-wrap" {:white-space "nowrap"}]
            [".inverse" {:color "white"}]
-           [".delink" {:color "inherit"
+           [".delink" {:color           "inherit"
                        :text-decoration "inherit"}]
            [".line-height" {:line-height "155.8%"}]
            [".box-shadow-inverse"
