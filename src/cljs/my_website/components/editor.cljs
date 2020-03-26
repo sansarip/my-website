@@ -41,12 +41,12 @@
                                 (if on-change (on-change val)))
                             (catch js/Error _e)))))))
 
-(defn editor [input]
+(defn editor [input default-value]
   (create-class
     {:render              (fn [this]
                             (let [on-change (.. this -props -onChange)]
                               [:textarea
-                               {:default-value ""
+                               {:default-value default-value
                                 :on-change     on-change
                                 :auto-complete "off"}]))
      :component-did-mount (editor-did-mount input)}))
