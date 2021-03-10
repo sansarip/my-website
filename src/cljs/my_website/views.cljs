@@ -8,15 +8,9 @@
     [my-website.styles :refer [screen-sizes font-sizes spacing-sizes]]
     [my-website.utilities :refer [dark-background wrap-each-child wrap-all-children word-concat]]
     [my-website.views.home.panel :as home]
-    [my-website.views.about.panel :as about]
-    [my-website.views.games.panel :as games]
-    [my-website.views.work.panel :as work]
     [spade.core :refer [defclass]]))
 
 (def home-panel home/home-panel)
-(def about-panel about/about-panel)
-(def games-panel games/games-panel)
-(def work-panel work/work-panel)
 
 (defclass page-class []
           (at-media {:screen    :only
@@ -42,11 +36,11 @@
                        :inverse          true}]
            (wrap-each-child parent
                             ["SHOP"
-                             (link "#/work" "WORK")
-                             (link "#/games" "GAMES")
+                             [link "#/work" "WORK"]
+                             [link "#/games" "GAMES"]
                              "SANDBOX"
                              "BLOG"
-                             (link "#/about" "ABOUT")]))
+                             [link "#/about" "ABOUT"]]))
      [:div {:class "padding-top"}
       (when current-view
         [current-view])]]))

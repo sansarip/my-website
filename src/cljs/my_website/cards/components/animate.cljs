@@ -19,11 +19,11 @@
                                     :strength  "strong"
                                     :icon-name (if (> @state 10) "hand-spock" "hand-peace")
                                     :id        "coocoo"
-                                    :onClick   #(anime (clj->js {:targets    ["#coocoo"]
-                                                                 :translateX 250
-                                                                 :direction  "alternate"
-                                                                 :rotate     "1turn"
-                                                                 :duration   2000}))}]]]))
+                                    :on-click   #(anime (clj->js {:targets    ["#coocoo"]
+                                                                  :translateX 250
+                                                                  :direction  "alternate"
+                                                                  :rotate     "1turn"
+                                                                  :duration   2000}))}]]]))
             (ratom 0))
 
 (defcard-rg animate-1

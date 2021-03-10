@@ -1,6 +1,6 @@
 (ns my-website.components.grid
   (:require [reagent.core :as r]
-            [my-website.utilities :refer [css-translator deep-merge word-concat omit-nil-keyword-args seq->css-grid-areas]]
+            [my-website.utilities :refer [deep-merge word-concat omit-nil-keyword-args seq->css-grid-areas]]
             [my-website.styles :refer [color-palette]]
             [spade.core :refer [defclass]]
             [my-website.macros :refer-macros [assoc-component-state get-component-prop]]))

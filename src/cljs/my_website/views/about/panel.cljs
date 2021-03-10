@@ -6,9 +6,9 @@
             [my-website.views.about.styles :as styles]
             [spade.core :refer [defclass]]))
 
-(defn about-panel []
+(defn panel []
   [:> flexbox {:extra-classes   (styles/container-class)
-               :justify-content "between"
+               :justify-content "space-between"
                :align-content   "center"
                :justify-items   "center"
                :align-items     "start"

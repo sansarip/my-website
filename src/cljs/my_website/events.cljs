@@ -2,10 +2,9 @@
   (:require
     [re-frame.core :as rf]
     [my-website.db :as db]
+    [my-website.effects :as effects]
     [day8.re-frame.tracing :refer-macros [fn-traced defn-traced]]
-    [reitit.frontend.controllers :as rfc]
-    [reitit.frontend.easy :as rfe]))
-
+    [reitit.frontend.controllers :as rfc]))
 
 (rf/reg-event-db
   ::initialize-db
@@ -28,8 +27,8 @@
   (fn [_ [_ & route]]
     (let [fr (first route)]
       (if (string? fr)
-        {::navigate-href! fr}
-        {::navigate! route}))))
+        {::effects/navigate-href! fr}
+        {::effects/navigate! route}))))
 
 (rf/reg-event-db
   ::navigated
@@ -37,19 +36,6 @@
     (let [old-match (:current-route db)
           controllers (rfc/apply-controllers (:controllers old-match) new-match)]
       (assoc db :current-route (assoc new-match :controllers controllers)))))
-
-(rf/reg-fx
-  ::navigate!
-  (fn [route]
-    (apply rfe/push-state route)))
-
-(rf/reg-fx
-  ::navigate-href!
-  (fn [href]
-    (-> js/window
-        (.-location)
-        (.-href)
-        (set! href))))
 
 (defn next-state [app-state keys fsm transition]
   (let [state-path (conj keys :state)

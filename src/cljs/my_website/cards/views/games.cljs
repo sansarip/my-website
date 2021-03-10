@@ -16,7 +16,7 @@
                                           :background-color (:secondary color-palette)}}]]
            (sab/html (as-element (dark-background
                                    [:> flexbox
-                                    {:justify-content "around"
+                                    {:justify-content "space-around"
                                      :wrap            "wrap"}
                                     [:> summary {:header  "Tootleoo"
                                                  :as      :h2

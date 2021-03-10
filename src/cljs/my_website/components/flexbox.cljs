@@ -1,6 +1,6 @@
 (ns my-website.components.flexbox
   (:require [reagent.core :as r]
-            [my-website.utilities :refer [css-translator deep-merge word-concat omit-nil-keyword-args]]
+            [my-website.utilities :refer [deep-merge word-concat omit-nil-keyword-args]]
             [my-website.styles :refer [color-palette]]
             [spade.core :refer [defclass]]
             [my-website.macros :refer-macros [assoc-component-state]]))
@@ -29,21 +29,21 @@
                                    overflowed       false
                                    text-align       "start"
                                    grow             false}}]
-          {:display          "flex"
-           :flex-wrap        (cond (= wrap "rigid") "nowrap"
-                                   :else (get css-translator (keyword wrap) wrap))
-           :padding-left     padding
-           :padding-right    padding
-           :background-color background-color
-           :max-width        (if (not grow) width "auto")
-           :min-width        (if grow width "auto")
-           :align-items      (get css-translator (keyword align-items) align-items)
-           :align-content    (get css-translator (keyword align-content) align-content)
-           :text-align       text-align
-           :justify-content  (get css-translator (keyword justify-content) justify-content)
-           :justify-items    (get css-translator (keyword justify-items) justify-items)
-           :flex-direction   (cond (and (= wrap "rigid") overflowed) "column"
-                                   :else flex-direction)})
+  {:display          "flex"
+   :flex-wrap        (cond (= wrap "rigid") "nowrap"
+                           :else wrap)
+   :padding-left     padding
+   :padding-right    padding
+   :background-color background-color
+   :max-width        (if (not grow) width "auto")
+   :min-width        (if grow width "auto")
+   :align-items      align-items
+   :align-content    align-content
+   :text-align       text-align
+   :justify-content  justify-content
+   :justify-items    justify-items
+   :flex-direction   (cond (and (= wrap "rigid") overflowed) "column"
+                           :else flex-direction)})
 
 (defn render-fn [this]
   (let [children (.. this -props -children)
@@ -64,19 +64,20 @@
         wrap (.. this -props -wrap)
         flex-direction (.. this -props -flexDirection)]
     [:div {:class (word-concat
-                    (omit-nil-keyword-args flexbox-class
-                                           :justify-content justify-content
-                                           :justify-items justify-items
-                                           :flex-direction flex-direction
-                                           :align-content align-content
-                                           :align-items align-items
-                                           :background-color background-color
-                                           :padding padding
-                                           :width width
-                                           :wrap wrap
-                                           :overflowed overflowed
-                                           :grow grow
-                                           :text-align text-align)
+                    (omit-nil-keyword-args
+                      flexbox-class
+                      :justify-content justify-content
+                      :justify-items justify-items
+                      :flex-direction flex-direction
+                      :align-content align-content
+                      :align-items align-items
+                      :background-color background-color
+                      :padding padding
+                      :width width
+                      :wrap wrap
+                      :overflowed overflowed
+                      :grow grow
+                      :text-align text-align)
                     classes)
            :style style
            :id    id

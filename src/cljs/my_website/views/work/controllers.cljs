@@ -1,4 +1,4 @@
-(ns my-website.views.work.controller
+(ns my-website.views.work.controllers
   (:require [re-frame.core :as rf]
             [my-website.views.work.events :as events]))
 

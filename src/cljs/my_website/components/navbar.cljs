@@ -102,7 +102,7 @@
                   :padding          padding
                   :background-color background-color}
       (wrap-all-children (if as (js->clj as) :h3) title)
-      [:> flexbox {:justify-content "around"
+      [:> flexbox {:justify-content "space-around"
                    :extra-classes   "hide-desktop-navbar-children"
                    :grow            true
                    :width           "auto"

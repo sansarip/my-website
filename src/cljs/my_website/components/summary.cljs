@@ -85,7 +85,7 @@
                                                           classes)
                                        :style           style
                                        :flex-direction  "column"
-                                       :justify-content "start"
+                                       :justify-content "flex-start"
                                        :width           width
                                        :align-content   "start"}
                            children

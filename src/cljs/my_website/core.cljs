@@ -1,10 +1,10 @@
 (ns ^:figwheel-hooks my-website.core
   (:require
-   [reagent.core :as reagent]
-   [re-frame.core :as rf]
-   [my-website.events :as events]
-   [my-website.routes :as routes]
-   [my-website.views :as views]))
+    [reagent.core :refer [render]]
+    [re-frame.core :as rf]
+    [my-website.events :as events]
+    [my-website.routes :as routes]
+    [my-website.views :as views]))
 
 (defn dev-setup []
   (when js/goog.DEBUG
@@ -14,8 +14,8 @@
 (defn mount-root []
   (rf/clear-subscription-cache!)
   (routes/init-routes!)
-  (reagent/render [views/main-panel]
-                  (.getElementById js/document "app")))
+  (render [views/main-panel]
+          (.getElementById js/document "app")))
 
 (defn ^:after-load re-render []
   (mount-root))

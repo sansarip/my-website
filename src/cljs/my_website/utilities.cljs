@@ -102,13 +102,6 @@
         only-non-nil (filter #(not (nil? (get % 1))) args-map)]
     (apply op (flatten only-non-nil))))
 
-(def css-translator {:start   "flex-start"
-                     :end     "flex-end"
-                     :around  "space-around"
-                     :between "space-between"
-                     :evenly  "space-evenly"
-                     :reverse "wrap-reverse"})
-
 (defn on-unit [op unit & args]
   (let [to-float (js/parseFloat unit)
         unit-type (str/replace unit (str to-float) "")]

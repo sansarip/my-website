@@ -1,4 +1,4 @@
-(ns my-website.views.games.controller
+(ns my-website.views.games.controllers
   (:require [re-frame.core :as rf]
             [my-website.views.games.events :as events]))
 

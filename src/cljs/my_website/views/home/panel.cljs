@@ -10,7 +10,7 @@
 
 (defn home-panel []
   [:> flexbox {:extra-classes   (styles/container-class)
-               :justify-content "between"
+               :justify-content "space-between"
                :align-content   "center"
                :justify-items   "center"
                :align-items     "start"

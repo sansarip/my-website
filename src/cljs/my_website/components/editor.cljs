@@ -4,7 +4,7 @@
     [my-website.styles :refer [color-palette]]
     [cljs.pprint :refer [pprint]]
     [re-catch.core :as rc]
-    [reagent.core :refer [create-class dom-node with-let]]
+    [reagent.core :refer [dom-node create-class with-let]]
     [cljs.spec.alpha :as s]
     [my-website.utilities :refer [hiccup?]]
     [spade.core :refer [defglobal defclass defkeyframes]]

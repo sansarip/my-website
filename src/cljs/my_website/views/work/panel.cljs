@@ -37,7 +37,7 @@
              []
              work-items))
 
-(defn work-panel []
+(defn panel []
   (let [work-items @(subscribe [::subs/work-items])
         num-work-items (count work-items)
         work-items-index @(subscribe [::subs/work-items-index])
