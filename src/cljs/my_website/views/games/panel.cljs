@@ -1,7 +1,7 @@
 (ns my-website.views.games.panel
   (:require
     [re-frame.core :as re-frame]
-    [my-website.views.games.content :refer [content]]
+    [my-website.views.games.games :refer [games]]
     [my-website.styles :refer [color-palette screen-sizes font-sizes]]
     [my-website.components.flexbox :refer [flexbox]]
     [my-website.views.games.subs :as subs]
@@ -14,7 +14,8 @@
                          more-info
                          href
                          width
-                         height]}]
+                         height]
+                  :as m}]
   [:> summary {:header         header
                :content        [:div
                                 more-info]
@@ -32,9 +33,9 @@
      :style           {:width  "100%"
                        :height height}}]])
 
-
-(defn game-summaries [& summaries]
-  (map (fn [{:keys [key header description src alt]}]
+(defn game-summaries [summaries]
+  (map (fn [[_ {:keys [key header description src alt]}]]
+         (println key)
          [:> summary {:header   header
                       :width    "20em"
                       :inverse  true
@@ -50,10 +51,9 @@
        summaries))
 
 (defn panel []
-  (let [games (reduce-kv #(conj % (assoc %3 :key %2)) [] content)
-        selected-game @(re-frame/subscribe [::subs/selected-game])]
+  (let [selected-game @(re-frame/subscribe [::subs/selected-game])]
     (into [:> flexbox {:justify-content "space-around"}]
           (if selected-game
-            [[play-game (get content selected-game)]]
-            (apply game-summaries games)))))
+            [[play-game (get games selected-game)]]
+            (game-summaries games)))))
 
