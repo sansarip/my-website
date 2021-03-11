@@ -5,12 +5,12 @@ it's certainly the most polished of the like. The game concept is nothing new -
 typing games have been around since the dawn of Flash games. 
 Nevertheless, you don't see typing games _too_ often, 
 and this definitely was a joy to build and 
-really quite fun to play. Certainly brings back memories \uD83D\uDE22 
+really quite fun to play. Certainly brings back memories 😢
 
 ### Strategies
 
 * You don't really get penalized for mistyping, 
- so feel free to mash your keys \uD83D\uDE09 
+ so feel free to mash your keys 😉
 
 ### Issues
 

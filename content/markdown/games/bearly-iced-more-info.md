@@ -2,7 +2,7 @@
 
 Crafted this little game for a game design elective in the college days. 
 It's nothing _too_ special, but I did enjoy developing it to run on a simple grid system.
-Also, the bears are _a d o r a b l e_ and the music is quite pleasant \uD83C\uDFB5 
+Also, the bears are _a d o r a b l e_ and the music is quite pleasant 🎵
 
 ### Instructions
 
