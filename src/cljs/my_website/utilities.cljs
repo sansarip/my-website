@@ -103,11 +103,12 @@
     (apply op (flatten only-non-nil))))
 
 (defn on-unit [op unit & args]
-  (let [to-float (js/parseFloat unit)
-        unit-type (str/replace unit (str to-float) "")]
-    (if args
-      (str (apply op (into [to-float] args)) unit-type)
-      (str (op to-float) unit-type))))
+  (if (and op unit)
+    (let [to-float (js/parseFloat unit)
+          unit-type (str/replace unit (str to-float) "")]
+      (if args
+        (str (apply op (into [to-float] args)) unit-type)
+        (str (op to-float) unit-type)))))
 
 (defn scroll-to-top []
   (.scrollTo js/window 0 0))
