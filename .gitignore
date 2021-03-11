@@ -19,3 +19,4 @@ node_modules/
 .lein-failures
 .nrepl-port
 .cpcache/
+/src/cljs/my_website/views/games/content.cljs
