@@ -35,7 +35,6 @@
 
 (defn game-summaries [summaries]
   (map (fn [[_ {:keys [key header description src alt]}]]
-         (println key)
          [:> summary {:header   header
                       :width    "20em"
                       :inverse  true
