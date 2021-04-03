@@ -13,49 +13,50 @@
     [my-website.events :as root-events]
     [my-website.state :refer [next-state-only]]
     [re-frame.core :refer [subscribe dispatch]]
+    [peanuts.core :as pn]
     [react-scroll-wheel-handler]
     [reagent.core :as r]))
 
-(def transition (fn [& {:keys [current-index upcoming-index duration]}]
-                  (debounce #(do
-                               (dispatch [::events/stop-anims current-index])
-                               (js/setTimeout (fn [] (dispatch
-                                                       [::root-events/dispatch-n
-                                                        [::events/set-work-items-index upcoming-index]
-                                                        [::events/start-anims upcoming-index]]))
-                                              duration))
-                            (+ duration 60)
-                            true)))
+(defn transition [& {:keys [upcoming-index duration]}]
+  (debounce #(do
+               (dispatch [::events/stop-anims])
+               (js/setTimeout (fn [] (dispatch
+                                       [::root-events/dispatch-n
+                                        [::events/set-work-items-index upcoming-index]
+                                        [::events/start-anims upcoming-index]]))
+                              duration))
+            (+ duration 60)
+            true))
 
-(defn work-items->steps-items [work-items work-items-index duration]
-  (reduce-kv (fn [c k v]
-               (conj c {:key      k
-                        :title    (:name v)
-                        :on-click (transition :current-index work-items-index
-                                              :upcoming-index k
-                                              :duration duration)}))
-             []
-             work-items))
+(pn/defc work-items->steps-items
+  (fn [work-items duration]
+    (reduce-kv (fn [c k v]
+                 (conj c {:key      k
+                          :title    (:name v)
+                          :on-click (transition
+                                      :upcoming-index k
+                                      :duration duration)}))
+               []
+               work-items)))
+
+(def animation-duration 400)
 
 (defn panel []
-  (let [work-items @(subscribe [::subs/work-items])
-        num-work-items (count work-items)
-        work-items-index @(subscribe [::subs/work-items-index])
-        next-work-items-index (if (= work-items-index (dec num-work-items)) work-items-index (inc work-items-index))
-        prev-work-items-index (if (zero? work-items-index) work-items-index (dec work-items-index))
-        selected-work-items @(subscribe [::subs/selected-work-items])
-        description @(subscribe [::subs/description])
-        duration 400]
-    (r/with-let [_ (dispatch [::events/start-anims work-items-index])]
-                [:> react-scroll-wheel-handler {:downHandler (transition :current-index work-items-index
-                                                                         :upcoming-index next-work-items-index
-                                                                         :duration duration)
-                                                :upHandler   (transition :current-index work-items-index
-                                                                         :upcoming-index prev-work-items-index
-                                                                         :duration duration)
-                                                :style       {:outline "none"}
-                                                :class       (container-class)}
-                 [:div.grid
-                  [work-steps (work-items->steps-items work-items work-items-index duration) work-items-index]
-                  [item-grid :selected-work-items selected-work-items :duration (- duration 50)]
-                  [anime-description description duration]]])))
+  (let [steps (work-items->steps-items ::subs/work-items animation-duration)]
+    (fn []
+      (let [work-items-count @(subscribe [::subs/work-items-count])
+            work-items-index @(subscribe [::subs/work-items-index])
+            next-work-items-index (if (= work-items-index (dec work-items-count)) work-items-index (inc work-items-index))
+            prev-work-items-index (if (zero? work-items-index) work-items-index (dec work-items-index))]
+        [:> react-scroll-wheel-handler {:downHandler (transition :current-index work-items-index
+                                                                 :upcoming-index next-work-items-index
+                                                                 :duration animation-duration)
+                                        :upHandler   (transition :current-index work-items-index
+                                                                 :upcoming-index prev-work-items-index
+                                                                 :duration animation-duration)
+                                        :style       {:outline "none"}
+                                        :class       (container-class)}
+         [:div.grid
+          [work-steps steps work-items-index]
+          [item-grid :selected-work-items ::subs/selected-work-items :duration (- animation-duration 50)]
+          [anime-description ::subs/description animation-duration]]]))))

@@ -4,7 +4,8 @@
             [my-website.components.icon :refer [icon]]
             [my-website.components.grid :refer [grid]]
             [my-website.views.work.components.item-grid.styles :refer [grid-class item-class]]
-            [clojure.string :as string]))
+            [clojure.string :as string]
+            [peanuts.core :as pn]))
 
 (defn directional-vec [columns row is-right]
   (let [column-start (* row columns)
@@ -70,24 +71,26 @@
                          (into (vec (map #(str center-ratio "fr") (range center-width))))
                          (into half-fr)))))
 
-(defn item-grid [& {:keys [rows
-                           columns
-                           center-width
-                           center-ratio
-                           duration
-                           selected-work-items]
-                    :or   {rows                4
-                           columns             12
-                           center-width        2
-                           center-ratio        3
-                           duration            400
-                           selected-work-items {}}}]
-  (->> (make-animated-icons :selected-work-items selected-work-items
-                            :duration duration)
-       (into [[:div {:style {:background-color "green"
-                             :grid-area        "center"}}]])
-       (into [:> grid {:grid-template-columns (make-grid-columns columns center-width center-ratio)
-                       :grid-template-areas   (make-grid-areas rows columns center-width)
-                       :grid-row-gap          ".5em"
-                       :extra-classes (grid-class)}])))
+(pn/defc item-grid
+  (fn [& {:keys [rows
+                 columns
+                 center-width
+                 center-ratio
+                 duration
+                 selected-work-items]
+          :or   {rows                4
+                 columns             12
+                 center-width        2
+                 center-ratio        3
+                 duration            400
+                 selected-work-items {}}}]
+    (->> (make-animated-icons :selected-work-items selected-work-items
+                              :duration duration)
+         (into [[:div {:style {:background-color "green"
+                               :grid-area        "center"}}]])
+         (into [:> grid {:grid-template-columns (make-grid-columns columns center-width center-ratio)
+                         :grid-template-areas   (make-grid-areas rows columns center-width)
+                         :grid-row-gap          ".5em"
+                         :extra-classes         (grid-class)}])))
+  {:only [selected-work-items]})
 

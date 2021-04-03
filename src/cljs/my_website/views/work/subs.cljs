@@ -12,6 +12,12 @@
         :work-items)))
 
 (reg-sub
+  ::work-items-count
+  :<- [::work-items]
+  (fn [work-items _]
+    (count work-items)))
+
+(reg-sub
   ::work-items-index
   (fn [db _]
     (-> db
