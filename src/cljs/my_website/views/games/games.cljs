@@ -25,9 +25,9 @@
                        :src    ["assets/catching-clouds-1.png"
                                 "assets/catching-clouds.gif"]
                        :alt    "catching clouds"
-                       :width  "815px"
                        :key    :catching-clouds
-                       :height "615px"
+                       :width  "783px"
+                       :height "591px"
                        :href   "https://sansarip.github.io/cs325-game-prototypes/Assignment3/"}
                       (->text-components content/catching-clouds-md))
    :bearly-iced     (deep-merge
@@ -44,9 +44,9 @@
                       {:header "Click Clack, I'm in!"
                        :src    ["assets/click-clack-1.png"
                                 "assets/click-clack.gif"]
-                       :key    :click-clack
-                       :width  "815px"
-                       :height "615px"
                        :alt    "click clack"
+                       :key    :click-clack
+                       :width  "783px"
+                       :height "591px"
                        :href   "https://sansarip.github.io/cs325-game-prototypes/Assignment7/"}
                       (->text-components content/click-clack-md))})
