@@ -23,14 +23,12 @@
   (fn-traced [db [_ i]]
     (assoc-in db [:work/db :work-items-index] i)))
 
-
 (reg-event-fx
   ::init-work-items
-  (fn [{db :db} [_ rows columns]]
-    (let [size (* rows columns)]
-      (-> {:db db}
-          (update :db #(event-handlers/init-work-items % size))
-          event-handlers/start-anims-fx))))
+  (fn [{db :db} _]
+    (-> {:db db}
+        (update :db event-handlers/init-work-items)
+        event-handlers/start-anims-fx)))
 
 (reg-event-db
   :start-anim

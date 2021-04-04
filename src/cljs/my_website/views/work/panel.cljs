@@ -28,21 +28,22 @@
             (+ duration 60)
             true))
 
-(pn/defc work-items->steps-items
+(pn/defc work-items->step-items
   (fn [work-items duration]
-    (reduce-kv (fn [c k v]
-                 (conj c {:key      k
-                          :title    (:name v)
-                          :on-click (transition
-                                      :upcoming-index k
-                                      :duration duration)}))
-               []
-               work-items)))
+    (into []
+          (map-indexed
+            (fn [i v]
+              {:key      i
+               :title    (:name v)
+               :on-click (transition
+                           :upcoming-index i
+                           :duration duration)}))
+          work-items)))
 
 (def animation-duration 400)
 
 (defn panel []
-  (let [steps (work-items->steps-items ::subs/work-items animation-duration)]
+  (let [step-items (work-items->step-items ::subs/work-items animation-duration)]
     (fn []
       (let [work-items-count @(subscribe [::subs/work-items-count])
             work-items-index @(subscribe [::subs/work-items-index])
@@ -57,6 +58,6 @@
                                         :style       {:outline "none"}
                                         :class       (container-class)}
          [:div.grid
-          [work-steps steps work-items-index]
+          [work-steps step-items work-items-index]
           [item-grid :selected-work-items ::subs/selected-work-items :duration (- animation-duration 50)]
           [anime-description ::subs/description animation-duration]]]))))

@@ -52,18 +52,19 @@
 
                selected-work-items))
 
-(defn make-work-items [& {:keys [names
-                                 shelves
-                                 size]}]
-  (let [delays (shuffle (range 4 (+ 4 (count names))))
-        grid-areas (shuffle (range size))]
-    (vec (map-indexed (fn [index name]
-                        {:start     false
-                         :stop      false
-                         :name      name
-                         :delay     (* (get delays index) 100)
-                         :grid-area (or (get shelves index) (get grid-areas index))})
-                      names))))
+(defn make-work-items [work-items]
+  (let [delays (shuffle (range 4 (+ 4 (count work-items))))]
+    (update work-items
+            :items
+            (partial into
+                     []
+                     (map-indexed
+                       (fn [i {shelf :shelf :as work-item}]
+                         (assoc work-item
+                           :start false
+                           :stop false
+                           :delay (* (get delays i) 100)
+                           :grid-area shelf)))))))
 
 (defn make-grid-columns [columns center-width center-ratio]
   (let [half-fr (vec (map #(str "1fr") (range (/ columns 2))))]

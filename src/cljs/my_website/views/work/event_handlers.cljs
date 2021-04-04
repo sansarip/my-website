@@ -2,7 +2,8 @@
   (:require
     [my-website.views.work.components.item-grid.component :as igc]))
 
-(defn start-anim [db index i]
+(defn start-anim
+  [db index i]
   (-> db
       (update-in [:work/db :work-items index :description] #(assoc % :start true :stop false))
       (update-in [:work/db :work-items index :items i] #(assoc % :start true :stop false))))
@@ -19,16 +20,11 @@
       :with-delays events-delays}))
   ([{db :db :as cofx}] (start-anims-fx cofx (-> db :work/db :work-items-index))))
 
-(defn init-work-items [db size]
+(defn init-work-items
+  [db]
   (update-in
     db
     [:work/db :work-items]
     (partial
       mapv
-      #(assoc
-         %
-         :items
-         (igc/make-work-items
-           :names (:names %)
-           :shelves (:shelves %)
-           :size size)))))
+      igc/make-work-items)))
