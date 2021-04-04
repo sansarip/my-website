@@ -85,13 +85,15 @@
                  center-ratio        3
                  duration            400
                  selected-work-items {}}}]
-    (->> (make-animated-icons :selected-work-items selected-work-items
-                              :duration duration)
-         (into [[:div {:style {:background-color "green"
-                               :grid-area        "center"}}]])
-         (into [:> grid {:grid-template-columns (make-grid-columns columns center-width center-ratio)
-                         :grid-template-areas   (make-grid-areas rows columns center-width)
-                         :grid-row-gap          ".5em"
-                         :extra-classes         (grid-class)}])))
+    [:> grid {:grid-template-columns (make-grid-columns columns center-width center-ratio)
+              :grid-template-areas   (make-grid-areas rows columns center-width)
+              :grid-row-gap          ".5em"
+              :extra-classes         (grid-class)}
+     (into [:<>
+            [:div {:style {:background-color "green"
+                           :height           :100%
+                           :grid-area        "center"}}]]
+           (make-animated-icons :selected-work-items selected-work-items
+                                :duration duration))])
   {:only [selected-work-items]})
 
