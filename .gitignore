@@ -20,3 +20,4 @@ node_modules/
 .nrepl-port
 .cpcache/
 /src/cljs/my_website/views/games/content.cljs
+/src/cljs/my_website/views/work/content.cljs
