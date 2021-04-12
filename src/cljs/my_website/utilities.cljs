@@ -119,3 +119,10 @@
 (s/fdef wrap-each-child
         :args (s/and #(s/valid? ::parent (:parent %)) #(s/valid? ::children (:children %)))
         :ret vector?)
+
+(defn fqkw->id [k]
+  (-> ""
+      (cond-> (namespace k) (str (namespace k) "/"))
+      (str (name k))
+      (string/replace #"\." "_")
+      (string/replace #"/" "_")))
