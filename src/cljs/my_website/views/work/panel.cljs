@@ -3,7 +3,7 @@
     [debounce]
     [my-website.components.grid :refer [grid]]
     [my-website.views.work.components.item-grid.component :refer [item-grid]]
-    [my-website.views.work.components.description.component :refer [description] :rename {description anime-description}]
+    [my-website.views.work.components.description.component :as dc :refer [description] :rename {description anime-description}]
     [my-website.views.work.components.work-steps.component :refer [work-steps]]
     [my-website.views.work.subs :as subs]
     [my-website.views.work.events :as events]
@@ -15,18 +15,26 @@
     [re-frame.core :refer [subscribe dispatch]]
     [peanuts.core :as pn]
     [react-scroll-wheel-handler]
-    [reagent.core :as r]))
+    [reagent.core :as r]
+    [my-website.utilities :as u]))
 
 (defn transition [& {:keys [upcoming-index duration]}]
-  (debounce #(do
-               (dispatch [::events/stop-anims])
-               (js/setTimeout (fn [] (dispatch
-                                       [::root-events/dispatch-n
-                                        [::events/set-work-items-index upcoming-index]
-                                        [::events/start-anims upcoming-index]]))
-                              duration))
-            (+ duration 60)
-            true))
+  (debounce
+    (fn [e & _]
+      (let [target-parent (try (.. e -target -parentElement) (catch js/Error _ #js {}))
+            description? (= (.-id target-parent) (u/fqkw->id ::dc/description))
+            no-scrollbar? (<= (.-scrollHeight target-parent) (.-clientHeight target-parent))]
+        ;; Don't transition on description-scroll when it has y-overflow
+        (when (or (not description?) (and description? no-scrollbar?))
+          (dispatch [::events/stop-anims])
+          (js/setTimeout
+            #(dispatch
+               [::root-events/dispatch-n
+                [::events/set-work-items-index upcoming-index]
+                [::events/start-anims upcoming-index]])
+            duration))))
+    (+ duration 60)
+    true))
 
 (pn/defc work-items->step-items
   (fn [work-items duration]
@@ -47,8 +55,8 @@
     (fn []
       (let [work-items-count @(subscribe [::subs/work-items-count])
             work-items-index @(subscribe [::subs/work-items-index])
-            next-work-items-index (if (= work-items-index (dec work-items-count)) work-items-index (inc work-items-index))
-            prev-work-items-index (if (zero? work-items-index) work-items-index (dec work-items-index))]
+            next-work-items-index (cond-> work-items-index (not= work-items-index (dec work-items-count)) inc)
+            prev-work-items-index (cond-> work-items-index (> work-items-index 0) dec)]
         [:> react-scroll-wheel-handler {:downHandler (transition :current-index work-items-index
                                                                  :upcoming-index next-work-items-index
                                                                  :duration animation-duration)

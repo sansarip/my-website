@@ -5,7 +5,7 @@
 (defclass container-class []
   [:.grid {:display               :grid
            :grid-template-columns ".05fr 1fr .05fr"
-           :grid-template-rows    "50vh 1fr"
+           :grid-template-rows    "50vh 30vh"
            :grid-template-areas   (u/->css-grid-areas [[:steps :work-items :.]
                                                        [:. :description :.]])
            :height                "80vh"
