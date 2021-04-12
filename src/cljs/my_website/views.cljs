@@ -13,34 +13,37 @@
 (def home-panel home/home-panel)
 
 (defclass page-class []
-          (at-media {:screen    :only
-                     :max-width (:tiny screen-sizes)}
-                    [:& {:padding-left  (:large spacing-sizes)
-                         :padding-right (:large spacing-sizes)}]))
+  (at-media {:screen    :only
+             :max-width (:tiny screen-sizes)}
+            [:& {:padding-left  (:large spacing-sizes)
+                 :padding-right (:large spacing-sizes)}]))
 
 (defn main-panel []
-  (let [current-view (-> @(subscribe [::subs/current-route]) :data :view)
-        state @(subscribe [::subs/state])
-        parent (fn [& children] (into [:> menuitem {:text-align "center"
-                                                    :inverse   true
-                                                    :strong    true
-                                                    :padding   (:medium spacing-sizes)
-                                                    :fontSize  "medium"}]
-                                      children))
-        link (fn [href name] [:a.delink {:href  href} name])]
-    [:div {:class (word-concat "padding-horizontal" (page-class))}
-     (into ^{:key state}
-           [:> navbar {:as               #(parent (link "#/" "SETOOTLE"))
-                       :widthCollapsible (:small screen-sizes)
-                       :background-color "inherit"
-                       :inverse          true}]
-           (wrap-each-child parent
-                            ["SHOP"
-                             [link "#/work" "WORK"]
-                             [link "#/games" "GAMES"]
-                             "SANDBOX"
-                             "BLOG"
-                             [link "#/about" "ABOUT"]]))
-     [:div {:class "padding-top"}
-      (when current-view
-        [current-view])]]))
+  (letfn [(link [href name] [:a.delink {:href href} name])
+          (nav-link-parent [& children]
+            [:> menuitem {:text-align "center"
+                          :inverse    true
+                          :strong     true
+                          :padding    (:medium spacing-sizes)
+                          :fontSize   "medium"}
+             (into [:<>] children)])]
+
+    (fn []
+      (let [current-view (-> @(subscribe [::subs/current-route]) :data :view)]
+        [:div {:class (word-concat "padding-horizontal" (page-class))}
+         [:> navbar {:as               #(nav-link-parent (link "#/" "SETOOTLE"))
+                     :widthCollapsible (:small screen-sizes)
+                     :background-color "inherit"
+                     :inverse          true}
+          (into
+            [:<>]
+            (wrap-each-child
+              nav-link-parent
+              [#_"SHOP"
+               [link "#/work" "WORK"]
+               [link "#/games" "GAMES"]
+               #_"SANDBOX"
+               #_"BLOG"
+               [link "#/about" "ABOUT"]]))]
+         [:div {:class "padding-top"}
+          (if current-view [current-view])]]))))
