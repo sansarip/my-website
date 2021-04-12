@@ -23,34 +23,35 @@
                  (vec (concat left center right)))
               (range rows)))))
 
-(defn make-animated-icons [& {:keys [selected-work-items
-                                     duration]}]
-  (map-indexed (fn [_index work-item]
-                 (let [{:keys [start stop grid-area]} work-item]
-                   (cond->> [:> icon {:icon-name (:name work-item)
-                                      :size      :massive
-                                      :inverse   true}]
-                            '->> (vector :> animate {:anime-props {:translateY (if stop
-                                                                                 20
-                                                                                 [-10 10])
-                                                                   :duration   (if stop
-                                                                                 duration
-                                                                                 (* duration 3.5))
-                                                                   :autoplay   start
-                                                                   :easing     "easeInOutQuad"
-                                                                   :direction  "alternate"
-                                                                   :loop       (not stop)}})
-                            (not stop) (vector :> animate {:anime-props {:opacity  [0 1]
-                                                                         :duration duration
-                                                                         :autoplay start
-                                                                         :easing   "linear"}})
-                            stop (vector :> animate {:anime-props {:translateY 40
-                                                                   :opacity    [1 0]
-                                                                   :duration   (+ (/ duration 2) 50)
-                                                                   :easing     "linear"}})
-                            '->> (vector :div {:class (item-class (str "item" grid-area))}))))
-
-               selected-work-items))
+(defn make-animated-icons
+  [& {:keys [selected-work-items duration]}]
+  (map-indexed
+    (fn [_index work-item]
+      (let [{:keys [start stop grid-area]} work-item]
+        [:div {:class (item-class (str "item" grid-area))}
+         [:> animate {:anime-props (if stop
+                                     {:translateY 40
+                                      :opacity    [1 0]
+                                      :duration   (+ (/ duration 2) 50)
+                                      :easing     "linear"}
+                                     {:opacity  [0 1]
+                                      :duration duration
+                                      :autoplay start
+                                      :easing   "linear"})}
+          [:> animate {:anime-props {:translateY (if stop
+                                                   20
+                                                   [-10 10])
+                                     :duration   (if stop
+                                                   duration
+                                                   (* duration 3.5))
+                                     :autoplay   start
+                                     :easing     "easeInOutQuad"
+                                     :direction  "alternate"
+                                     :loop       (not stop)}}
+           [:> icon {:icon-name (:name work-item)
+                     :size      :massive
+                     :inverse   true}]]]]))
+    selected-work-items))
 
 (defn make-work-items [work-items]
   (let [delays (shuffle (range 4 (+ 4 (count work-items))))]
