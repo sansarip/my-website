@@ -3,7 +3,7 @@
     [cljs.js :refer [empty-state eval js-eval]]
     [cljs.spec.alpha :as s]
     [cljs.tools.reader :refer [read-string]]
-    [clojure.string :as str]
+    [clojure.string :as string]
     [my-website.styles :refer [color-palette]]))
 
 (defn eval-str [s]
@@ -105,7 +105,7 @@
 (defn on-unit [op unit & args]
   (if (and op unit)
     (let [to-float (js/parseFloat unit)
-          unit-type (str/replace unit (str to-float) "")]
+          unit-type (string/replace unit (str to-float) "")]
       (if args
         (str (apply op (into [to-float] args)) unit-type)
         (str (op to-float) unit-type)))))
