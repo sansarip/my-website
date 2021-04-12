@@ -43,7 +43,7 @@
 (defn hiccup? [v]
   (s/valid? ::hiccup? v))
 
-(defn seq->css-grid-areas [areas]
+(defn ->css-grid-areas [areas]
   (word-concat
     (map #(-> (mapv name %)
               (update 0 (partial str "\""))

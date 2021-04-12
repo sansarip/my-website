@@ -11,7 +11,7 @@
     [my-website.components.icon :refer [icon]]
     [my-website.components.grid :refer [grid]]
     [spade.core :refer [defclass]]
-    [my-website.utilities :refer [seq->css-grid-areas dark-background wrap-each-child]]))
+    [my-website.utilities :refer [->css-grid-areas dark-background wrap-each-child]]))
 
 (defcard
   navbar
@@ -59,9 +59,9 @@
                   (dark-background
                     [:> grid {:grid-template-columns      ["1fr" "1fr"]
                               :grid-template-rows         "auto"
-                              :extraClasses (grid-class (seq->css-grid-areas [["navbar" "navbar"]
-                                                                              ["avatar" "avatar"]
-                                                                              ["main" "main"]]))
+                              :extraClasses (grid-class (->css-grid-areas [["navbar" "navbar"]
+                                                                           ["avatar" "avatar"]
+                                                                           ["main" "main"]]))
                               :padding      "0px"
                               :grid-row-gap      "1em"
                               :grid-template-areas        [["navbar" "navbar"]

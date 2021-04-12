@@ -1,6 +1,6 @@
 (ns my-website.views.about.panel
   (:require [my-website.styles :refer [color-palette screen-sizes font-sizes spacing-sizes]]
-            [my-website.utilities :refer [seq->css-grid-areas word-concat]]
+            [my-website.utilities :refer [->css-grid-areas word-concat]]
             [my-website.components.flexbox :refer [flexbox]]
             [my-website.components.image :refer [image]]
             [my-website.views.about.styles :as styles]
