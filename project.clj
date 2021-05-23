@@ -14,7 +14,7 @@
                  [ring "1.7.1"]
                  [devcards "0.2.6"]
                  [binaryage/devtools "0.9.10"]
-                 [peanuts "0.3.6"]
+                 [peanuts "0.4.0"]
                  [net.dhleong/spade "1.0.4"]
                  [org.clojure/test.check "0.9.0"]
                  [re-catch "0.1.4"]]
