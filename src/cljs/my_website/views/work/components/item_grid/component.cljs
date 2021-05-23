@@ -73,28 +73,27 @@
                          (into (vec (map #(str center-ratio "fr") (range center-width))))
                          (into half-fr)))))
 
-(pn/defc item-grid
-  (fn [& {:keys [rows
-                 columns
-                 center-width
-                 center-ratio
-                 duration
-                 selected-work-items]
-          :or   {rows                4
-                 columns             12
-                 center-width        2
-                 center-ratio        3
-                 duration            400
-                 selected-work-items {}}}]
-    [:> grid {:grid-template-columns (make-grid-columns columns center-width center-ratio)
-              :grid-template-areas   (make-grid-areas rows columns center-width)
-              :grid-row-gap          ".5em"
-              :extra-classes         (grid-class)}
-     (into [:<>
-            [:div {:style {:background-color "green"
-                           :height           :100%
-                           :grid-area        "center"}}]]
-           (make-animated-icons :selected-work-items selected-work-items
-                                :duration duration))])
-  {:only [selected-work-items]})
-
+(pn/defnc item-grid
+  {:only [selected-work-items]}
+  [& {:keys [rows
+             columns
+             center-width
+             center-ratio
+             duration
+             selected-work-items]
+      :or   {rows                4
+             columns             12
+             center-width        2
+             center-ratio        3
+             duration            400
+             selected-work-items {}}}]
+  [:> grid {:grid-template-columns (make-grid-columns columns center-width center-ratio)
+            :grid-template-areas   (make-grid-areas rows columns center-width)
+            :grid-row-gap          ".5em"
+            :extra-classes         (grid-class)}
+   (into [:<>
+          [:div {:style {:background-color "green"
+                         :height           :100%
+                         :grid-area        "center"}}]]
+         (make-animated-icons :selected-work-items selected-work-items
+                              :duration duration))])
