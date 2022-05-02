@@ -1,8 +1,8 @@
 [![Build Status](https://travis-ci.com/sansarip/my-website.svg?token=jpKjUR4ApUCejSvjRvcX&branch=master)](https://travis-ci.com/sansarip/my-website)
 
-# My Website!
+This repo is no longer maintained. I decided to go the Webflow route as I found it to be much easier to maintain my site's content! Check out my website at https://sansarip.me.
 
-Coming soon...
+# My Website!
 
 ![logo](https://i.gyazo.com/3e9352aa87d3985402772f963745c8ea.png)
 
